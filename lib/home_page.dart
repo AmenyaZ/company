@@ -1,3 +1,4 @@
+import 'package:company/Company/company_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -1286,7 +1287,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => HomePageWidget()));
+                    builder: (BuildContext context) => CompanyListWidget()));
               },
             ),
             Divider(
@@ -1333,19 +1334,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               title: Text('App version 1.0.0'),
               onTap: () {},
             ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // your footer widgets here
-                    Title(color: Colors.black,
-                        child: Text('App Version 1.0.0'))
-                  ],
-                ),
-              ),
-            )
+
           ],
         ),
 
