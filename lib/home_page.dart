@@ -1,7 +1,7 @@
 import 'package:company/Company/company_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({ Key? key}) : super(key: key);
