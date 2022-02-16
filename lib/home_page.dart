@@ -1,3 +1,4 @@
+import 'package:company/Authentication/log_in.dart';
 import 'package:company/Company/company_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -1231,31 +1232,42 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
           padding: EdgeInsets.zero,
           children: [
-            /*
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-              ),
-              child: CircleAvatar(
-                radius: 10.0,
-                backgroundImage:
-                NetworkImage('https://via.placeholder.com/150'),
-                backgroundColor: Colors.transparent,
-              )
-              ),*/
-            const UserAccountsDrawerHeader(
+
+            UserAccountsDrawerHeader(
+
               currentAccountPicture: CircleAvatar(
                 backgroundImage: NetworkImage(
                     'https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
               ),
+              otherAccountsPictures: [
+                IconButton(
+                  onPressed: () {
+
+                    Navigator.of(context).pushAndRemoveUntil(
+                      // the new route
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => LogIn(),
+                      ),
+                          (Route route) => false,
+                    );
+                  },
+                  icon: Icon(
+                      Icons.power_settings_new,
+                    color: Colors.redAccent,
+                    size: 30
+                  ),
+                )
+              ],
               accountEmail: Text('jane.doe@example.com'),
               accountName: Text(
                 'Jane Doe',
                 style: TextStyle(fontSize: 24.0),
               ),
+
               decoration: BoxDecoration(
                 color: Colors.blueAccent,
               ),
+
             ),
             ListTile(
               title: Text("Home"),
