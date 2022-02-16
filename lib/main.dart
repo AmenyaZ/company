@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
 
       ),
-      home: LogIn()
+      home: HomePageWidget()
 
 
     );
