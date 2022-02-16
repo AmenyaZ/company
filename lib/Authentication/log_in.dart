@@ -1,4 +1,10 @@
+import 'package:company/Authentication/LoginRequest.dart';
+import 'package:company/Response/LogInResponse.dart';
+import 'package:company/api/api_client.dart';
+import 'package:company/home_page.dart';
 import 'package:flutter/material.dart';
+
+
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -8,11 +14,12 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-
+  var service = NetworkService();
+  bool isLoading = false;
+  bool _isHidden = true;
 
   @override
   Widget build(BuildContext context) {
-
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
     var passwordVisibility = false;
@@ -22,164 +29,25 @@ class _LogInState extends State<LogIn> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
-
         child: Column(
           children: [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(50, 150, 50, 50),
-             // padding: const EdgeInsets.all(8.0),
+              // padding: const EdgeInsets.all(8.0),
               child: Container(
                 height: 100,
-                  width: 100,
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    width: 240,
-                    height: 60,
-
-                    fit: BoxFit.fill,
-                  ),
-
-              ),
-            ),
-            /*
-            Container(
-              width: w,
-              margin: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  Text(
-                    "Sign Into your Account",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey[500],
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: 10,
-                              spreadRadius: 7,
-                              offset: Offset(1, 1),
-                              color: Colors.grey.withOpacity(0.2)
-                          )
-                        ]),
-                    child: TextField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                          hintText: "Email",
-                          prefixIcon:
-                          Icon(Icons.email, color: Colors.blueAccent),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                              )
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(
-                                  color: Colors.white,
-                                  width: 1.0
-                              )
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30)
-                          )
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: 10,
-                              spreadRadius: 7,
-                              offset: Offset(1, 1),
-                              color: Colors.grey.withOpacity(0.2)
-                          )
-                        ]),
-                    child: TextField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          hintText: "Password",
-                          prefixIcon:
-                          Icon(Icons.password_outlined, color: Colors.blueAccent),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                              )
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(
-                                  color: Colors.white,
-                                  width: 1.0
-                              )
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30)
-                          )
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Row(
-                    children: [
-                      Expanded(child: Container(),),
-                      Text(
-                        "  ",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.grey[500],
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 40),
-            GestureDetector(
-            /*  onTap: (){
-                AuthController.instance.login(emailController.text.trim(), passwordController.text.trim());
-              },*/
-              child: Container(
-                width: w*0.4,
-                height: h*0.06,
-                decoration: BoxDecoration(
-                  color: Colors.blueAccent,
-                  borderRadius: BorderRadius.circular(30),
-                  // image: DecorationImage(
-                  //image: AssetImage("img/loginbtn.png"),
-                  // fit: BoxFit.cover,
-                  //)
-                ),
-                child: Center(
-                  child: Text(
-                    "Sign in",
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                width: 100,
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: 240,
+                  height: 60,
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
-           */
-            SizedBox(height: h*0.07,),
-
+            SizedBox(
+              height: h * 0.07,
+            ),
             Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -189,9 +57,7 @@ class _LogInState extends State<LogIn> {
                     bottomRight: Radius.circular(18),
                     topLeft: Radius.circular(18),
                     topRight: Radius.circular(18),
-
-                  )
-              ),
+                  )),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -211,23 +77,6 @@ class _LogInState extends State<LogIn> {
                             ),
                           ),
                         ),
-                        /*
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Color(0xFFDBE2E7),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.call_rounded,
-                            color: Color(0xFF090F13),
-                            size: 24,
-                          ),
-                        ),*/
                       ],
                     ),
                   ),
@@ -239,6 +88,14 @@ class _LogInState extends State<LogIn> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                const SnackBar(
+                                    content: Text("Please enter your Email"));
+                              } else {
+                                return null;
+                              }
+                            },
                             controller: emailController,
                             obscureText: false,
                             decoration: InputDecoration(
@@ -272,7 +129,8 @@ class _LogInState extends State<LogIn> {
                               ),
                               filled: true,
                               fillColor: Colors.white,
-                              contentPadding: EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
+                              contentPadding:
+                              EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
                             ),
                             style: TextStyle(
                               fontFamily: 'Lexend Deca',
@@ -293,6 +151,15 @@ class _LogInState extends State<LogIn> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                const SnackBar(
+                                    content:
+                                    Text("Please enter your Password"));
+                              } else {
+                                return null;
+                              }
+                            },
                             controller: passwordController,
                             obscureText: !passwordVisibility,
                             decoration: InputDecoration(
@@ -326,10 +193,12 @@ class _LogInState extends State<LogIn> {
                               ),
                               filled: true,
                               fillColor: Colors.white,
-                              contentPadding: EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
+                              contentPadding:
+                              EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
                               suffixIcon: InkWell(
                                 onTap: () => setState(
-                                      () => passwordVisibility = !passwordVisibility,
+                                      () =>
+                                  passwordVisibility = !passwordVisibility,
                                 ),
                                 child: Icon(
                                   passwordVisibility
@@ -357,52 +226,6 @@ class _LogInState extends State<LogIn> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        /*
-                        FFButtonWidget(
-                          onPressed: () {
-                            print('ButtonForgotPassword pressed ...');
-                          },
-                          text: 'Forgot Password?',
-                          options: FFButtonOptions(
-                            width: 120,
-                            height: 40,
-                            color: Colors.white,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Lexend Deca',
-                              color: Color(0xFF090F13),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            elevation: 0,
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 12,
-                          ),
-                        ),
-                        FFButtonWidget(
-                          onPressed: () {
-                            print('ButtonLogin pressed ...');
-                          },
-                          text: 'Login',
-                          options: FFButtonOptions(
-                            width: 130,
-                            height: 50,
-                            color: Color(0xFF4B39EF),
-                            textStyle: TextStyle(
-                              fontFamily: 'Lexend Deca',
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 12,
-                          ),
-                        ),*/
                         Row(
                           children: [
                             RichText(
@@ -417,22 +240,40 @@ class _LogInState extends State<LogIn> {
                               ),
                             ),
                             //Expanded(child: Container(),),
-                            SizedBox(width: w * 0.3,),
-                            TextButton(
-
-                                onPressed: () {},
-                                child: const Text('Login'),
-                                style: ButtonStyle(
-                                    side: MaterialStateProperty.all(
-                                        const BorderSide(width: 1, color: Colors.transparent)),
-                                    backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
-                                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                                    padding: MaterialStateProperty.all(
-                                        const EdgeInsets.symmetric(vertical: 10, horizontal: 30)),
-                                    textStyle: MaterialStateProperty.all(
-                                        const TextStyle(fontSize: 18)))
+                            SizedBox(
+                              width: w * 0.3,
                             ),
-
+                            MaterialButton(
+                              color: Colors.blueAccent,
+                              onPressed: () {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                var request = LoginRequest(
+                                    email:
+                                    emailController.text.toString().trim(),
+                                    password: passwordController.text
+                                        .toString()
+                                        .trim());
+                                service.UserLogIn(request).then((value) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => HomePageWidget()),
+                                  );
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }).onError((error, stackTrace) {
+                                //  Scaffold.of(context).showSnackBar(
+                                   //   SnackBar(content: Text('$error')));
+                                  print(error);
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                });
+                              },
+                              child: const Text('Login'),
+                            ),
                           ],
                         )
                       ],
@@ -452,10 +293,11 @@ class _LogInState extends State<LogIn> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-
                         Row(
                           children: [
-                            SizedBox(width: w*0.26,),
+                            SizedBox(
+                              width: w * 0.26,
+                            ),
                             RichText(
                               text: TextSpan(
                                 text: "Having Trouble? Contact admin",
@@ -467,10 +309,11 @@ class _LogInState extends State<LogIn> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: w* 0.04,),
+                            SizedBox(
+                              width: w * 0.04,
+                            ),
                             Icon(Icons.mail)
                             //Expanded(child: Container(),),
-
                           ],
                         )
                       ],
@@ -479,7 +322,6 @@ class _LogInState extends State<LogIn> {
                 ],
               ),
             )
-
           ],
         ),
       ),
