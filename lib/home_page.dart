@@ -1,5 +1,6 @@
 
 import 'package:company/UI/Authentication/log_in.dart';
+import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/Company/company_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -1337,6 +1338,24 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => HomePageWidget()));
+              },
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            ListTile(
+              title: Text("Register User"),
+              leading: IconButton(
+                icon: Icon(Icons.person_add),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              onTap: ()
+              {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => RegisterEmployee()));
               },
             ),
             Divider(
