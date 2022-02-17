@@ -1,9 +1,8 @@
-import 'package:company/Authentication/LoginRequest.dart';
-import 'package:company/Response/LogInResponse.dart';
-import 'package:company/api/api_client.dart';
+import 'package:company/api/Requests/LoginRequest.dart';
+import 'package:company/api/services/api_client.dart';
 import 'package:company/home_page.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 
 
 class LogIn extends StatefulWidget {
@@ -26,6 +25,8 @@ class _LogInState extends State<LogIn> {
 
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
@@ -68,7 +69,7 @@ class _LogInState extends State<LogIn> {
                       children: [
                         Expanded(
                           child: Text(
-                            'Welcome Back,',
+                            'Welcome Back',
                             style: TextStyle(
                               fontFamily: 'Lexend Deca',
                               color: Color(0xFF090F13),
@@ -246,6 +247,7 @@ class _LogInState extends State<LogIn> {
                             MaterialButton(
                               color: Colors.blueAccent,
                               onPressed: () {
+
                                 setState(() {
                                   isLoading = true;
                                 });
@@ -263,6 +265,12 @@ class _LogInState extends State<LogIn> {
                                   setState(() {
                                     isLoading = false;
                                   });
+                                  final snack = SnackBar(
+                                    content: Text('Login Succesful'),
+                                    duration: Duration(seconds: 2),
+                                    backgroundColor: Colors.blueAccent,
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(snack);
                                 }).onError((error, stackTrace) {
                                 //  Scaffold.of(context).showSnackBar(
                                    //   SnackBar(content: Text('$error')));

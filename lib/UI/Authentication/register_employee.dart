@@ -1,3 +1,6 @@
+import 'package:company/api/Requests/RegistrationRequest.dart';
+import 'package:company/api/services/api_client.dart';
+import 'package:company/home_page.dart';
 import 'package:flutter/material.dart';
 
 class RegisterEmployee extends StatefulWidget {
@@ -10,6 +13,9 @@ class RegisterEmployee extends StatefulWidget {
 }
 
 class _RegisterEmployeeState extends State<RegisterEmployee> {
+  var service = NetworkService();
+  bool isLoading = false;
+  bool _isHidden = true;
   @override
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
@@ -350,7 +356,32 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                               SizedBox(width: w * 0.25,),
                               TextButton(
 
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    var request = RegistrationRequest(
+                                        email:
+                                        emailController.text.toString().trim(),
+                                        password: passwordController.text
+                                            .toString()
+                                            .trim());
+                                    service.UserRegistration(request).then((value) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => HomePageWidget()),
+                                      );
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }).onError((error, stackTrace) {
+                                      //  Scaffold.of(context).showSnackBar(
+                                      //   SnackBar(content: Text('$error')))
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    });
+                                  },
                                   child: const Text('Register'),
                                   style: ButtonStyle(
                                       side: MaterialStateProperty.all(

@@ -1,4 +1,7 @@
 
+import 'dart:async';
+
+import 'package:company/UI/Authentication/log_in.dart';
 import 'package:flutter/material.dart';
 
 
@@ -13,7 +16,18 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
     with TickerProviderStateMixin {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  @override
+  void initState() {
+    super.initState();
+    Timer(Duration(seconds: 4),
+            ()=>Navigator.pushReplacement(context,
+            MaterialPageRoute(builder:
+                (context) =>
+                LogIn()
+            )
+        )
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +49,9 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/splash.png',
-              width: 140,
-              height: 140,
+              'assets/images/logo.png',
+              width: 150,
+              height: 150,
               fit: BoxFit.fitHeight,
 
             ),
