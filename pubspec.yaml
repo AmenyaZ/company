@@ -44,7 +44,8 @@ dependencies:
   webview_flutter: ^2.0.9
   shared_preferences: ^2.0.6
   get:
-
+  flutter_easyloading: ^3.0.3
+  progress_dialog: ^1.2.0
 
 
 dev_dependencies:

@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:company/UI/Authentication/log_in.dart';
 import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/Company/company_list.dart';
@@ -33,7 +35,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             ),
 
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(true),
+              onPressed: () {
+                exit(0);
+              },
               //return true when click on "Yes"
               child:Text('Yes'),
             ),
@@ -48,7 +52,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         key: scaffoldKey,
         backgroundColor: Color(0xFFF5F5F5),
         appBar: AppBar(
-          title: const Text(""),
+          title: const Text(" "),
           //backgroundColor: Color(0xFFF5F5F5)
         ),
         body: SafeArea(
