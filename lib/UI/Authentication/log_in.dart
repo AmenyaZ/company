@@ -1,10 +1,7 @@
-import 'package:company/Authentication/LoginRequest.dart';
-import 'package:company/Response/LogInResponse.dart';
-import 'package:company/api/api_client.dart';
+import 'package:company/api/Requests/LoginRequest.dart';
+import 'package:company/api/services/api_client.dart';
 import 'package:company/home_page.dart';
 import 'package:flutter/material.dart';
-
-
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);

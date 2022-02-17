@@ -1,13 +1,14 @@
 import 'dart:convert' as convert;
 import 'dart:convert';
 import 'dart:io';
-import 'package:company/Response/LogInResponse.dart';
-import 'package:company/Authentication/LoginRequest.dart';
+
+import 'package:company/api/Requests/LoginRequest.dart';
+import 'package:company/api/Response/LogInResponse.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkService{
   Future<LogInResponse> UserLogIn(LoginRequest loginRequest) async{
-    var uri = Uri.parse("https://c96e-197-232-1-50.ngrok.io/api/login");
+    var uri = Uri.parse("https://0f86-197-232-1-50.ngrok.io/api/login");
     Map<String, String> requestHeaders= {
       'Accept': 'application/json',
     };

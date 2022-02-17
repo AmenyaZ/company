@@ -1,5 +1,6 @@
-import 'package:company/Authentication/log_in.dart';
-import 'package:company/Company/company_list.dart';
+
+import 'package:company/UI/Authentication/log_in.dart';
+import 'package:company/UI/Company/company_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 

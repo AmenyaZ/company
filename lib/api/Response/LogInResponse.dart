@@ -1,5 +1,7 @@
-import '../Authentication/User.dart';
+
 import 'dart:convert';
+
+import 'package:company/api/Response/Login/User.dart';
 
 LogInResponse logInResponseFromJson(String str) => LogInResponse.fromJson(json.decode(str));
 String logInResponseToJson(LogInResponse data) => json.encode(data.toJson());
