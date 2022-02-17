@@ -1,7 +1,6 @@
 import 'dart:convert' as convert;
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:company/api/Requests/LoginRequest.dart';
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/Response/LogInResponse.dart';
