@@ -1309,8 +1309,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 ),
                 otherAccountsPictures: [
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async{
 
+                      loadData();
                       EasyLoading.show(status: 'Loging Out...');
                       Navigator.of(context).pushAndRemoveUntil(
                         // the new route

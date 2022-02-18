@@ -3,6 +3,12 @@ import 'package:company/api/services/api_client.dart';
 import 'package:company/home_page.dart';
 import 'package:flutter/material.dart';
 
+
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter/painting.dart';
+import 'package:dio/dio.dart';
+
+
 class RegisterEmployee extends StatefulWidget {
   const RegisterEmployee({Key? key}) : super(key: key);
 
@@ -17,6 +23,31 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
   bool isLoading = false;
   //bool _isHidden = true;
   bool _isObscure = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // EasyLoading.show();
+  }
+
+  @override
+  void deactivate() {
+    EasyLoading.dismiss();
+    super.deactivate();
+  }
+
+  void loadData() async {
+    try {
+      EasyLoading.show();
+      Response response = await Dio().get('https://github.com');
+      print(response);
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.showError(e.toString());
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
@@ -352,8 +383,9 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                               //Expanded(child: Container(),),
                               SizedBox(width: w * 0.25,),
                               TextButton(
-
                                   onPressed: () {
+                                    loadData();
+                                    EasyLoading.show(status: 'Processing');
                                     setState(() {
                                       isLoading = true;
                                     });
@@ -368,6 +400,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                         context,
                                         MaterialPageRoute(builder: (context) => HomePageWidget()),
                                       );
+                                      EasyLoading.dismiss();
                                       setState(() {
                                         isLoading = false;
                                       });
