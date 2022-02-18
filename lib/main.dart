@@ -1,7 +1,6 @@
 
 import 'package:company/UI/splash_screen/splash_screen.dart';
 import 'package:company/home_page.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 

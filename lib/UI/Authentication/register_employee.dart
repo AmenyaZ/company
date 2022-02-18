@@ -15,7 +15,8 @@ class RegisterEmployee extends StatefulWidget {
 class _RegisterEmployeeState extends State<RegisterEmployee> {
   var service = NetworkService();
   bool isLoading = false;
-  bool _isHidden = true;
+  //bool _isHidden = true;
+  bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
@@ -213,7 +214,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                           Expanded(
                             child: TextFormField(
                               controller: passwordController,
-                              obscureText: !passwordVisibility,
+                              //obscureText: !passwordVisibility,
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 labelStyle: TextStyle(
@@ -248,11 +249,10 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                 contentPadding: EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
                                 suffixIcon: InkWell(
                                   onTap: () => setState(
-                                        () => passwordVisibility = !passwordVisibility,
+                                        () => _isObscure = !_isObscure,
                                   ),
                                   child: Icon(
-                                    passwordVisibility
-                                        ? Icons.visibility_outlined
+                                    _isObscure ? Icons.visibility_outlined
                                         : Icons.visibility_off_outlined,
                                     color: Color(0xFF95A1AC),
                                     size: 22,
@@ -335,11 +335,8 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 16),
                       child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-
-                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               RichText(
                                 text: TextSpan(
@@ -396,8 +393,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
 
                             ],
                           )
-                        ],
-                      ),
+
                     ),
                     /*
                     Divider(

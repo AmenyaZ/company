@@ -8,7 +8,7 @@ import 'package:company/api/Response/RegistrationResponse.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkService {
-  final String url = 'https://0f86-197-232-1-50.ngrok.io/api';
+  final String url = 'https://6ccb-197-232-1-50.ngrok.io/api';
   Future<LogInResponse> UserLogIn(LoginRequest loginRequest) async {
     var uri = Uri.parse(url + "/login");
     Map<String, String> requestHeaders = {
