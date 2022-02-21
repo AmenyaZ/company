@@ -9,6 +9,8 @@ import 'package:flutter/painting.dart';
 //import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class HomePageWidget extends StatefulWidget {
@@ -19,10 +21,12 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
+  var Email = "";
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     // EasyLoading.show();
   }
@@ -1310,7 +1314,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 otherAccountsPictures: [
                   IconButton(
                     onPressed: () async{
-
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.remove('accessToken');
                       loadData();
                       EasyLoading.show(status: 'Loging Out...');
                       Navigator.of(context).pushAndRemoveUntil(
@@ -1329,7 +1334,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ),
                   )
                 ],
-                accountEmail: Text('jane.doe@example.com'),
+                accountEmail: Text(
+             "ggggggggg"
+                ),
                 accountName: Text(
                   'Jane Doe',
                   style: TextStyle(fontSize: 24.0),

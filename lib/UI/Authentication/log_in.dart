@@ -1,11 +1,15 @@
 import 'package:company/api/Requests/LoginRequest.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/home_page.dart';
+import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/painting.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../api/Response/LogInResponse.dart';
+import '../../local/local_user.dart';
 
 
 
@@ -24,6 +28,7 @@ class _LogInState extends State<LogIn> {
   @override
   void initState() {
     super.initState();
+    EasyLoading.init();
     // EasyLoading.show();
   }
 
@@ -54,6 +59,20 @@ class _LogInState extends State<LogIn> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
+    Future<LocalUser> saveUserOffline(LogInResponse value) async {
+      var localUser = LocalUser(
+          email: value.user?.email,
+          password: passwordController.text.toString().trim(),
+          accessToken: value.accessToken,
+          id: "${value.user!.id!}");
+      await SharedPreferenceHelper()
+          .saveUserInformation(localUser)
+          .whenComplete(() => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePageWidget()),
+      ));
+      return localUser;
+    }
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -274,9 +293,10 @@ class _LogInState extends State<LogIn> {
                             color: Colors.blueAccent,
                             onPressed: () async {
                               loadData();
-                              //await Future.delayed(Duration(seconds: 2));
+                              await Future.delayed(Duration(seconds: 2));
                               EasyLoading.show(status: 'loading...');
-                              //await Future.delayed(Duration(seconds: 5));
+                              await Future.delayed(Duration(seconds: 3
+                              ));
                               //EasyLoading.dismiss();
 
                               var request = LoginRequest(
@@ -285,7 +305,9 @@ class _LogInState extends State<LogIn> {
                                   password: passwordController.text
                                       .toString()
                                       .trim());
+                              SharedPreferenceHelper().getUserInformation().then((local){
                               service.UserLogIn(request).then((value) {
+                                saveUserOffline(value);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => HomePageWidget()),
@@ -311,7 +333,7 @@ class _LogInState extends State<LogIn> {
                                 //  Scaffold.of(context).showSnackBar(
                                 //   SnackBar(content: Text('$error')));
                                 print(error);
-
+                              });
                               });
                             },
                             child: const Text('Login'),
@@ -360,6 +382,7 @@ class _LogInState extends State<LogIn> {
                       ],
                     ),
                   ),
+
                 ],
               ),
             )
@@ -367,5 +390,6 @@ class _LogInState extends State<LogIn> {
         ),
       ),
     );
+
   }
 }
