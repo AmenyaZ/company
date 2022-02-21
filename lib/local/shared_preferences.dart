@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:company/local/local_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/*
 
 class SharedPreferenceHelper {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -12,7 +11,7 @@ class SharedPreferenceHelper {
   Future<void> saveUserInformation(LocalUser localUser) async {
     final SharedPreferences prefs = await _prefs;
     prefs.setString("username", localUser.userName!);
-     prefs.setString("email", localUser.email!);
+    prefs.setString("email", localUser.email!);
     prefs.setString("avatarUri", localUser.avatarUri!);
     prefs.setString("password", localUser.password!);
     prefs.setString("accessToken", localUser.accessToken!);
@@ -29,12 +28,12 @@ class SharedPreferenceHelper {
     String id = prefs.getString("id") ?? "";
 
     return LocalUser(
-        userName: userName,
-        email: email,
-        avatarUri: avatarUri,
-        password: password,
-        accessToken: accessToken,
-        id: id,
+      userName: userName,
+      email: email,
+      avatarUri: avatarUri,
+      password: password,
+      accessToken: accessToken,
+      id: id,
     );
   }
 
@@ -48,4 +47,3 @@ class SharedPreferenceHelper {
     prefs.remove("id");
   }
 }
-*/

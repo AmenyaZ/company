@@ -6,6 +6,11 @@ import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/Company/company_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+//import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class HomePageWidget extends StatefulWidget {
@@ -16,8 +21,33 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
+  var Email = "";
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+
+  @override
+  void initState()  {
+    super.initState();
+    // EasyLoading.show();
+  }
+
+  @override
+  void deactivate() {
+    EasyLoading.dismiss();
+    super.deactivate();
+  }
+
+  void loadData() async {
+    try {
+      EasyLoading.show();
+      Response response = await Dio().get('https://github.com');
+      print(response);
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.showError(e.toString());
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Future<bool> showExitPopup() async {
@@ -92,70 +122,71 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             EdgeInsetsDirectional.fromSTEB(20, 24, 20, 0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  'Total Tasks',
-                                  style: TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                  EdgeInsetsDirectional.fromSTEB(80, 0, 0, 0),
-                                  child: Text(
-                                    'Completed',
-                                    style:TextStyle(
-                                      fontFamily: 'Lexend Deca',
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(20, 8, 20, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  '7,630',
-                                  style: TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Colors.white,
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      110, 0, 0, 0),
-                                  child: Text(
-                                    '700',
-                                    style:TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                            EdgeInsetsDirectional.fromSTEB(20, 12, 20, 16),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [],
+                              children: [
+                                Container(
+
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Total Tasks',
+                                        style: TextStyle(
+                                          fontFamily: 'Lexend Deca',
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 10, 0, 15),
+                                        child: Text(
+                                          '7,630',
+                                          style: TextStyle(
+                                            fontFamily: 'Lexend Deca',
+                                            color: Colors.white,
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                ),
+
+                                Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Completed',
+                                        style:TextStyle(
+                                          fontFamily: 'Lexend Deca',
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 10, 0, 15),
+                                    child: Text(
+                                      '700',
+                                      style:TextStyle(
+                                        fontFamily: 'Poppins',
+                                        color: Colors.white,
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+
                         ],
                       ),
                     ),
@@ -208,46 +239,55 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  width: 110,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 5,
-                                        color: Color(0x3B000000),
-                                        offset: Offset(0, 2),
-                                      )
-                                    ],
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        4, 4, 4, 4),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.add_comment_outlined,
-                                          color: Color(0xFF1E2429),
-                                          size: 40,
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                              0, 8, 0, 0),
-                                          child: Text(
-                                            'Add Task',
-                                            style: TextStyle(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Color(0xFF090F13),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
+                                InkWell(
+                                  onTap: () async {
+                                    loadData();
+                                    await Future.delayed(Duration(seconds: 2));
+                                    EasyLoading.show(status: 'loading...');
+                                    await Future.delayed(Duration(seconds: 5));
+                                    EasyLoading.dismiss();
+                          },
+                                  child: Container(
+                                    width: 110,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 5,
+                                          color: Color(0x3B000000),
+                                          offset: Offset(0, 2),
+                                        )
+                                      ],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          4, 4, 4, 4),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.add_comment_outlined,
+                                            color: Color(0xFF1E2429),
+                                            size: 40,
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                0, 8, 0, 0),
+                                            child: Text(
+                                              'Add Task',
+                                              style: TextStyle(
+                                                fontFamily: 'Lexend Deca',
+                                                color: Color(0xFF090F13),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1273,8 +1313,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 ),
                 otherAccountsPictures: [
                   IconButton(
-                    onPressed: () {
-
+                    onPressed: () async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.remove('accessToken');
+                      loadData();
+                      EasyLoading.show(status: 'Loging Out...');
                       Navigator.of(context).pushAndRemoveUntil(
                         // the new route
                         MaterialPageRoute(
@@ -1282,6 +1325,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                             (Route route) => false,
                       );
+                      EasyLoading.dismiss();
                     },
                     icon: Icon(
                         Icons.power_settings_new,
@@ -1290,7 +1334,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ),
                   )
                 ],
-                accountEmail: Text('jane.doe@example.com'),
+                accountEmail: Text(
+             "ggggggggg"
+                ),
                 accountName: Text(
                   'Jane Doe',
                   style: TextStyle(fontSize: 24.0),
