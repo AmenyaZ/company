@@ -65,6 +65,7 @@ class _LogInState extends State<LogIn> {
           password: passwordController.text.toString().trim(),
           accessToken: value.accessToken,
           id: "${value.user!.id!}");
+
       await SharedPreferenceHelper()
           .saveUserInformation(localUser)
           .whenComplete(() => Navigator.push(
@@ -144,8 +145,9 @@ class _LogInState extends State<LogIn> {
                                 return null;
                               }
                             },
+                            keyboardType: TextInputType.emailAddress,
                             controller: emailController,
-                            obscureText: false,
+
                             decoration: InputDecoration(
                               labelText: 'Email Address',
                               labelStyle: TextStyle(
@@ -393,3 +395,4 @@ class _LogInState extends State<LogIn> {
 
   }
 }
+
