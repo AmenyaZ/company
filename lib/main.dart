@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       ),
       home: SplashScreenWidget(),
        builder: EasyLoading.init(),
+       debugShowMaterialGrid: false,
     );
   }
 }
