@@ -19,26 +19,19 @@ class CompanyListWidget extends StatefulWidget {
 class _CompanyListWidgetState extends State<CompanyListWidget> {
   late TextEditingController textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List Company = [];
+  var service = NetworkService();
   Future<ListOrganizationResponse>? organizationList;
-  var dio = Dio();
+
   bool isLoading = false;
   @override
   void initState() {
     super.initState();
     textController = TextEditingController();
-    fetchOrganization();
-    setState(() {
       SharedPreferenceHelper().getUserInformation().then((value){
-        var service = NetworkService();
-        print(organizationList);
-        print(value.accessToken);
-        organizationList = service.OrganizationList("Bearer ${value.accessToken}");
+        setState(() {
+          organizationList = service.OrganizationList(value.accessToken!);
+        });
       });
-    });
-  }
-  fetchOrganization(){
-    print ("loading.....");
   }
 
 
@@ -58,22 +51,29 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
                   child: FutureBuilder<ListOrganizationResponse>(
                     future: organizationList,
                     builder: (context, snapshot){
+                      print(snapshot.data);
                       if(snapshot.hasData){
                         if(snapshot.data!.organizations!.isEmpty){
                           return Center(
                             child: Text("No Organization"),
                           );
-                        } else {
-                          child: ListView.builder(
+                        } else if(snapshot.data!.organizations!.isNotEmpty){
+                          return ListView.builder(
+                            itemCount: snapshot.data!.organizations!.length,
                               itemBuilder: (context, index) {
-                                return  getOrganizationList(context);
+                                return  getOrganizationList(context,snapshot.data!.organizations![index]);
                                 //return Text("index $index");
                               }
                           );
                         }
                       }
+                      else if(snapshot.hasError){
+                        return Center(
+                          child: Text(snapshot.error.toString()),
+                        );
+                      }
                       return const Center(
-
+                        child: CircularProgressIndicator(),
                       );
                     }
 
@@ -187,8 +187,7 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
     );
   }
 
-  Widget getOrganizationList(BuildContext context) {
-
+  Widget getOrganizationList(BuildContext context, Organizations organization) {
       //return Text("index $index");
       return Padding(
         padding: EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
@@ -236,7 +235,7 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                'Company Name',
+                                organization.attributes!.name!,
                                 style: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF15212B),
@@ -251,7 +250,7 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                '123 Address St, City, ST',
+                                organization.attributes!.location!,
                                 style: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF8B97A2),
@@ -266,7 +265,7 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                '1.7mi',
+                                organization.attributes!.year!.toString(),
                                 style: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF4B39EF),

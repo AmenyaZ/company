@@ -2,19 +2,16 @@
 import 'package:company/UI/Authentication/log_in.dart';
 import 'package:company/UI/splash_screen/splash_screen.dart';
 import 'package:company/home_page.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var token = prefs.getString('accessToken');
-  //runApp(const MyApp());
-  runApp(MaterialApp(home: token == null ? LogIn() : HomePageWidget()));
+    runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -23,16 +20,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return MaterialApp(
+
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
 
       ),
-      home: SplashScreenWidget(),
-       builder: EasyLoading.init(),
-       debugShowMaterialGrid: false,
+      home: const SplashScreenWidget(),
+      builder: EasyLoading.init()
     );
   }
 }

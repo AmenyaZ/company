@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:company/UI/Authentication/log_in.dart';
 import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/Company/company_list.dart';
+import 'package:company/api/services/api_client.dart';
+import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 //import 'package:flutter/material.dart';
@@ -21,15 +23,28 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
-  var Email = "";
+  var email = "";
+  var username = "";
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  var accessToken = "";
+  var service = NetworkService();
 
   @override
   void initState()  {
     super.initState();
     // EasyLoading.show();
+      SharedPreferenceHelper().getUserInformation().then((value){
+        setState(() {
+          email = value.email!;
+          username = value.userName!;
+         // accessToken = value.accessToken!;
+          print("Print token: ${value.accessToken}");
+          print("Email: ${value.email}");
+        });
+      });
+
   }
+
 
   @override
   void deactivate() {
@@ -82,7 +97,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         key: scaffoldKey,
         backgroundColor: Color(0xFFF5F5F5),
         appBar: AppBar(
-          title: const Text(" "),
+          title: Text(" "),
           //backgroundColor: Color(0xFFF5F5F5)
         ),
         body: SafeArea(
@@ -1334,11 +1349,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ),
                   )
                 ],
-                accountEmail: Text(
-             "ggggggggg"
-                ),
+                accountEmail: Text(email),
                 accountName: Text(
-                  'Jane Doe',
+                  username,
                   style: TextStyle(fontSize: 24.0),
                 ),
 
