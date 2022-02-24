@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 
 class SplashScreenWidget extends StatefulWidget {
+  const SplashScreenWidget({Key? key}) : super(key: key);
+
   //const SplashScreenWidget({ Key key}) : super(key: key);
 
   @override
@@ -22,8 +24,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
     Timer(Duration(seconds: 4),
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
-                (context) =>
-                LogIn()
+                (context) => const LogIn()
             )
         )
     );

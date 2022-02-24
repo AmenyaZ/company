@@ -21,6 +21,9 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var passwordVisibility = false;
   var service = NetworkService();
   //bool isLoading = false;
   //bool _isHidden = true;
@@ -29,6 +32,7 @@ class _LogInState extends State<LogIn> {
   void initState() {
     super.initState();
     EasyLoading.init();
+
     // EasyLoading.show();
   }
 
@@ -52,28 +56,9 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
-    var passwordVisibility = false;
-
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
-    Future<LocalUser> saveUserOffline(LogInResponse value) async {
-      var localUser = LocalUser(
-          email: value.user?.email,
-          password: passwordController.text.toString().trim(),
-          accessToken: value.accessToken,
-          id: "${value.user!.id!}");
-
-      await SharedPreferenceHelper()
-          .saveUserInformation(localUser)
-          .whenComplete(() => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePageWidget()),
-      ));
-      return localUser;
-    }
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -295,30 +280,25 @@ class _LogInState extends State<LogIn> {
                             color: Colors.blueAccent,
                             onPressed: () async {
                               loadData();
-                              await Future.delayed(Duration(seconds: 2));
+                              await Future.delayed(const Duration(seconds: 2));
                               EasyLoading.show(status: 'loading...');
-                              await Future.delayed(Duration(seconds: 3
-                              ));
+                              await Future.delayed(Duration(seconds: 5));
                               //EasyLoading.dismiss();
 
                               var request = LoginRequest(
-                                  email:
-                                  emailController.text.toString().trim(),
+                                  email: emailController.text.toString().trim(),
                                   password: passwordController.text
                                       .toString()
                                       .trim());
-                              SharedPreferenceHelper().getUserInformation().then((local){
-                              service.UserLogIn(request).then((value) {
-                                saveUserOffline(value);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => HomePageWidget()),
-                                );
-                                EasyLoading.dismiss();
+                              service.UserLogIn(request).then((value) async{
+                                print(value.toJson());
+                                await saveUserOffline(value);
+
                                 final snack = SnackBar(
+                                  width: w*0.53,
                                   padding: EdgeInsetsDirectional.only(start: 30, top: 0, end: 30, bottom: 20),
                                   content: Text('Login Succesful'),
-                                  duration: Duration(seconds: 4),
+                                  duration: Duration(seconds: 5),
                                   action: SnackBarAction(
                                     label: 'Success',
                                     textColor: Colors.white,
@@ -329,13 +309,28 @@ class _LogInState extends State<LogIn> {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   backgroundColor: Colors.blueAccent,
-                                );
+                                ); EasyLoading.dismiss();
                                 ScaffoldMessenger.of(context).showSnackBar(snack);
                               }).onError((error, stackTrace) {
                                 //  Scaffold.of(context).showSnackBar(
-                                //   SnackBar(content: Text('$error')));
+                                final snack = SnackBar(
+                                  width: w*0.53,
+                                  padding: EdgeInsetsDirectional.only(start: 20, top: 0, end: 20, bottom: 30),
+                                  content: Text('$error'),
+                                  duration: Duration(seconds: 5),
+                                  action: SnackBarAction(
+                                    label: '',
+                                    textColor: Colors.white,
+                                    onPressed: () {},
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  backgroundColor: Colors.blueAccent,
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snack);
                                 print(error);
-                              });
                               });
                             },
                             child: const Text('Login'),
@@ -393,6 +388,28 @@ class _LogInState extends State<LogIn> {
       ),
     );
 
+
   }
+  Future<LocalUser> saveUserOffline(LogInResponse value) async {
+    var localUser = LocalUser(
+      userName: value.user!.name!,
+        email: value.user?.email,
+        password: passwordController.text.toString().trim(),
+        accessToken: value.accessToken,
+        id: "${value.user!.id!}");
+   print(localUser.accessToken);
+    await SharedPreferenceHelper()
+        .saveUserInformation(localUser)
+    .then((value){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePageWidget()),
+      );
+    }).onError((error, stackTrace){
+      print(error);
+    });
+    return localUser;
+  }
+
 }
 

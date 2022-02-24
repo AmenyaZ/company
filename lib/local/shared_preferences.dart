@@ -9,13 +9,16 @@ class SharedPreferenceHelper {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<void> saveUserInformation(LocalUser localUser) async {
+    print("Saving");
+    print(localUser.toJson());
     final SharedPreferences prefs = await _prefs;
-    prefs.setString("username", localUser.userName!);
+    prefs.setString("username", localUser.userName??"");
     prefs.setString("email", localUser.email!);
-    prefs.setString("avatarUri", localUser.avatarUri!);
+    prefs.setString("avatarUri", localUser.avatarUri??"");
     prefs.setString("password", localUser.password!);
     prefs.setString("accessToken", localUser.accessToken!);
     prefs.setString("id", localUser.id!);
+    print(localUser);
   }
 
   Future<LocalUser> getUserInformation() async {
