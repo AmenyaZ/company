@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
 
       ),
       home: const SplashScreenWidget(),
-      builder: EasyLoading.init()
+      //home: const SplashScreenWidget(),
+        builder: EasyLoading.init()
     );
   }
 }

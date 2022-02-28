@@ -5,6 +5,7 @@ import 'package:company/UI/Authentication/log_in.dart';
 import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/Company/company_list.dart';
 import 'package:company/UI/User/profile_detail.dart';
+import 'package:company/UI/settings/settings.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -1409,7 +1410,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               ListTile(
                 title: Text("Roles"),
                 leading: IconButton(
-                  icon: Icon(Icons.settings),
+                  icon: Icon(Icons.build_rounded),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -1455,6 +1456,24 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => RegisterEmployee()));
+                },
+              ),
+              Divider(
+                color: Colors.grey,
+              ),
+              ListTile(
+                title: Text("Settings"),
+                leading: IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                onTap: ()
+                {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => SettingsScreen()));
                 },
               ),
               Divider(
