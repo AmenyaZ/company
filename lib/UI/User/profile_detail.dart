@@ -10,471 +10,213 @@ class ProfileDetailWidget extends StatefulWidget {
 class _ProfileDetailWidgetState extends State<ProfileDetailWidget> {
   @override
   Widget build(BuildContext context) {
-    return // Generated code for this profile_detail Widget...
-      Scaffold(
-
-        backgroundColor: Color(0xFFF1F4F8),
-        drawer: Drawer(
-          elevation: 16,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: 304,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF4B39EF),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Align(
-                                  alignment: AlignmentDirectional(-0.7, 0),
-                                  child: Container(
-                                    width: 80,
-                                    height: 80,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Image.asset(
-                                      'assets/images/UI_avatar@2x.png',
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Align(
-                                    alignment: AlignmentDirectional(0.7, 0),
-                                    child: Icon(
-                                      Icons.edit_rounded,
-                                      color: Colors.white,
-                                      size: 24,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  '[User Name]',
-                                  style:
-                                  TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  '[username@domain.com]',
-                                  style: TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFFEE8B60),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+    return Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
         body: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 270,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF4B39EF),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Stack(
-                                children: [
-                                  Align(
-                                    alignment: AlignmentDirectional(0, 0),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 105, 0, 0),
-                                      child: Container(
-                                        width: 80,
-                                        height: 80,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Image.asset(
-                                          'assets/images/UI_avatar@2x.png',
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                              child: Text(
-                                '[User Name Here]',
-                                style: TextStyle(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                              child: Text(
-                                'User.name@domainname.com',
-                                style:
-                                TextStyle(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFFEE8B60),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+            children: <Widget>[
+              ProfileHeader(
+                avatar: NetworkImage('https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
+                coverImage: NetworkImage(' '),
+                title: "Ramesh Mana",
+                subtitle: "Manager",
+                actions: <Widget>[
+                  MaterialButton(
+                    color: Colors.white,
+                    shape: CircleBorder(),
+                    elevation: 0,
+                    child: Icon(Icons.edit),
+                    onPressed: () {},
+                  )
                 ],
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(24, 12, 0, 12),
-                    child: Text(
-                      'Account Settings',
-                      style: TextStyle(
-                        fontFamily: 'Lexend Deca',
-                        color: Color(0xFF090F13),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              ListView(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: Color(0xFFEFEFEF),
-                            width: 1,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Icon(
-                                  Icons.featured_play_list_rounded,
-                                  // color: Colors.redAccent,
-                                  size: 30
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Text(
-                                'My Settings',
-                                style:
-                                TextStyle(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF090F13),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(0.9, 0),
-                                child: Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    // color: Colors.redAccent,
-                                    size: 30
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: Color(0xFFEFEFEF),
-                            width: 1,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Icon(
-                                  Icons.settings,
-                                 // color: Colors.redAccent,
-                                  size: 30
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Text(
-                                'My Settings',
-                                style:
-                                TextStyle(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF090F13),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(0.9, 0),
-                                child: Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    // color: Colors.redAccent,
-                                    size: 30
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: Color(0xFFEFEFEF),
-                            width: 1,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Icon(
-                                  Icons.notifications_none_outlined,
-                                  // color: Colors.redAccent,
-                                  size: 30
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Text(
-                                'My Settings',
-                                style:
-                                TextStyle(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF090F13),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(0.9, 0),
-                                child: Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    // color: Colors.redAccent,
-                                    size: 30
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: Color(0xFFEFEFEF),
-                            width: 1,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Icon(
-                                  Icons.open_with_sharp,
-                                  // color: Colors.redAccent,
-                                  size: 30
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Text(
-                                'My Settings',
-                                style:
-                                TextStyle(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF090F13),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(0.9, 0),
-                                child: Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    // color: Colors.redAccent,
-                                    size: 30
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 20),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        print('Button pressed ...');
-                      },/*
-                      text: 'Log Out',
-                      options: FFButtonOptions(
-                        width: 90,
-                        height: 40,
-                        color: Colors.white,
-                        textStyle: TextStyle(
-                          fontFamily: 'Lexend Deca',
-                          color: Color(0xFF4B39EF),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        elevation: 3,
-                        borderSide: BorderSide(
-                          color: Colors.transparent,
-                          width: 1,
-                        ),
-                        borderRadius: 8,
-                      ),
-                      */
-                    ),
-                  ],
-                ),
-              ),
+              const SizedBox(height: 10.0),
+              UserInfo(),
+
             ],
           ),
-        ),
-      );
-
+        ));
   }
-  Widget FFButtonWidget({Null Function()? onPressed}){
-    return MaterialButton(onPressed: () {
-
-    },);
-  }
-
 }
+class UserInfo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
+            alignment: Alignment.topLeft,
+            child: Text(
+              "User Information",
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Card(
+            child: Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.all(15),
+              child: Column(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      ...ListTile.divideTiles(
+                        color: Colors.grey,
+                        tiles: [
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            leading: Icon(Icons.my_location),
+                            title: Text("Location"),
+                            subtitle: Text("Kathmandu"),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.email),
+                            title: Text("Email"),
+                            subtitle: Text("sudeptech@gmail.com"),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.phone),
+                            title: Text("Phone"),
+                            subtitle: Text("99--99876-56"),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text("About Me"),
+                            subtitle: Text(
+                                "This is a about me link and you can khow about me in this section."),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ProfileHeader extends StatelessWidget {
+  final ImageProvider<dynamic> coverImage;
+  final ImageProvider<dynamic> avatar;
+  final String title;
+  final String? subtitle;
+  final List<Widget>? actions;
+
+  const ProfileHeader(
+      {Key? key,
+        required this.coverImage,
+        required this.avatar,
+        required this.title,
+        this.subtitle,
+        this.actions})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Ink(
+          height: 200,
+          decoration: BoxDecoration(
+            image: DecorationImage(image: coverImage as ImageProvider<Object>, fit: BoxFit.cover),
+          ),
+        ),
+        Ink(
+          height: 200,
+          decoration: BoxDecoration(
+            color: Colors.black38,
+          ),
+        ),
+        if (actions != null)
+          Container(
+            width: double.infinity,
+            height: 200,
+            padding: const EdgeInsets.only(bottom: 0.0, right: 0.0),
+            alignment: Alignment.bottomRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: actions!,
+            ),
+          ),
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.only(top: 160),
+          child: Column(
+            children: <Widget>[
+              Avatar(
+                image: avatar,
+                radius: 40,
+                backgroundColor: Colors.white,
+                borderColor: Colors.grey.shade300,
+                borderWidth: 4.0,
+              ),
+              Text(
+                title,
+               // style: Theme.of(context).textTheme.title,
+              ),
+              if (subtitle != null) ...[
+                const SizedBox(height: 5.0),
+                Text(
+                  subtitle!,
+                 // style: Theme.of(context).textTheme.subtitle,
+                ),
+              ]
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class Avatar extends StatelessWidget {
+  final ImageProvider<dynamic> image;
+  final Color borderColor;
+  final Color? backgroundColor;
+  final double radius;
+  final double borderWidth;
+
+  const Avatar(
+      {Key? key,
+        required this.image,
+        this.borderColor = Colors.grey,
+        this.backgroundColor,
+        this.radius = 30,
+        this.borderWidth = 5})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: radius + borderWidth,
+      backgroundColor: borderColor,
+      child: CircleAvatar(
+        radius: radius,
+        backgroundColor: backgroundColor != null
+            ? backgroundColor
+            : Theme.of(context).primaryColor,
+        child: CircleAvatar(
+          radius: radius - borderWidth,
+          backgroundImage: image as ImageProvider<Object>?,
+        ),
+      ),
+    );
+  }
+}
+
