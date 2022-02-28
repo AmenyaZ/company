@@ -135,7 +135,7 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
                             controller: textController,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: 'Search events here...',
+                              labelText: 'Search Organization here...',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Color(0x00000000),
