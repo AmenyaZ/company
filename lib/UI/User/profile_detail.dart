@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProfileDetailWidget extends StatefulWidget {
   const ProfileDetailWidget({Key? key}) : super(key: key);
@@ -9,281 +7,216 @@ class ProfileDetailWidget extends StatefulWidget {
   _ProfileDetailWidgetState createState() => _ProfileDetailWidgetState();
 }
 
-class _ProfileDetailWidgetState extends State<ProfileDetailWidget>
-    with TickerProviderStateMixin {
-
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-
-  }
-
+class _ProfileDetailWidgetState extends State<ProfileDetailWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Stack(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 220,
-                  decoration: BoxDecoration(
-                    color: Color(0xFF4B39EF),
-                  ),
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(20, 60, 20, 0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 2, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 70,
-                                    height: 70,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Image.asset(
-                                      'assets/images/user_2@2x.png',
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12, 0, 0, 0),
-                                      child: Text(
-                                        'Admin',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: 'Lexend Deca',
-                                          color: Color(0xFF151B1E),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text(
-                                    'Senior Designer',
-                                    style: TextStyle(
-                                      fontFamily: 'Lexend Deca',
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text(
-                                    'Company',
-                                    style: TextStyle(
-                                      fontFamily: 'Lexend Deca',
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional(0.85, -0.8),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
-                          child: Icon(
-                            Icons.edit_outlined,
-                            color: Colors.white,
-                            size: 26,
-                          )
-                        ),
+        backgroundColor: Colors.grey.shade100,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              ProfileHeader(
+                avatar: NetworkImage('https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
+                coverImage: NetworkImage(' '),
+                title: "Ramesh Mana",
+                subtitle: "Manager",
+                actions: <Widget>[
+                  MaterialButton(
+                    color: Colors.white,
+                    shape: CircleBorder(),
+                    elevation: 0,
+                    child: Icon(Icons.edit),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+              const SizedBox(height: 10.0),
+              UserInfo(),
+
+            ],
+          ),
+        ));
+  }
+}
+class UserInfo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
+            alignment: Alignment.topLeft,
+            child: Text(
+              "User Information",
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          Card(
+            child: Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.all(15),
+              child: Column(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      ...ListTile.divideTiles(
+                        color: Colors.grey,
+                        tiles: [
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            leading: Icon(Icons.my_location),
+                            title: Text("Location"),
+                            subtitle: Text("Kathmandu"),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.email),
+                            title: Text("Email"),
+                            subtitle: Text("sudeptech@gmail.com"),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.phone),
+                            title: Text("Phone"),
+                            subtitle: Text("99--99876-56"),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text("About Me"),
+                            subtitle: Text(
+                                "This is a about me link and you can khow about me in this section."),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                ),
-                Align(
-                  alignment: AlignmentDirectional(0, -1.95),
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 190, 0, 0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 4,
-                            color: Color(0x5B000000),
-                            offset: Offset(0, -2),
-                          )
-                        ],
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFDBE2E7),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFDBE2E7),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFDBE2E7),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 8, 20, 8),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 40,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFFDBE2E7),
-                                          ),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 12, 0, 12),
-                                                child: Text(
-                                                  'Q.',
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                    'Lexend Deca',
-                                                    color:
-                                                    Color(0xFF090F13),
-                                                    fontSize: 24,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(8, 0, 0, 0),
-                                                child: Text(
-                                                  'Tell me about a time you made a mistake. How did you handle it?',
-                                                  textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                    'Lexend Deca',
-                                                    color:
-                                                    Color(0xFF8B97A2),
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                    FontWeight.w300,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                            EdgeInsetsDirectional.fromSTEB(0, 24, 0, 36),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFEEEEEE),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                  )
+                ],
+              ),
             ),
-          ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ProfileHeader extends StatelessWidget {
+  final ImageProvider<dynamic> coverImage;
+  final ImageProvider<dynamic> avatar;
+  final String title;
+  final String? subtitle;
+  final List<Widget>? actions;
+
+  const ProfileHeader(
+      {Key? key,
+        required this.coverImage,
+        required this.avatar,
+        required this.title,
+        this.subtitle,
+        this.actions})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Ink(
+          height: 200,
+          decoration: BoxDecoration(
+            image: DecorationImage(image: coverImage as ImageProvider<Object>, fit: BoxFit.cover),
+          ),
+        ),
+        Ink(
+          height: 200,
+          decoration: BoxDecoration(
+            color: Colors.black38,
+          ),
+        ),
+        if (actions != null)
+          Container(
+            width: double.infinity,
+            height: 200,
+            padding: const EdgeInsets.only(bottom: 0.0, right: 0.0),
+            alignment: Alignment.bottomRight,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: actions!,
+            ),
+          ),
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.only(top: 160),
+          child: Column(
+            children: <Widget>[
+              Avatar(
+                image: avatar,
+                radius: 40,
+                backgroundColor: Colors.white,
+                borderColor: Colors.grey.shade300,
+                borderWidth: 4.0,
+              ),
+              Text(
+                title,
+               // style: Theme.of(context).textTheme.title,
+              ),
+              if (subtitle != null) ...[
+                const SizedBox(height: 5.0),
+                Text(
+                  subtitle!,
+                 // style: Theme.of(context).textTheme.subtitle,
+                ),
+              ]
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class Avatar extends StatelessWidget {
+  final ImageProvider<dynamic> image;
+  final Color borderColor;
+  final Color? backgroundColor;
+  final double radius;
+  final double borderWidth;
+
+  const Avatar(
+      {Key? key,
+        required this.image,
+        this.borderColor = Colors.grey,
+        this.backgroundColor,
+        this.radius = 30,
+        this.borderWidth = 5})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: radius + borderWidth,
+      backgroundColor: borderColor,
+      child: CircleAvatar(
+        radius: radius,
+        backgroundColor: backgroundColor != null
+            ? backgroundColor
+            : Theme.of(context).primaryColor,
+        child: CircleAvatar(
+          radius: radius - borderWidth,
+          backgroundImage: image as ImageProvider<Object>?,
         ),
       ),
     );
   }
 }
+

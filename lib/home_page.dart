@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:company/UI/Authentication/log_in.dart';
 import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/Company/company_list.dart';
+import 'package:company/UI/User/profile_detail.dart';
+import 'package:company/UI/settings/settings.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -33,15 +35,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   void initState()  {
     super.initState();
     // EasyLoading.show();
-      SharedPreferenceHelper().getUserInformation().then((value){
-        setState(() {
-          email = value.email!;
-          username = value.userName!;
-         // accessToken = value.accessToken!;
-          print("Print token: ${value.accessToken}");
-          print("Email: ${value.email}");
-        });
+    SharedPreferenceHelper().getUserInformation().then((value){
+      setState(() {
+        email = value.email!;
+        username = value.userName!;
+        // accessToken = value.accessToken!;
+        print("Print token: ${value.accessToken}");
+        print("Email: ${value.email}");
       });
+    });
 
   }
 
@@ -122,7 +124,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           )
                         ],
                         gradient: LinearGradient(
-                          colors: [Color(0xFF00968A), Color(0xFFF2A384)],
+                          colors: [Colors.blue, Color(0xFFF2A384)],
                           stops: [0, 1],
                           begin: AlignmentDirectional(0.94, -1),
                           end: AlignmentDirectional(-0.94, 1),
@@ -182,19 +184,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           fontSize: 20,
                                         ),
                                       ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 10, 0, 15),
-                                    child: Text(
-                                      '700',
-                                      style:TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.white,
-                                        fontSize: 32,
-                                        fontWeight: FontWeight.bold,
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0, 10, 0, 15),
+                                        child: Text(
+                                          '700',
+                                          style:TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Colors.white,
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
                                     ],
                                   ),
                                 ),
@@ -261,7 +263,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     EasyLoading.show(status: 'loading...');
                                     await Future.delayed(Duration(seconds: 5));
                                     EasyLoading.dismiss();
-                          },
+                                  },
                                   child: Container(
                                     width: 110,
                                     height: 100,
@@ -1322,9 +1324,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
               UserAccountsDrawerHeader(
 
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      'https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
+                currentAccountPicture: InkWell(
+                    onTap: ()
+                    {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => ProfileDetailWidget()));
+                    },
+                  child: CircleAvatar(
+
+                    backgroundImage: NetworkImage(
+                        'https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
+                  ),
                 ),
                 otherAccountsPictures: [
                   IconButton(
@@ -1344,8 +1355,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     },
                     icon: Icon(
                         Icons.power_settings_new,
-                      color: Colors.redAccent,
-                      size: 30
+                        color: Colors.redAccent,
+                        size: 30
                     ),
                   )
                 ],
@@ -1399,7 +1410,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               ListTile(
                 title: Text("Roles"),
                 leading: IconButton(
-                  icon: Icon(Icons.settings),
+                  icon: Icon(Icons.build_rounded),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -1445,6 +1456,24 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => RegisterEmployee()));
+                },
+              ),
+              Divider(
+                color: Colors.grey,
+              ),
+              ListTile(
+                title: Text("Settings"),
+                leading: IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                onTap: ()
+                {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => SettingsScreen()));
                 },
               ),
               Divider(
