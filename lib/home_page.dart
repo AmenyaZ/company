@@ -1438,7 +1438,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => HomePageWidget()));
+                      builder: (BuildContext context) => RolesList()));
                 },
               ),
               Divider(
