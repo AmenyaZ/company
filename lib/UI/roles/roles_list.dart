@@ -8,7 +8,6 @@ import 'package:flutter/painting.dart';
 
 class RolesList extends StatefulWidget {
   const RolesList({Key? key}) : super(key: key);
-
   @override
   _RolesListState createState() => _RolesListState();
 }
