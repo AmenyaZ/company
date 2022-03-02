@@ -1,5 +1,8 @@
 
+import 'package:company/api/Response/ListRoles/Role.dart';
+import 'package:company/api/Response/ListRolesResponse.dart';
 import 'package:company/api/services/api_client.dart';
+import 'package:company/local/shared_preferences.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,18 +22,22 @@ class _RolesListState extends State<RolesList> {
 
   final GlobalKey<ExpansionTileCardState> cardA = new GlobalKey();
   final GlobalKey<ExpansionTileCardState> cardB = new GlobalKey();
+  Future<ListRolesResponse>? roleList;
 
   @override
   void initState() {
     super.initState();
     textController = TextEditingController();
-    setState(() {
+    SharedPreferenceHelper().getUserInformation().then((value){
+      setState(() {
+        roleList = service.RoleList(value.accessToken!);
+      });
     });
+
   }
 
   @override
   Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -45,7 +52,38 @@ class _RolesListState extends State<RolesList> {
               children: [
                 getSearch(context),
                 SizedBox(height: h*0.3,),
-                myRole(context),
+                Expanded(
+                    child: FutureBuilder<ListRolesResponse>(
+                        future: roleList,
+                        builder: (context, snapshot){
+                          print(snapshot.data);
+                          if(snapshot.hasData){
+                            if(snapshot.data!.role!.isEmpty){
+                              return Center(
+                                child: Text("No Organization"),
+                              );
+                            } else if(snapshot.data!.role!.isNotEmpty){
+                              return ListView.builder(
+                                  itemCount: snapshot.data!.role!.length,
+                                  itemBuilder: (context, index) {
+                                    return  myRole(context,snapshot.data!.role![index]);
+                                    //return Text("index $index");
+                                  }
+                              );
+                            }
+                          }
+                          else if(snapshot.hasError){
+                            return Center(
+                              child: Text(snapshot.error.toString()),
+                            );
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                    )
+                )
               ]
 
           )
@@ -154,9 +192,6 @@ class _RolesListState extends State<RolesList> {
   }
   Widget getRole (BuildContext context){
 
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
-
     return SizedBox(
 
       child: ExpansionCard(
@@ -197,12 +232,15 @@ class _RolesListState extends State<RolesList> {
       ),
     );
   }
-  Widget myRole(BuildContext context){
+  Widget myRole(BuildContext context, Role role){
+    /*
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
     );
+
+     */
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -222,7 +260,7 @@ class _RolesListState extends State<RolesList> {
       ),
       child: ExpansionTileCard(
         // key: cardA,
-        leading: CircleAvatar(child: Text('A')),
+        //leading: CircleAvatar(child: Text('A')),
         title: Text('Tap me!'),
         subtitle: Text('I expand!'),
         children: <Widget>[
@@ -250,6 +288,7 @@ These buttons control the next card down!""",
               ),
             ),
           ),
+          /*
           ButtonBar(
             alignment: MainAxisAlignment.spaceAround,
             buttonHeight: 52.0,
@@ -302,6 +341,8 @@ These buttons control the next card down!""",
               ),
             ],
           ),
+
+           */
         ],
       ),
     );
