@@ -19,6 +19,8 @@ class _RolesListState extends State<RolesList> {
   late TextEditingController textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var service = NetworkService();
+  final List<GlobalKey<ExpansionTileCardState>> cardKeyList = [];
+
 
   final GlobalKey<ExpansionTileCardState> cardA = new GlobalKey();
   final GlobalKey<ExpansionTileCardState> cardB = new GlobalKey();
@@ -39,7 +41,6 @@ class _RolesListState extends State<RolesList> {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
-
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Color(0xFFF5F5F5),
@@ -51,9 +52,11 @@ class _RolesListState extends State<RolesList> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 getSearch(context),
-                SizedBox(height: h*0.3,),
+                //SizedBox(height: h*0.3,),
                 Expanded(
+
                     child: FutureBuilder<ListRolesResponse>(
+
                         future: roleList,
                         builder: (context, snapshot){
                           print(snapshot.data);
@@ -66,6 +69,7 @@ class _RolesListState extends State<RolesList> {
                               return ListView.builder(
                                   itemCount: snapshot.data!.role!.length,
                                   itemBuilder: (context, index) {
+                                    cardKeyList.add(GlobalKey(debugLabel: "index :$index"));
                                     return  myRole(context,snapshot.data!.role![index]);
                                     //return Text("index $index");
                                   }
@@ -86,7 +90,8 @@ class _RolesListState extends State<RolesList> {
                 )
               ]
 
-          )
+          ),
+          //SizedBox(height: 3,),
         ],
       ),
     );
@@ -233,14 +238,12 @@ class _RolesListState extends State<RolesList> {
     );
   }
   Widget myRole(BuildContext context, Role role){
-    /*
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
     );
 
-     */
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -258,11 +261,12 @@ class _RolesListState extends State<RolesList> {
           topRight: Radius.circular(18),
         ),
       ),
+
       child: ExpansionTileCard(
-        // key: cardA,
-        //leading: CircleAvatar(child: Text('A')),
-        title: Text('Tap me!'),
-        subtitle: Text('I expand!'),
+
+        //key: cardKeyList[index],        //leading: CircleAvatar(child: Text('A')),
+        title: Text(role.attributes!.title!),
+        //subtitle: Text('I expand!'),
         children: <Widget>[
           Divider(
             thickness: 1.0,
@@ -276,11 +280,7 @@ class _RolesListState extends State<RolesList> {
                 vertical: 8.0,
               ),
               child: Text(
-                """Hi there, I'm a drop-in replacement for Flutter's ExpansionTile.
-
-Use me any time you think your app could benefit from being just a bit more Material.
-
-These buttons control the next card down!""",
+                role.attributes!.description!,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!
@@ -288,11 +288,11 @@ These buttons control the next card down!""",
               ),
             ),
           ),
-          /*
+
           ButtonBar(
             alignment: MainAxisAlignment.spaceAround,
             buttonHeight: 52.0,
-            buttonMinWidth: 90.0,
+            buttonMinWidth: 10.0,
             children: <Widget>[
               TextButton(
                 style: flatButtonStyle,
@@ -301,16 +301,18 @@ These buttons control the next card down!""",
                 },
                 child: Column(
                   children: <Widget>[
-                    Icon(Icons.arrow_downward),
+                    Icon(Icons.edit),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2.0),
                     ),
-                    Text('Open'),
+                    Text('Edit'),
                   ],
                 ),
               ),
+              /*
               TextButton(
                 style: flatButtonStyle,
+
                 onPressed: () {
                   cardB.currentState?.collapse();
                 },
@@ -324,6 +326,9 @@ These buttons control the next card down!""",
                   ],
                 ),
               ),
+
+               */
+              SizedBox(width: 70,),
               TextButton(
                 style: flatButtonStyle,
                 onPressed: () {
@@ -331,18 +336,23 @@ These buttons control the next card down!""",
                 },
                 child: Column(
                   children: <Widget>[
-                    Icon(Icons.swap_vert),
+                    Icon(Icons.delete,
+                    color: Colors.red,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2.0),
                     ),
-                    Text('Toggle'),
+                    Text(
+                        'delete',
+                    style: TextStyle(
+                      color: Colors.red
+                    ),),
                   ],
                 ),
               ),
             ],
           ),
 
-           */
         ],
       ),
     );
