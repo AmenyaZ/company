@@ -1,4 +1,5 @@
 
+import 'package:company/UI/roles/edit_role.dart';
 import 'package:company/api/Response/ListRoles/Role.dart';
 import 'package:company/api/Response/ListRolesResponse.dart';
 import 'package:company/api/services/api_client.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:expansion_card/expansion_card.dart';
 import 'package:flutter/painting.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class RolesList extends StatefulWidget {
   const RolesList({Key? key}) : super(key: key);
@@ -237,13 +239,13 @@ class _RolesListState extends State<RolesList> {
       ),
     );
   }
+
   Widget myRole(BuildContext context, Role role){
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
     );
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -296,10 +298,10 @@ class _RolesListState extends State<RolesList> {
             children: <Widget>[
               TextButton(
                 style: flatButtonStyle,
-                onPressed: () {
-                  cardB.currentState?.expand();
-                },
-                child: Column(
+                  onPressed: () {
+                    _openEditPopup(context);
+                  },
+                  child: Column(
                   children: <Widget>[
                     Icon(Icons.edit),
                     Padding(
@@ -332,7 +334,8 @@ class _RolesListState extends State<RolesList> {
               TextButton(
                 style: flatButtonStyle,
                 onPressed: () {
-                  cardB.currentState?.toggleExpansion();
+                 // cardB.currentState?.toggleExpansion();
+                  _openDeletePopup(context);
                 },
                 child: Column(
                   children: <Widget>[
@@ -356,6 +359,177 @@ class _RolesListState extends State<RolesList> {
         ],
       ),
     );
+  }
+
+  _openEditPopup(context) {
+    Alert(
+        context: context,
+        image: Image.asset(
+          'assets/images/logo.png',
+          fit: BoxFit.fitWidth,
+          width: 100,
+          height: 100,
+        ),
+        title: "Edit Role",
+        content:  Container(
+          width: 800,
+
+          child: Column(
+            //mainAxisSize: MainAxisSize.max,
+            children:<Widget>[
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(5, 10, 5, 10),
+                child: TextFormField(
+                  // controller: textController1,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    labelText: 'Title',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF95A1AC),
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    hintText: 'Enter Title...',
+                    hintStyle: TextStyle(
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF95A1AC),
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBE2E7),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBE2E7),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
+                  ),
+                  style: TextStyle(
+                    fontFamily: 'Lexend Deca',
+                    color: Color(0xFF14181B),
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 10),
+                child: TextFormField(
+                  //controller: myBioController,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    labelText: 'Description',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF95A1AC),
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    hintText: 'Add Description...',
+                    hintStyle: TextStyle(
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF95A1AC),
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBE2E7),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBE2E7),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
+                  ),
+                  style: TextStyle(
+                    fontFamily: 'Lexend Deca',
+                    color: Color(0xFF14181B),
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  textAlign: TextAlign.start,
+                  maxLines: 6,
+                ),
+              ),
+            ],
+          ),
+        ),
+        /*
+        content: Column(
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(
+                icon: Icon(Icons.account_circle),
+                labelText: 'Username',
+              ),
+            ),
+            TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                icon: Icon(Icons.lock),
+                labelText: 'Password',
+              ),
+            ),
+          ],
+        ),
+
+         */
+        buttons: [
+          DialogButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "Save Info",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            radius: BorderRadius.all(Radius.circular(16)),
+          )
+        ]).show();
+  }
+  _openDeletePopup(context){
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: 'DELETE',
+      desc: "Confirm To Delete This Role",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Cancel",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.blueAccent,
+        ),
+        DialogButton(
+          child: Text(
+            "Delete",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.red,
+        )
+      ],
+    ).show();
   }
 
 }
