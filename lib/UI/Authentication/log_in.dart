@@ -295,7 +295,7 @@ class _LogInState extends State<LogIn> {
                                 await saveUserOffline(value);
 
                                 final snack = SnackBar(
-                                  width: w*0.53,
+
                                   padding: EdgeInsetsDirectional.only(start: 30, top: 0, end: 30, bottom: 20),
                                   content: Text('Login Succesful'),
                                   duration: Duration(seconds: 5),
@@ -314,7 +314,6 @@ class _LogInState extends State<LogIn> {
                               }).onError((error, stackTrace) {
                                 //  Scaffold.of(context).showSnackBar(
                                 final snack = SnackBar(
-                                  width: w*0.53,
                                   padding: EdgeInsetsDirectional.only(start: 20, top: 0, end: 20, bottom: 30),
                                   content: Text('$error'),
                                   duration: Duration(seconds: 5),
@@ -386,6 +385,7 @@ class _LogInState extends State<LogIn> {
           ],
         ),
       ),
+
     );
 
 

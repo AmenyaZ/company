@@ -1,5 +1,5 @@
 
-import 'package:company/UI/roles/edit_role.dart';
+import 'package:company/UI/roles/create_role.dart';
 import 'package:company/api/Response/ListRoles/Role.dart';
 import 'package:company/api/Response/ListRolesResponse.dart';
 import 'package:company/api/services/api_client.dart';
@@ -47,8 +47,7 @@ class _RolesListState extends State<RolesList> {
       key: scaffoldKey,
       backgroundColor: Color(0xFFF5F5F5),
      // backgroundColor: Colors.white,
-      body:
-      Stack(
+      body: Stack(
         children: [
           Column(
               mainAxisSize: MainAxisSize.max,
@@ -95,6 +94,15 @@ class _RolesListState extends State<RolesList> {
           ),
           //SizedBox(height: 3,),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+          MaterialPageRoute(builder: (context) =>const CreateRoleWidget())
+          );
+        },
+        backgroundColor: Colors.blueAccent,
+        child: Icon(Icons.add_outlined),
       ),
     );
   }
@@ -496,6 +504,7 @@ class _RolesListState extends State<RolesList> {
          */
         buttons: [
           DialogButton(
+            width: 150,
             onPressed: () => Navigator.pop(context),
             child: Text(
               "Save Info",
