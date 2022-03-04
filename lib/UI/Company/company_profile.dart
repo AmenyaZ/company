@@ -10,10 +10,7 @@ class CompanyProfileWidget extends StatefulWidget {
 class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Profile Challenge 01',
-      home: Scaffold(
-
+    return Scaffold(
         body: ListView(
           children: <Widget>[
             Container(
@@ -171,8 +168,8 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
             )
           ],
         ),
-      ),
     );
   }
+
 }
 

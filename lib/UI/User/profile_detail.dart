@@ -1,3 +1,5 @@
+import 'package:company/UI/User/edit_profile.dart';
+import 'package:company/home_page.dart';
 import 'package:flutter/material.dart';
 
 class ProfileDetailWidget extends StatefulWidget {
@@ -11,7 +13,7 @@ class _ProfileDetailWidgetState extends State<ProfileDetailWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey.shade100,
+        //backgroundColor: Colors.grey.shade100,
         extendBodyBehindAppBar: true,
         extendBody: true,
         appBar: AppBar(
@@ -23,7 +25,7 @@ class _ProfileDetailWidgetState extends State<ProfileDetailWidget> {
             children: <Widget>[
               ProfileHeader(
                 avatar: NetworkImage('https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
-                coverImage: NetworkImage(' '),
+                coverImage: AssetImage('assets/images/card2.jpg'),
                 title: "Ramesh Mana",
                 subtitle: "Manager",
                 actions: <Widget>[
@@ -32,7 +34,11 @@ class _ProfileDetailWidgetState extends State<ProfileDetailWidget> {
                     shape: CircleBorder(),
                     elevation: 0,
                     child: Icon(Icons.edit),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                     MaterialPageRoute(builder: (context)=>const EditProfileWidget()),
+                      );
+                    },
                   )
                 ],
               ),
