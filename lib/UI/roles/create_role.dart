@@ -13,38 +13,40 @@ class _CreateRoleWidgetState extends State<CreateRoleWidget> {
   Widget build(BuildContext context) {
     return  Scaffold(
 
-      body: Column(
+      body: SingleChildScrollView(
 
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          SizedBox(height: 80,),
-          logoIcon(context),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 16),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Create Role',
-                  style: TextStyle(
-                    fontFamily: 'Lexend Deca',
-                    color: Color(0xFF14181B),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            SizedBox(height: 80,),
+            logoIcon(context),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 16),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Create Role',
+                    style: TextStyle(
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF14181B),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(
-            height: 100,
+            Container(
+              height: 100,
 
-          ),
-          roleTitle(context),
-          describeRole(context),
-          saveButton(context)
-        ],
+            ),
+            roleTitle(context),
+            describeRole(context),
+            saveButton(context)
+          ],
+        ),
       ),
     );
   }

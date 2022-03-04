@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter/cupertino.dart';
 
 class CreateCompanyWidget extends StatefulWidget {
   const CreateCompanyWidget({Key? key}) : super(key: key);
@@ -9,6 +11,12 @@ class CreateCompanyWidget extends StatefulWidget {
 }
 
 class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
+
+  DateTime? _chosenDateTime;
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -20,7 +28,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
           SizedBox(height: 80,),
           logoIcon(context),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 16),
+            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 14),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -42,6 +50,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
           ),
           companyName(context),
           companyLocaton(context),
+          pickYear(context),
           saveButton(context),
         ],
       ),
@@ -131,9 +140,8 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
   }
   Widget companyLocaton(BuildContext context){
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
+      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
       child: Container(
-
         child: TextFormField(
           // controller: textController1,
           obscureText: false,
@@ -249,6 +257,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
 
   }
   Widget pickYear(BuildContext context) {
+    /*
     final Size size = MediaQuery.of(context).size;
     return AlertDialog(
       title: Text('Select a Year'),
@@ -294,9 +303,99 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
         ),
       ),
     );
+
+     */
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+      child: CupertinoPageScaffold(
+        /*
+        navigationBar: CupertinoNavigationBar(
+          //middle: const Text('Kindacode.com'),
+          // This button triggers the _showDatePicker function
+          trailing: CupertinoButton(
+            color: Colors.red,
+
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+            child: const Text('Show Picker'),
+            onPressed: () => _showDatePicker(context),
+          ),
+        ),
+
+         */
+        child: SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Color(0xFFDBE2E7),
+                style: BorderStyle.solid,
+                width: 2,
+              ),
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Color(0xFFDBE2E7),
+                      style: BorderStyle.solid,
+                      width: 1.0,
+                    ),
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: CupertinoButton(
+                    //color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    child: const Text('Select Date'),
+                    onPressed: () => _showDatePicker(context),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Text(_chosenDateTime != null
+                    ? _chosenDateTime.toString()
+                    : 'No date time picked!'),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
   }
 
+  // Show the modal that contains the CupertinoDatePicker
+  void _showDatePicker(ctx) {
+    // showCupertinoModalPopup is a built-in function of the cupertino library
+    showCupertinoModalPopup(
+        context: ctx,
+        builder: (_) => Container(
+          height: 500,
+          color: const Color.fromARGB(255, 255, 255, 255),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 400,
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.date,
+                    initialDateTime: DateTime.now(),
+                    onDateTimeChanged: (val) {
+                      setState(() {
+                        _chosenDateTime = val;
+                      });
+                    }
+                    ),
+              ),
 
-
+              // Close the modal
+              CupertinoButton(
+                child: const Text('OK'),
+                onPressed: () => Navigator.of(ctx).pop(),
+              )
+            ],
+          ),
+        ));
+  }
 
 }
