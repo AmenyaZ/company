@@ -7,6 +7,7 @@ import 'package:company/api/Response/ListOrganization/Organizations.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 import '../../api/Response/ListOrganizationResponse.dart';
 
@@ -17,6 +18,7 @@ class CompanyListWidget extends StatefulWidget {
   @override
   _CompanyListWidgetState createState() => _CompanyListWidgetState();
 }
+
 
 class _CompanyListWidgetState extends State<CompanyListWidget> {
   late TextEditingController textController;
@@ -37,9 +39,12 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       key: scaffoldKey,
       backgroundColor: const Color(0xFFF1F4F8),
       body: Stack(
@@ -62,7 +67,16 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
                           return ListView.builder(
                             itemCount: snapshot.data!.organizations!.length,
                               itemBuilder: (context, index) {
-                                return  getOrganizationList(context,snapshot.data!.organizations![index]);
+                                return  InkWell(
+                                    onTap: (){
+                                      Navigator.push(context,
+                                        MaterialPageRoute(builder: (context)=>  CompanyProfileWidget(
+
+                                        )),
+                                      );
+                                    },
+                                    child: getOrganizationList(context,snapshot.data!.organizations![index])
+                                );
                                 //return Text("index $index");
                               }
                           );
@@ -205,116 +219,110 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            InkWell(
-              onTap: (){
-                Navigator.push(context,
-                MaterialPageRoute(builder: (context)=> const CompanyProfileWidget()));
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 90,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              8, 8, 8, 8),
-                          child: ClipRRect(
-                            borderRadius:
-                            BorderRadius.circular(8),
-                            child: Image.asset(
-                              'assets/images/logo.png',
-                              width: 74,
-                              height: 74,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Padding(
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 90,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
                         padding: const EdgeInsetsDirectional.fromSTEB(
-                            8, 1, 0, 0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment:
-                          MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  organization.attributes!.name!,
-                                  style: const TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: const Color(0xFF15212B),
-                                    fontSize: 18,
-                                    fontWeight:
-                                    FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  organization.attributes!.location!,
-                                  style: const TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF8B97A2),
-                                    fontSize: 14,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  organization.attributes!.year!.toString(),
-                                  style: const TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Colors.blueAccent,
-                                    fontSize: 14,
-                                    fontWeight:
-                                    FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                            8, 8, 8, 8),
+                        child: ClipRRect(
+                          borderRadius:
+                          BorderRadius.circular(8),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            width: 74,
+                            height: 74,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(
+                          8, 1, 0, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                organization.attributes!.name!,
+                                style: const TextStyle(
+                                  fontFamily: 'Lexend Deca',
+                                  color: const Color(0xFF15212B),
+                                  fontSize: 18,
+                                  fontWeight:
+                                  FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                organization.attributes!.location!,
+                                style: const TextStyle(
+                                  fontFamily: 'Lexend Deca',
+                                  color: Color(0xFF8B97A2),
+                                  fontSize: 14,
+                                  fontWeight:
+                                  FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                organization.attributes!.year!.toString(),
+                                style: const TextStyle(
+                                  fontFamily: 'Lexend Deca',
+                                  color: Colors.blueAccent,
+                                  fontSize: 14,
+                                  fontWeight:
+                                  FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        const Expanded(
-                          child: Padding(
-                            padding:
-                            EdgeInsetsDirectional.fromSTEB(
-                                0, 0, 8, 0),
-                            child: Icon(
-                              Icons.chevron_right_outlined,
-                              color: Color(0xFF95A1AC),
-                              size: 24,
-                            ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const Expanded(
+                        child: Padding(
+                          padding:
+                          EdgeInsetsDirectional.fromSTEB(
+                              0, 0, 8, 0),
+                          child: Icon(
+                            Icons.chevron_right_outlined,
+                            color: Color(0xFF95A1AC),
+                            size: 24,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
