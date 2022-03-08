@@ -291,7 +291,7 @@ class _LogInState extends State<LogIn> {
                                       .toString()
                                       .trim());
                               service.UserLogIn(request).then((value) async{
-                                print(value.toJson());
+                                //print(value.toJson());
                                 await saveUserOffline(value);
 
                                 final snack = SnackBar(
@@ -328,6 +328,7 @@ class _LogInState extends State<LogIn> {
                                   ),
                                   backgroundColor: Colors.blueAccent,
                                 );
+                                EasyLoading.dismiss();
                                 ScaffoldMessenger.of(context).showSnackBar(snack);
                                 print(error);
                               });
