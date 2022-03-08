@@ -1,12 +1,14 @@
-import 'package:company/UI/Company/company_list.dart';
+import 'package:company/api/Response/ListOrganization/Organizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class CompanyProfileWidget extends StatefulWidget {
-  CompanyProfileWidget({Key? key}) : super(key: key);
+  CompanyProfileWidget({Key? key, required this.organizationResponse}) : super(key: key);
+  final Organizations organizationResponse;
   @override
   _CompanyProfileWidgetState createState() => _CompanyProfileWidgetState();
+
 }
 
 class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
@@ -18,9 +20,12 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
         thickness: 3,
         indent: 16,
         endIndent: 16,
-        color: Colors.red,
+       // color: Colors.red,
     );
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+      ),
       backgroundColor: Color(0xFFF5F5F5),
         body: ListView(
           children: <Widget>[
@@ -185,7 +190,8 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
             companyInfo(context),
             const Divider(),
             companyLocation(context),
-            companyYear(context)
+            companyYear(context),
+
           ],
         ),
     );
@@ -242,7 +248,7 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            'Company Name',
+            "${widget.organizationResponse.attributes!.name}",
             style: TextStyle(
               fontFamily: 'Lexend Deca',
               color: Colors.blue,
@@ -459,7 +465,7 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          'Battery is in need of charging.',
+                          '${widget.organizationResponse.attributes!.location}',
                           style:TextStyle(
                             fontFamily: 'Lexend Deca',
                             color: Colors.white,
@@ -539,7 +545,7 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          '2018',
+                          '${widget.organizationResponse.attributes!.year}',
                           style:TextStyle(
                             fontFamily: 'Lexend Deca',
                             color: Colors.white,

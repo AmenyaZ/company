@@ -42,7 +42,6 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
 
       key: scaffoldKey,
@@ -71,7 +70,7 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
                                     onTap: (){
                                       Navigator.push(context,
                                         MaterialPageRoute(builder: (context)=>  CompanyProfileWidget(
-
+                                          organizationResponse: snapshot.data!.organizations![index]
                                         )),
                                       );
                                     },
