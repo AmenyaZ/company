@@ -19,40 +19,42 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return  SingleChildScrollView(
+      child: Scaffold(
 
-      body: Column(
+        body: Column(
 
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          SizedBox(height: 80,),
-          logoIcon(context),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 14),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Add Company',
-                  style: TextStyle(
-                    fontFamily: 'Lexend Deca',
-                    color: Color(0xFF14181B),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            SizedBox(height: 80,),
+            logoIcon(context),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 14),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Add Company',
+                    style: TextStyle(
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF14181B),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(
-            height: 100,
-          ),
-          companyName(context),
-          companyLocaton(context),
-          pickYear(context),
-          saveButton(context),
-        ],
+            Container(
+              height: 100,
+            ),
+            companyName(context),
+            companyLocaton(context),
+            pickYear(context),
+            saveButton(context),
+          ],
+        ),
       ),
     );
   }

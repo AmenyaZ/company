@@ -1,5 +1,6 @@
 import 'package:company/UI/User/edit_profile.dart';
 import 'package:company/home_page.dart';
+import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class ProfileDetailWidget extends StatefulWidget {
@@ -8,8 +9,30 @@ class ProfileDetailWidget extends StatefulWidget {
   @override
   _ProfileDetailWidgetState createState() => _ProfileDetailWidgetState();
 }
+var email = "";
+var username = "";
+var role = "";
+
 
 class _ProfileDetailWidgetState extends State<ProfileDetailWidget> {
+  @override
+  void initState()  {
+    super.initState();
+    // EasyLoading.show();
+    SharedPreferenceHelper().getUserInformation().then((value){
+      setState(() {
+        email = value.email!;
+        username = value.userName!;
+
+        // accessToken = value.accessToken!;
+       // print("Print token: ${value.accessToken}");
+       // print("Email: ${value.email}");
+        print(value.toJson());
+      });
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +49,8 @@ class _ProfileDetailWidgetState extends State<ProfileDetailWidget> {
               ProfileHeader(
                 avatar: NetworkImage('https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
                 coverImage: AssetImage('assets/images/card2.jpg'),
-                title: "Ramesh Mana",
-                subtitle: "Manager",
+                title: username,
+                //subtitle: "Manager",
                 actions: <Widget>[
                   MaterialButton(
                     color: Colors.white,
@@ -81,6 +104,7 @@ class UserInfo extends StatelessWidget {
                       ...ListTile.divideTiles(
                         color: Colors.grey,
                         tiles: [
+                          /*
                           ListTile(
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 4),
@@ -88,11 +112,14 @@ class UserInfo extends StatelessWidget {
                             title: Text("Location"),
                             subtitle: Text("Kathmandu"),
                           ),
+
+                           */
                           ListTile(
                             leading: Icon(Icons.email),
                             title: Text("Email"),
-                            subtitle: Text("sudeptech@gmail.com"),
+                            subtitle: Text(email),
                           ),
+                          /*
                           ListTile(
                             leading: Icon(Icons.phone),
                             title: Text("Phone"),
@@ -104,6 +131,7 @@ class UserInfo extends StatelessWidget {
                             subtitle: Text(
                                 "This is a about me link and you can khow about me in this section."),
                           ),
+                          */
                         ],
                       ),
                     ],
