@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:company/api/Requests/LoginRequest.dart';
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/Response/ListRolesResponse.dart';
+import 'package:company/api/Response/ListUsersResponse.dart';
 import 'package:company/api/Response/LogInResponse.dart';
 import 'package:company/api/Response/RegistrationResponse.dart';
 import 'package:company/local/shared_preferences.dart';
@@ -77,5 +78,22 @@ class NetworkService {
       throw Exception("Error: ${response.body}");
     }
   }
+  Future<ListUsersResponse> UserList(String token) async {
+    var uri = Uri.parse(url + "/role");
+    Map<String, String> requestHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      "Authorization":"Bearer $token"
+    };
+    var response = await http.get(uri,
+        headers: requestHeaders );
+    print('Response ${response.statusCode}');
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return ListUsersResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Error: ${response.body}");
+    }
+  }
+
 
 }

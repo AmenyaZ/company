@@ -15,7 +15,7 @@ class Relationships {
     if (json['roles'] != null) {
       _roles = [];
       json['roles'].forEach((v) {
-        _roles?.add(Dynamic.fromJson(v));
+        _roles?.add(v.fromJson(v));
       });
     }
     if (json['organizations'] != null) {

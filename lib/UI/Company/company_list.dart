@@ -38,8 +38,6 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
       });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

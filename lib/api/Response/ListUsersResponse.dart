@@ -1,17 +1,17 @@
 import 'ListUsers/Users.dart';
 import 'dart:convert';
 
-ListUsers listUsersFromJson(String str) => ListUsers.fromJson(json.decode(str));
-String listUsersToJson(ListUsers data) => json.encode(data.toJson());
-class ListUsers {
-  ListUsers({
+ListUsersResponse listUsersResponseFromJson(String str) => ListUsersResponse.fromJson(json.decode(str));
+String listUsersResponseToJson(ListUsersResponse data) => json.encode(data.toJson());
+class ListUsersResponse {
+  ListUsersResponse({
       List<Users>? users, 
       String? message,}){
     _users = users;
     _message = message;
 }
 
-  ListUsers.fromJson(dynamic json) {
+  ListUsersResponse.fromJson(dynamic json) {
     if (json['users'] != null) {
       _users = [];
       json['users'].forEach((v) {
