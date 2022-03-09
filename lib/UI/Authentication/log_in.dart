@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/painting.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../api/Response/LogInResponse.dart';
 import '../../local/local_user.dart';
 
@@ -297,13 +296,12 @@ class _LogInState extends State<LogIn> {
                                 final snack = SnackBar(
 
                                   padding: EdgeInsetsDirectional.only(start: 30, top: 0, end: 30, bottom: 20),
-                                  content: Text('Login Succesful'),
-                                  duration: Duration(seconds: 5),
-                                  action: SnackBarAction(
-                                    label: 'Success',
-                                    textColor: Colors.white,
-                                    onPressed: () {},
+                                  content: Text(
+                                      'Login Succesful',
+                                    textAlign: TextAlign.center,
                                   ),
+
+                                  duration: Duration(seconds: 5),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
@@ -315,7 +313,10 @@ class _LogInState extends State<LogIn> {
                                 //  Scaffold.of(context).showSnackBar(
                                 final snack = SnackBar(
                                   padding: EdgeInsetsDirectional.only(start: 20, top: 0, end: 20, bottom: 30),
-                                  content: Text('$error'),
+                                  content: Text(
+                                      '$error',
+                                    textAlign: TextAlign.center,
+                                  ),
                                   duration: Duration(seconds: 5),
                                   action: SnackBarAction(
                                     label: '',
