@@ -5,6 +5,7 @@ import 'package:company/UI/Authentication/log_in.dart';
 import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/Company/company_list.dart';
 import 'package:company/UI/User/profile_detail.dart';
+import 'package:company/UI/User/users_list.dart';
 import 'package:company/UI/roles/roles_list.dart';
 import 'package:company/UI/settings/settings.dart';
 import 'package:company/api/services/api_client.dart';
@@ -1435,9 +1436,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 color: Colors.grey,
               ),
               ListTile(
-                title: Text("Tasks"),
+                title: Text("Users"),
                 leading: IconButton(
-                  icon: Icon(Icons.shopping_cart),
+                  icon: Icon(Icons.person_outline_rounded),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -1446,7 +1447,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => RolesList()));
+                      builder: (BuildContext context) => UserListWidget()));
                 },
               ),
               Divider(

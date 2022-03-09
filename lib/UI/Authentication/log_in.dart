@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/painting.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../api/Response/LogInResponse.dart';
 import '../../local/local_user.dart';
 
@@ -301,6 +300,7 @@ class _LogInState extends State<LogIn> {
                                       'Login Succesful',
                                     textAlign: TextAlign.center,
                                   ),
+
                                   duration: Duration(seconds: 5),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
