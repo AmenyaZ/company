@@ -79,7 +79,7 @@ class NetworkService {
     }
   }
   Future<ListUsersResponse> UserList(String token) async {
-    var uri = Uri.parse(url + "/role");
+    var uri = Uri.parse(url + "/user");
     Map<String, String> requestHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

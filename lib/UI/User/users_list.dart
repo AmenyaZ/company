@@ -1,4 +1,6 @@
 
+import 'package:company/UI/User/user_profile.dart';
+import 'package:company/api/Response/ListUsers/Users.dart';
 import 'package:company/api/Response/ListUsersResponse.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
@@ -14,7 +16,8 @@ class UserListWidget extends StatefulWidget {
 class _UserListWidgetState extends State<UserListWidget> {
   late TextEditingController textController;
   var service = NetworkService();
-  Future<ListUsersResponse>? organizationList;
+  Future<ListUsersResponse>? userList;
+
   bool isLoading = false;
   @override
   void initState() {
@@ -22,7 +25,7 @@ class _UserListWidgetState extends State<UserListWidget> {
     textController = TextEditingController();
     SharedPreferenceHelper().getUserInformation().then((value){
       setState(() {
-        organizationList = service.UserList(value.accessToken!);
+        userList = service.UserList(value.accessToken!);
       });
     });
   }
@@ -36,7 +39,39 @@ class _UserListWidgetState extends State<UserListWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               getSearch(context),
-              getUserList(context)
+              Expanded(
+                  child: FutureBuilder<ListUsersResponse>(
+                      future: userList,
+                      builder: (context, snapshot){
+                        print(snapshot.data);
+                        if(snapshot.hasData){
+                          if(snapshot.data!.users!.isEmpty){
+                            return const Center(
+                              child: Text("No Users"),
+                            );
+                          } else if(snapshot.data!.users!.isNotEmpty){
+                            return ListView.builder(
+                                itemCount: snapshot.data!.users!.length,
+                                itemBuilder: (context, index) {
+                                  return  getUserList(context,snapshot.data!.users![index]);
+                                  //return Text("index $index");
+                                }
+                            );
+                          }
+                        }
+                        else if(snapshot.hasError){
+                          return Center(
+                            child: Text(snapshot.error.toString()),
+                          );
+                        }
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                  )
+              )
+
 
             ],
           ),
@@ -144,7 +179,7 @@ class _UserListWidgetState extends State<UserListWidget> {
       ),
     );
   }
-  Widget getUserList(BuildContext context){
+  Widget getUserList(BuildContext context, Users users){
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
       child: Container(
@@ -192,7 +227,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                     CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Jane Doe',
+                        users.attributes!.name!,
                         style: TextStyle(
                           fontFamily: 'Lexend Deca',
                           color: Color(0xFF1E2429),
