@@ -55,8 +55,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
     return ProfileHeader(
       avatar: NetworkImage('https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
       coverImage: AssetImage('assets/images/card2.jpg'),
-      title: "${}",
-      subtitle: "bb",
+      title: "${widget.usersResponse.attributes!.name}",
+      subtitle: "${widget.usersResponse.attributes!.email}",
       actions: <Widget>[
         MaterialButton(
           color: Colors.white,
