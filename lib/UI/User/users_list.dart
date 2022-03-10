@@ -34,7 +34,8 @@ class _UserListWidgetState extends State<UserListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: const Color(0xFFF1F4F8),
+     // backgroundColor: const Color(0xFFF1F4F8),
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Column(
@@ -53,7 +54,16 @@ class _UserListWidgetState extends State<UserListWidget> {
                         return ListView.builder(
                           itemCount: snapshot.data!.users!.length,
                           itemBuilder: (context, index){
-                            return getUserList(context, snapshot.data!.users![index]);
+                            return InkWell(
+                              onTap: (){
+                                Navigator.push(context,
+                                MaterialPageRoute(builder: (context)=> UserProfileWidget(
+                                    usersResponse: snapshot.data!.users![index]
+                                ))
+                                );
+                              },
+                                child: getUserList(context, snapshot.data!.users![index])
+                            );
                           },
                         );
                       }
@@ -178,21 +188,19 @@ class _UserListWidgetState extends State<UserListWidget> {
   }
   Widget getUserList(BuildContext context, Users users){
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+      padding: EdgeInsetsDirectional.fromSTEB(5, 8, 5, 0),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.96,
-        height: 80,
+        height: 70,
         decoration: BoxDecoration(
-          color: Colors.blueAccent,
-          borderRadius: BorderRadius.circular(8)
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
         ),
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.91,
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
+        child: Card(
+          color: const Color(0xFFF1F4F8),
+          shadowColor: Colors.blue,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8)),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -204,7 +212,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                   height: 60,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
-                    color: Color(0xFFF1F4F8),
+                    color: Colors.white,
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class CompanyProfileWidget extends StatefulWidget {
-  CompanyProfileWidget({Key? key, required this.organizationResponse}) : super(key: key);
+  const CompanyProfileWidget({Key? key, required this.organizationResponse}) : super(key: key);
   final Organizations organizationResponse;
   @override
   _CompanyProfileWidgetState createState() => _CompanyProfileWidgetState();

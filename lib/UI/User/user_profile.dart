@@ -26,7 +26,6 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         // accessToken = value.accessToken!;
         // print("Print token: ${value.accessToken}");
         // print("Email: ${value.email}");
-        print(value.toJson());
       });
     });
 
