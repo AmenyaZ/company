@@ -15,6 +15,7 @@ class UserListWidget extends StatefulWidget {
 
 class _UserListWidgetState extends State<UserListWidget> {
   late TextEditingController textController;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   var service = NetworkService();
   Future<ListUsersResponse>? userList;
 
@@ -32,6 +33,7 @@ class _UserListWidgetState extends State<UserListWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: const Color(0xFFF1F4F8),
       body: Stack(
         children: [
@@ -40,38 +42,33 @@ class _UserListWidgetState extends State<UserListWidget> {
             children: [
               getSearch(context),
               Expanded(
-                  child: FutureBuilder<ListUsersResponse>(
-                      future: userList,
-                      builder: (context, snapshot){
-                        print(snapshot.data);
-                        if(snapshot.hasData){
-                          if(snapshot.data!.users!.isEmpty){
-                            return const Center(
-                              child: Text("No Users"),
-                            );
-                          } else if(snapshot.data!.users!.isNotEmpty){
-                            return ListView.builder(
-                                itemCount: snapshot.data!.users!.length,
-                                itemBuilder: (context, index) {
-                                  return  getUserList(context,snapshot.data!.users![index]);
-                                  //return Text("index $index");
-                                }
-                            );
-                          }
-                        }
-                        else if(snapshot.hasError){
-                          return Center(
-                            child: Text(snapshot.error.toString()),
-                          );
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                child: FutureBuilder<ListUsersResponse>(
+                  future: userList,
+                  builder: (context, snapshot){
+                    if(snapshot.hasData){
+                      if (snapshot.data!.users!.isEmpty){
+                        return Center(child: Text("No Users "));
+                      }
+                      else if(snapshot.data!.users!.isNotEmpty){
+                        return ListView.builder(
+                          itemCount: snapshot.data!.users!.length,
+                          itemBuilder: (context, index){
+                            return getUserList(context, snapshot.data!.users![index]);
+                          },
                         );
                       }
-
-                  )
+                    }
+                    else if(snapshot.hasError){
+                      return Center(
+                        child: Text(snapshot.error.toString()),
+                      );
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                ),
               )
-
 
             ],
           ),
@@ -273,4 +270,5 @@ class _UserListWidgetState extends State<UserListWidget> {
       ),
     );
   }
+
 }
