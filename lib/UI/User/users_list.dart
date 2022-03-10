@@ -1,4 +1,7 @@
 
+import 'package:company/UI/Authentication/register_employee.dart';
+import 'package:company/UI/User/user_profile.dart';
+import 'package:company/api/Response/ListUsers/Users.dart';
 import 'package:company/api/Response/ListUsersResponse.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
@@ -13,8 +16,10 @@ class UserListWidget extends StatefulWidget {
 
 class _UserListWidgetState extends State<UserListWidget> {
   late TextEditingController textController;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   var service = NetworkService();
-  Future<ListUsersResponse>? organizationList;
+  Future<ListUsersResponse>? userList;
+
   bool isLoading = false;
   @override
   void initState() {
@@ -22,27 +27,76 @@ class _UserListWidgetState extends State<UserListWidget> {
     textController = TextEditingController();
     SharedPreferenceHelper().getUserInformation().then((value){
       setState(() {
-        organizationList = service.UserList(value.accessToken!);
+        userList = service.UserList(value.accessToken!);
       });
     });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF1F4F8),
+      key: scaffoldKey,
+      // backgroundColor: const Color(0xFFF1F4F8),
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Column(
             mainAxisSize: MainAxisSize.max,
             children: [
               getSearch(context),
-              getUserList(context)
+              Expanded(
+                child: FutureBuilder<ListUsersResponse>(
+                    future: userList,
+                    builder: (context, snapshot){
+                      if(snapshot.hasData){
+                        if (snapshot.data!.users!.isEmpty){
+                          return Center(child: Text("No Users "));
+                        }
+                        else if(snapshot.data!.users!.isNotEmpty){
+                          return ListView.builder(
+                            itemBuilder: (context, index){
+                             // print("list${snapshot.data!.users!.toString()}");
+                              return InkWell(
+                                  onTap: (){
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context)=> UserProfileWidget(
+                                            usersResponse: snapshot.data!.users![index]
+                                        ))
+                                    );
+                                  },
+                                  child: getUserList(context, snapshot.data!.users![index]),
+
+                              );
+                            },
+                          );
+                        }
+                      }
+                      else if(snapshot.hasError){
+                        return Center(
+                          child: Text(snapshot.error.toString()),
+                        );
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                ),
+              )
 
             ],
           ),
         ],
 
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) =>const RegisterEmployee())
+          );
+        },
+        backgroundColor: Colors.blueAccent,
+        child: const Icon(Icons.add_outlined),
+      ),
+
     );
   }
   Widget getSearch(BuildContext context){
@@ -93,7 +147,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                             controller: textController,
                             obscureText: false,
                             decoration: const InputDecoration(
-                              labelText: 'Search Organization here...',
+                              labelText: 'Search User here...',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Color(0x00000000),
@@ -144,41 +198,33 @@ class _UserListWidgetState extends State<UserListWidget> {
       ),
     );
   }
-  Widget getUserList(BuildContext context){
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.96,
-        height: 80,
-        decoration: BoxDecoration(
-          color: Colors.blueAccent,
-          borderRadius: BorderRadius.circular(8)
-        ),
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.91,
-          height: 70,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
+  Widget getUserList(BuildContext context, Users users){
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(5, 8, 5, 0),
+        child: Card(
+          color: const Color(0xFFF1F4F8),
+          shadowColor: Colors.blue,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8)),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(
-                    8, 0, 0, 0),
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF1F4F8),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    'assets/images/profile.png',
-                  ),
-                )
+                  padding: EdgeInsetsDirectional.fromSTEB(
+                      8, 0, 0, 0),
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'assets/images/profile.png',
+                    ),
+                  )
               ),
               Expanded(
                 child: Padding(
@@ -192,7 +238,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                     CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Jane Doe',
+                        users.attributes!.name!,
                         style: TextStyle(
                           fontFamily: 'Lexend Deca',
                           color: Color(0xFF1E2429),

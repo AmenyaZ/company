@@ -1,14 +1,14 @@
-import 'Attributes.dart';
 import 'Relationships.dart';
 import 'dart:convert';
+import 'UserAtributes.dart';
 
 Users usersFromJson(String str) => Users.fromJson(json.decode(str));
 String usersToJson(Users data) => json.encode(data.toJson());
 class Users {
   Users({
       String? type, 
-      int? id, 
-      Attributes? attributes, 
+      int? id,
+    UserAtributes? attributes,
       Relationships? relationships,}){
     _type = type;
     _id = id;
@@ -19,17 +19,17 @@ class Users {
   Users.fromJson(dynamic json) {
     _type = json['type'];
     _id = json['id'];
-    _attributes = json['attributes'] != null ? Attributes.fromJson(json['attributes']) : null;
+    _attributes = json['attributes'] != null ? UserAtributes.fromJson(json['attributes']) : null;
     _relationships = json['relationships'] != null ? Relationships.fromJson(json['relationships']) : null;
   }
   String? _type;
   int? _id;
-  Attributes? _attributes;
+  UserAtributes? _attributes;
   Relationships? _relationships;
 
   String? get type => _type;
   int? get id => _id;
-  Attributes? get attributes => _attributes;
+  UserAtributes ? get attributes => _attributes;
   Relationships? get relationships => _relationships;
 
   Map<String, dynamic> toJson() {

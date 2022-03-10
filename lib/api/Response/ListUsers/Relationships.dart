@@ -1,3 +1,6 @@
+import 'package:company/api/Response/ListRoles/Role.dart';
+import 'package:company/api/Response/ListUsers/Users.dart';
+
 import 'Organizations.dart';
 import 'dart:convert';
 
@@ -15,7 +18,7 @@ class Relationships {
     if (json['roles'] != null) {
       _roles = [];
       json['roles'].forEach((v) {
-        _roles?.add(v.fromJson(v));
+        _roles?.add(Users.fromJson(v));
       });
     }
     if (json['organizations'] != null) {

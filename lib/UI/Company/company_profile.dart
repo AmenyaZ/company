@@ -4,32 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class CompanyProfileWidget extends StatefulWidget {
-  CompanyProfileWidget({Key? key, required this.organizationResponse}) : super(key: key);
+  const CompanyProfileWidget({Key? key, required this.organizationResponse}) : super(key: key);
   final Organizations organizationResponse;
   @override
   _CompanyProfileWidgetState createState() => _CompanyProfileWidgetState();
 
 }
-
 class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-     const Divider(
-        height: 5,
-        thickness: 3,
-        indent: 16,
-        endIndent: 16,
-       // color: Colors.red,
+    const Divider(
+      height: 5,
+      thickness: 3,
+      indent: 16,
+      endIndent: 16,
+      // color: Colors.red,
     );
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
       ),
       backgroundColor: Color(0xFFF5F5F5),
-        body: ListView(
-          children: <Widget>[
-            /*
+      body: ListView(
+        children: <Widget>[
+          /*
             Container(
               height: 250,
               decoration: BoxDecoration(
@@ -185,20 +184,20 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
             )
 
              */
-            companyLogo(context),
-            companyName(context),
-            companyInfo(context),
-            const Divider(),
-            companyLocation(context),
-            companyYear(context),
+          companyLogo(context),
+          companyName(context),
+          companyInfo(context),
+          const Divider(),
+          companyLocation(context),
+          companyYear(context),
 
-          ],
-        ),
+        ],
+      ),
     );
   }
   Widget companyLogo (BuildContext context){
     return Padding(
-      
+
       padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -224,7 +223,6 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
                     shape: BoxShape.rectangle,
                   ),
                   child: Image.asset(
-
                     'assets/images/logo.png',
                     fit: BoxFit.fitWidth,
                   ),
@@ -242,7 +240,7 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
       child: Center(
         child: Container(
           padding: EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
-         // color:  Colors.white,
+          // color:  Colors.white,
           decoration: BoxDecoration(
             color:  Colors.white,
             borderRadius: BorderRadius.circular(8),
@@ -283,15 +281,15 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
 
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       color: Colors.blueAccent,                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                       child: const Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                         child: Icon(
-                            Icons.chat_bubble,
-                            color: Colors.white,
-                            size: 24,
-                          ),
+                          Icons.chat_bubble,
+                          color: Colors.white,
+                          size: 24,
+                        ),
                       ),
 
                     ),
@@ -366,7 +364,7 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
                     child: Card(
 
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      color: Colors.blueAccent,   
+                      color: Colors.blueAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -416,13 +414,13 @@ class _CompanyProfileWidgetState extends State<CompanyProfileWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(Icons.location_on_outlined,)
+                    width: 50,
+                    height: 50,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.location_on_outlined,)
                 ),
               ],
             ),

@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import '../Response/ListOrganizationResponse.dart';
 
 class NetworkService {
-  final String url = 'https://6821-197-232-1-50.ngrok.io/api';
+  final String url = 'https://c4f0-197-232-1-50.ngrok.io/api';
   final sp = SharedPreferenceHelper();
 
   Future<LogInResponse> UserLogIn(LoginRequest loginRequest) async {
@@ -79,7 +79,7 @@ class NetworkService {
     }
   }
   Future<ListUsersResponse> UserList(String token) async {
-    var uri = Uri.parse(url + "/role");
+    var uri = Uri.parse(url + "/user");
     Map<String, String> requestHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
