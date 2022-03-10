@@ -55,8 +55,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
     return ProfileHeader(
       avatar: NetworkImage('https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
       coverImage: AssetImage('assets/images/card2.jpg'),
-      title: "${}",
-      subtitle: "bb",
+      title: "${widget.usersResponse.attributes!.name}",
+      subtitle: "${widget.usersResponse.attributes!.email}",
       actions: <Widget>[
         MaterialButton(
           color: Colors.white,
@@ -96,40 +96,85 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
               padding: EdgeInsets.all(15),
               child: Column(
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      ...ListTile.divideTiles(
-                        color: Colors.grey,
-                        tiles: [
-                          /*
-                          ListTile(
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 4),
-                            leading: Icon(Icons.my_location),
-                            title: Text("Location"),
-                            subtitle: Text("Kathmandu"),
-                          ),
+                  Row(
+                    children: [
+                      Card(
+                        child: Column(
+                          children: <Widget>[
+                            ...ListTile.divideTiles(
+                              color: Colors.grey,
+                              tiles: [
+                                /*
+                                ListTile(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 4),
+                                  leading: Icon(Icons.my_location),
+                                  title: Text("Location"),
+                                  subtitle: Text("Kathmandu"),
+                                ),
 
-                           */
-                          ListTile(
-                            leading: Icon(Icons.email),
-                            title: Text("Email"),
-                            subtitle: Text(email),
-                          ),
-                          /*
-                          ListTile(
-                            leading: Icon(Icons.phone),
-                            title: Text("Phone"),
-                            subtitle: Text("99--99876-56"),
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text("About Me"),
-                            subtitle: Text(
-                                "This is a about me link and you can khow about me in this section."),
-                          ),
-                          */
-                        ],
+                                 */
+                                ListTile(
+                                  leading: Icon(Icons.email),
+                                  title: Text("Email"),
+                                  subtitle: Text(email),
+                                ),
+                                /*
+                                ListTile(
+                                  leading: Icon(Icons.phone),
+                                  title: Text("Phone"),
+                                  subtitle: Text("99--99876-56"),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.person),
+                                  title: Text("About Me"),
+                                  subtitle: Text(
+                                      "This is a about me link and you can khow about me in this section."),
+                                ),
+                                */
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Card(
+                        child: Column(
+                          children: <Widget>[
+                            ...ListTile.divideTiles(
+                              color: Colors.grey,
+                              tiles: [
+                                /*
+                                ListTile(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 4),
+                                  leading: Icon(Icons.my_location),
+                                  title: Text("Location"),
+                                  subtitle: Text("Kathmandu"),
+                                ),
+
+                                 */
+                                ListTile(
+                                  leading: Icon(Icons.email),
+                                  title: Text("Email"),
+                                  subtitle: Text(email),
+                                ),
+                                /*
+                                ListTile(
+                                  leading: Icon(Icons.phone),
+                                  title: Text("Phone"),
+                                  subtitle: Text("99--99876-56"),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.person),
+                                  title: Text("About Me"),
+                                  subtitle: Text(
+                                      "This is a about me link and you can khow about me in this section."),
+                                ),
+                                */
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   )
@@ -141,4 +186,5 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
       ),
     );
   }
+
 }
