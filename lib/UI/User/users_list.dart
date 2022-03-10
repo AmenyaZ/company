@@ -1,4 +1,5 @@
 
+import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/User/user_profile.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
 import 'package:company/api/Response/ListUsersResponse.dart';
@@ -34,7 +35,7 @@ class _UserListWidgetState extends State<UserListWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-     // backgroundColor: const Color(0xFFF1F4F8),
+      // backgroundColor: const Color(0xFFF1F4F8),
       backgroundColor: Colors.white,
       body: Stack(
         children: [
@@ -44,39 +45,40 @@ class _UserListWidgetState extends State<UserListWidget> {
               getSearch(context),
               Expanded(
                 child: FutureBuilder<ListUsersResponse>(
-                  future: userList,
-                  builder: (context, snapshot){
-                    if(snapshot.hasData){
-                      if (snapshot.data!.users!.isEmpty){
-                        return Center(child: Text("No Users "));
+                    future: userList,
+                    builder: (context, snapshot){
+                      if(snapshot.hasData){
+                        if (snapshot.data!.users!.isEmpty){
+                          return Center(child: Text("No Users "));
+                        }
+                        else if(snapshot.data!.users!.isNotEmpty){
+                          return ListView.builder(
+                            itemBuilder: (context, index){
+                             // print("list${snapshot.data!.users!.toString()}");
+                              return InkWell(
+                                  onTap: (){
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context)=> UserProfileWidget(
+                                            usersResponse: snapshot.data!.users![index]
+                                        ))
+                                    );
+                                  },
+                                  child: getUserList(context, snapshot.data!.users![index]),
+
+                              );
+                            },
+                          );
+                        }
                       }
-                      else if(snapshot.data!.users!.isNotEmpty){
-                        return ListView.builder(
-                          itemCount: snapshot.data!.users!.length,
-                          itemBuilder: (context, index){
-                            return InkWell(
-                              onTap: (){
-                                Navigator.push(context,
-                                MaterialPageRoute(builder: (context)=> UserProfileWidget(
-                                    usersResponse: snapshot.data!.users![index]
-                                ))
-                                );
-                              },
-                                child: getUserList(context, snapshot.data!.users![index])
-                            );
-                          },
+                      else if(snapshot.hasError){
+                        return Center(
+                          child: Text(snapshot.error.toString()),
                         );
                       }
-                    }
-                    else if(snapshot.hasError){
-                      return Center(
-                        child: Text(snapshot.error.toString()),
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
                     }
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
                 ),
               )
 
@@ -85,6 +87,16 @@ class _UserListWidgetState extends State<UserListWidget> {
         ],
 
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) =>const RegisterEmployee())
+          );
+        },
+        backgroundColor: Colors.blueAccent,
+        child: const Icon(Icons.add_outlined),
+      ),
+
     );
   }
   Widget getSearch(BuildContext context){
@@ -135,7 +147,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                             controller: textController,
                             obscureText: false,
                             decoration: const InputDecoration(
-                              labelText: 'Search Organization here...',
+                              labelText: 'Search User here...',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Color(0x00000000),
@@ -187,15 +199,9 @@ class _UserListWidgetState extends State<UserListWidget> {
     );
   }
   Widget getUserList(BuildContext context, Users users){
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(5, 8, 5, 0),
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.96,
-        height: 70,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(5, 8, 5, 0),
         child: Card(
           color: const Color(0xFFF1F4F8),
           shadowColor: Colors.blue,
@@ -205,20 +211,20 @@ class _UserListWidgetState extends State<UserListWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(
-                    8, 0, 0, 0),
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    'assets/images/profile.png',
-                  ),
-                )
+                  padding: EdgeInsetsDirectional.fromSTEB(
+                      8, 0, 0, 0),
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset(
+                      'assets/images/profile.png',
+                    ),
+                  )
               ),
               Expanded(
                 child: Padding(
@@ -278,5 +284,4 @@ class _UserListWidgetState extends State<UserListWidget> {
       ),
     );
   }
-
 }

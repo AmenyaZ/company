@@ -1,3 +1,4 @@
+import 'package:company/UI/User/profile_detail.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -6,15 +7,16 @@ import 'edit_profile.dart';
 
 class UserProfileWidget extends StatefulWidget {
   const UserProfileWidget({Key? key, required this.usersResponse}) : super(key: key);
-final Users usersResponse;
+  final Users usersResponse;
   @override
   _UserProfileWidgetState createState() => _UserProfileWidgetState();
 }
-var email = "";
-var username = "";
-var role = "";
+
 
 class _UserProfileWidgetState extends State<UserProfileWidget> {
+  var email = "";
+  var username = "";
+  var role = "";
   @override
   void initState()  {
     super.initState();
@@ -40,40 +42,37 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              ProfileHeader(
-                avatar: NetworkImage('https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
-                coverImage: AssetImage('assets/images/card2.jpg'),
-                title: username,
-                //subtitle: "Manager",
-                actions: <Widget>[
-                  MaterialButton(
-                    color: Colors.white,
-                    shape: CircleBorder(),
-                    elevation: 0,
-                    child: Icon(Icons.edit),
-                    onPressed: () {
-                      Navigator.push(context,
-                        MaterialPageRoute(builder: (context)=>const EditProfileWidget()),
-                      );
-                    },
-                  )
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              UserInfo(),
+        body: Column(
+          children: <Widget>[
+            profileHeader(context),
+            const SizedBox(height: 10.0),
+            usersContent(context),
 
-            ],
-          ),
+          ],
         ));
   }
-}
-
-class UserInfo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget profileHeader(BuildContext context){
+    return ProfileHeader(
+      avatar: NetworkImage('https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
+      coverImage: AssetImage('assets/images/card2.jpg'),
+      title: "${}",
+      subtitle: "bb",
+      actions: <Widget>[
+        MaterialButton(
+          color: Colors.white,
+          shape: CircleBorder(),
+          elevation: 0,
+          child: Icon(Icons.edit),
+          onPressed: () {
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context)=>const EditProfileWidget()),
+            );
+          },
+        )
+      ],
+    );
+  }
+  Widget usersContent(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
       child: Column(
@@ -143,114 +142,3 @@ class UserInfo extends StatelessWidget {
     );
   }
 }
-
-class ProfileHeader extends StatelessWidget {
-  final ImageProvider<dynamic> coverImage;
-  final ImageProvider<dynamic> avatar;
-  final String title;
-  final String? subtitle;
-  final List<Widget>? actions;
-
-  const ProfileHeader(
-      {Key? key,
-        required this.coverImage,
-        required this.avatar,
-        required this.title,
-        this.subtitle,
-        this.actions})
-      : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Ink(
-          height: 200,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: coverImage as ImageProvider<Object>, fit: BoxFit.cover),
-          ),
-        ),
-        Ink(
-          height: 200,
-          decoration: BoxDecoration(
-            color: Colors.black38,
-          ),
-        ),
-        if (actions != null)
-          Container(
-            width: double.infinity,
-            height: 200,
-            padding: const EdgeInsets.only(bottom: 0.0, right: 0.0),
-            alignment: Alignment.bottomRight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: actions!,
-            ),
-          ),
-        Container(
-          width: double.infinity,
-          margin: const EdgeInsets.only(top: 160),
-          child: Column(
-            children: <Widget>[
-              Avatar(
-                image: avatar,
-                radius: 40,
-                backgroundColor: Colors.white,
-                borderColor: Colors.grey.shade300,
-                borderWidth: 4.0,
-              ),
-              Text(
-                title,
-                // style: Theme.of(context).textTheme.title,
-              ),
-              if (subtitle != null) ...[
-                const SizedBox(height: 5.0),
-                Text(
-                  subtitle!,
-                  // style: Theme.of(context).textTheme.subtitle,
-                ),
-              ]
-            ],
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class Avatar extends StatelessWidget {
-  final ImageProvider<dynamic> image;
-  final Color borderColor;
-  final Color? backgroundColor;
-  final double radius;
-  final double borderWidth;
-
-  const Avatar(
-      {Key? key,
-        required this.image,
-        this.borderColor = Colors.grey,
-        this.backgroundColor,
-        this.radius = 30,
-        this.borderWidth = 5})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: radius + borderWidth,
-      backgroundColor: borderColor,
-      child: CircleAvatar(
-        radius: radius,
-        backgroundColor: backgroundColor != null
-            ? backgroundColor
-            : Theme.of(context).primaryColor,
-        child: CircleAvatar(
-          radius: radius - borderWidth,
-          backgroundImage: image as ImageProvider<Object>?,
-        ),
-      ),
-    );
-  }
-}
-
-
-
