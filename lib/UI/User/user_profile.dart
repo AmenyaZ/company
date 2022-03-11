@@ -1,7 +1,10 @@
 import 'package:company/UI/User/profile_detail.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
+import 'package:company/api/Response/ListUsersResponse.dart';
+import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 import 'edit_profile.dart';
 
@@ -17,6 +20,11 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   var email = "";
   var username = "";
   var role = "";
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  var service = NetworkService();
+  Future<ListUsersResponse>? userList;
+
   @override
   void initState()  {
     super.initState();
@@ -25,6 +33,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
       setState(() {
         email = value.email!;
         username = value.userName!;
+        userList = service.UserList(value.accessToken!);
         // accessToken = value.accessToken!;
         // print("Print token: ${value.accessToken}");
         // print("Email: ${value.email}");
@@ -35,7 +44,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         extendBody: true,
         appBar: AppBar(
@@ -74,7 +83,16 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   }
   Widget usersContent(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+
+      decoration: const BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15),
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15) ,
+          )
+      ),
       child: Column(
         children: <Widget>[
           Container(
@@ -92,99 +110,251 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
           ),
           Card(
             child: Container(
+              color: Colors.grey.shade100,
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.only(top: 10,bottom: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width/2-20,
+                    child: Column(
+                      children: [
+                        Text("Text"),
+                        Card(child: getOrganizationList(context)),
+                        Card(child: getOrganizationList(context)),
+                      ],
+                    ),
+                  ),
+                  //SizedBox(width: MediaQuery.of(context).size.width*0.1,),
+                  Container(
+                    width: MediaQuery.of(context).size.width/2-20,
+                    child: Column(
+                      children: [
+                        Text("Text"),
+                        Card(child: getRoleList(context)),
+                        Card(child: getRoleList(context)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              /*
               child: Column(
                 children: <Widget>[
-                  Row(
-                    children: [
-                      Card(
-                        child: Column(
-                          children: <Widget>[
-                            ...ListTile.divideTiles(
-                              color: Colors.grey,
-                              tiles: [
-                                /*
-                                ListTile(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 4),
-                                  leading: Icon(Icons.my_location),
-                                  title: Text("Location"),
-                                  subtitle: Text("Kathmandu"),
-                                ),
+                  Column(
+                    children: <Widget>[
+                      ...ListTile.divideTiles(
+                        color: Colors.grey,
+                        tiles: [
+                          /*
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 4),
+                            leading: Icon(Icons.my_location),
+                            title: Text("Location"),
+                            subtitle: Text("Kathmandu"),
+                          ),
 
-                                 */
-                                ListTile(
-                                  leading: Icon(Icons.email),
-                                  title: Text("Email"),
-                                  subtitle: Text(email),
-                                ),
-                                /*
-                                ListTile(
-                                  leading: Icon(Icons.phone),
-                                  title: Text("Phone"),
-                                  subtitle: Text("99--99876-56"),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.person),
-                                  title: Text("About Me"),
-                                  subtitle: Text(
-                                      "This is a about me link and you can khow about me in this section."),
-                                ),
-                                */
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Card(
-                        child: Column(
-                          children: <Widget>[
-                            ...ListTile.divideTiles(
-                              color: Colors.grey,
-                              tiles: [
-                                /*
-                                ListTile(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 4),
-                                  leading: Icon(Icons.my_location),
-                                  title: Text("Location"),
-                                  subtitle: Text("Kathmandu"),
-                                ),
-
-                                 */
-                                ListTile(
-                                  leading: Icon(Icons.email),
-                                  title: Text("Email"),
-                                  subtitle: Text(email),
-                                ),
-                                /*
-                                ListTile(
-                                  leading: Icon(Icons.phone),
-                                  title: Text("Phone"),
-                                  subtitle: Text("99--99876-56"),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.person),
-                                  title: Text("About Me"),
-                                  subtitle: Text(
-                                      "This is a about me link and you can khow about me in this section."),
-                                ),
-                                */
-                              ],
-                            ),
-                          ],
-                        ),
+                           */
+                          ListTile(
+                            leading: Icon(Icons.email),
+                            title: Text("Email"),
+                            subtitle: Text(email),
+                          ),
+                          /*
+                          ListTile(
+                            leading: Icon(Icons.phone),
+                            title: Text("Phone"),
+                            subtitle: Text("99--99876-56"),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text("About Me"),
+                            subtitle: Text(
+                                "This is a about me link and you can khow about me in this section."),
+                          ),
+                          */
+                        ],
                       ),
                     ],
                   )
                 ],
               ),
+              */
             ),
           )
         ],
       ),
     );
+  }
+  Widget getOrganizationList(BuildContext context) {
+    //return Text("index $index");
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 40,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                      2, 2, 2, 2),
+                  child: ClipRRect(
+                    borderRadius:
+                    BorderRadius.circular(8),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                    8, 0, 0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment:
+                  MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text("jjj",
+                          //  organization.attributes!.name!,
+                          style: const TextStyle(
+                            fontFamily: 'Lexend Deca',
+                            color: const Color(0xFF15212B),
+                            fontSize: 18,
+                            fontWeight:
+                            FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Expanded(
+                  child: Padding(
+                    padding:
+                    EdgeInsetsDirectional.fromSTEB(
+                        0, 0, 8, 0),
+                    child: Icon(
+                      Icons.chevron_right_outlined,
+                      color: Color(0xFF95A1AC),
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+
+  }
+  Widget getRoleList(BuildContext context) {
+    //return Text("index $index");
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 40,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                      2, 2, 2, 2),
+                  child: ClipRRect(
+                    borderRadius:
+                    BorderRadius.circular(8),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                    8, 0, 0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment:
+                  MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          "${widget.usersResponse.relationships!.roles!.first}",
+                          //  organization.attributes!.name!,
+                          style: const TextStyle(
+                            fontFamily: 'Lexend Deca',
+                            color: const Color(0xFF15212B),
+                            fontSize: 18,
+                            fontWeight:
+                            FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Expanded(
+                  child: Padding(
+                    padding:
+                    EdgeInsetsDirectional.fromSTEB(
+                        0, 0, 8, 0),
+                    child: Icon(
+                      Icons.chevron_right_outlined,
+                      color: Color(0xFF95A1AC),
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+
   }
 
 }
