@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
 
       ),
       home: const SplashScreenWidget(),
+        debugShowCheckedModeBanner:false,
       //home: const SplashScreenWidget(),
         builder: EasyLoading.init()
     );

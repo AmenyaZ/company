@@ -53,6 +53,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                         }
                         else if(snapshot.data!.users!.isNotEmpty){
                           return ListView.builder(
+                            itemCount: snapshot.data!.users!.length,
                             itemBuilder: (context, index){
                              // print("list${snapshot.data!.users!.toString()}");
                               return InkWell(
@@ -104,7 +105,7 @@ class _UserListWidgetState extends State<UserListWidget> {
       width: MediaQuery.of(context).size.width,
       height: 108,
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFFF1F4F8),
       ),
       child: Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
@@ -199,87 +200,85 @@ class _UserListWidgetState extends State<UserListWidget> {
     );
   }
   Widget getUserList(BuildContext context, Users users){
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(5, 8, 5, 0),
-        child: Card(
-          color: const Color(0xFFF1F4F8),
-          shadowColor: Colors.blue,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8)),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(
-                      8, 0, 0, 0),
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      'assets/images/profile.png',
-                    ),
-                  )
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(
-                      20, 0, 0, 0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment:
-                    MainAxisAlignment.center,
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        users.attributes!.name!,
-                        style: TextStyle(
-                          fontFamily: 'Lexend Deca',
-                          color: Color(0xFF1E2429),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              /*
-              Padding(
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(5, 3, 5, 0),
+      child: Card(
+        color: const Color(0xFFF1F4F8),
+        shadowColor: Colors.blue,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8)),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(
-                    12, 0, 12, 0),
+                    8, 0, 0, 0),
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    'assets/images/profile.png',
+                  ),
+                )
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(
+                    20, 0, 0, 0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment:
+                  MainAxisAlignment.center,
+                  crossAxisAlignment:
+                  CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                          0, 4, 0, 0),
-                      child: Text(
-                        'Hello World',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontFamily: 'Lexend Deca',
-                          color: Color(0xFF090F13),
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                        ),
+                    Text(
+                      users.attributes!.name!,
+                      style: TextStyle(
+                        fontFamily: 'Lexend Deca',
+                        color: Color(0xFF1E2429),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
               ),
+            ),
+            /*
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(
+                  12, 0, 12, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(
+                        0, 4, 0, 0),
+                    child: Text(
+                      'Hello World',
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontFamily: 'Lexend Deca',
+                        color: Color(0xFF090F13),
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
-               */
-            ],
-          ),
+             */
+          ],
         ),
       ),
     );
