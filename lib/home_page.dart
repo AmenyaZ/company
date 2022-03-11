@@ -17,8 +17,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({ Key? key}) : super(key: key);
 
@@ -85,7 +83,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
             ElevatedButton(
               onPressed: () {
-                exit(0);
+               // exit(0);
+               Navigator.of(context).pop(true);
               },
               //return true when click on "Yes"
               child:Text('Yes'),
@@ -1335,12 +1334,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               UserAccountsDrawerHeader(
 
                 currentAccountPicture: InkWell(
-                    onTap: ()
-                    {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => ProfileDetailWidget()));
-                    },
+                  onTap: ()
+                  {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => ProfileDetailWidget()));
+                  },
                   child: CircleAvatar(
 
                     backgroundImage: NetworkImage(
@@ -1353,7 +1352,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.remove('accessToken');
                       loadData();
-                      EasyLoading.show(status: 'Loging Out...');
+                      EasyLoading.show(status: 'Logging Out...');
                       Navigator.of(context).pushAndRemoveUntil(
                         // the new route
                         MaterialPageRoute(
@@ -1452,7 +1451,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               ),
               Divider(
                 color: Colors.grey,
-              ),
+              ),/*
               ListTile(
                 title: Text("Register User"),
                 leading: IconButton(
@@ -1471,6 +1470,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               Divider(
                 color: Colors.grey,
               ),
+              */
               ListTile(
                 title: Text("Settings"),
                 leading: IconButton(
