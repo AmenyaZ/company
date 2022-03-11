@@ -2,7 +2,10 @@
 import 'dart:async';
 
 import 'package:company/UI/Authentication/log_in.dart';
+import 'package:company/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:company/local/shared_preferences.dart';
+
 
 
 class SplashScreenWidget extends StatefulWidget {
@@ -21,13 +24,31 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 4),
-            ()=>Navigator.pushReplacement(context,
-            MaterialPageRoute(builder:
-                (context) => const LogIn()
-            )
-        )
-    );
+    SharedPreferenceHelper().getUserInformation().then((value) {
+      setState(() {
+        print("token my token  ${value.accessToken}");
+        if(value.accessToken!.isNotEmpty){
+          Timer(Duration(seconds: 4),
+                  () =>
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder:
+                          (context) => const HomePageWidget()
+                      )
+                  )
+          );
+        }else{
+          Timer(Duration(seconds: 4),
+
+                  () =>
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder:
+                          (context) => const LogIn()
+                      )
+                  )
+          );
+        }
+      });
+    });
   }
   @override
   Widget build(BuildContext context) {
