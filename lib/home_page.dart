@@ -1,6 +1,7 @@
 
 import 'dart:io';
 
+import 'package:company/UI/Assign_Activity/assign_activity.dart';
 import 'package:company/UI/Authentication/log_in.dart';
 import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/Company/company_list.dart';
@@ -308,46 +309,53 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  width: 110,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 5,
-                                        color: Color(0x3A000000),
-                                        offset: Offset(0, 2),
-                                      )
-                                    ],
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        4, 4, 4, 4),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.stacked_line_chart_rounded,
-                                          color: Color(0xFF1E2429),
-                                          size: 40,
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                              0, 8, 0, 0),
-                                          child: Text(
-                                            'Activity',
-                                            style: TextStyle(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Color(0xFF090F13),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
+                                InkWell(
+                                  onTap: (){
+                                    Navigator.push(context,
+                                    MaterialPageRoute(builder: (context)=> AssignActivityWidget())
+                                    );
+                                  },
+                                  child: Container(
+                                    width: 110,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 5,
+                                          color: Color(0x3A000000),
+                                          offset: Offset(0, 2),
+                                        )
+                                      ],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          4, 4, 4, 4),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.stacked_line_chart_rounded,
+                                            color: Color(0xFF1E2429),
+                                            size: 40,
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                0, 8, 0, 0),
+                                            child: Text(
+                                              'Activity',
+                                              style: TextStyle(
+                                                fontFamily: 'Lexend Deca',
+                                                color: Color(0xFF090F13),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
