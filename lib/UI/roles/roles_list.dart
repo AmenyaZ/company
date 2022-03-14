@@ -22,7 +22,7 @@ class _RolesListState extends State<RolesList> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var service = NetworkService();
   final List<GlobalKey<ExpansionTileCardState>> cardKeyList = [];
-
+  int selected = 0;
 
   final GlobalKey<ExpansionTileCardState> cardA = new GlobalKey();
   final GlobalKey<ExpansionTileCardState> cardB = new GlobalKey();
@@ -46,7 +46,7 @@ class _RolesListState extends State<RolesList> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Color(0xFFF5F5F5),
-     // backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: Stack(
         children: [
           Column(
@@ -55,7 +55,6 @@ class _RolesListState extends State<RolesList> {
                 getSearch(context),
                 //SizedBox(height: h*0.3,),
                 Expanded(
-
                     child: FutureBuilder<ListRolesResponse>(
 
                         future: roleList,
@@ -68,8 +67,12 @@ class _RolesListState extends State<RolesList> {
                               );
                             } else if(snapshot.data!.role!.isNotEmpty){
                               return ListView.builder(
+                                  key: Key('builder ${selected.toString()}'),
+                                  //attention
+                                  shrinkWrap: true,
                                   itemCount: snapshot.data!.role!.length,
                                   itemBuilder: (context, index) {
+
                                     cardKeyList.add(GlobalKey(debugLabel: "index :$index"));
                                     return  myRole(context,snapshot.data!.role![index]);
                                     //return Text("index $index");
@@ -98,7 +101,7 @@ class _RolesListState extends State<RolesList> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-          MaterialPageRoute(builder: (context) =>const CreateRoleWidget())
+              MaterialPageRoute(builder: (context) =>const CreateRoleWidget())
           );
         },
         backgroundColor: Colors.blueAccent,
@@ -254,6 +257,7 @@ class _RolesListState extends State<RolesList> {
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
     );
+    int? index = role.id;
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -273,8 +277,8 @@ class _RolesListState extends State<RolesList> {
       ),
 
       child: ExpansionTileCard(
-
-        //key: cardKeyList[index],        //leading: CircleAvatar(child: Text('A')),
+        initiallyExpanded: index == selected,
+        //  key: cardKeyList[index],        //leading: CircleAvatar(child: Text('A')),
         title: Text(role.attributes!.title!),
         //subtitle: Text('I expand!'),
         children: <Widget>[
@@ -306,10 +310,10 @@ class _RolesListState extends State<RolesList> {
             children: <Widget>[
               TextButton(
                 style: flatButtonStyle,
-                  onPressed: () {
-                    _openEditPopup(context);
-                  },
-                  child: Column(
+                onPressed: () {
+                  _openEditPopup(context);
+                },
+                child: Column(
                   children: <Widget>[
                     Icon(Icons.edit),
                     Padding(
@@ -342,22 +346,22 @@ class _RolesListState extends State<RolesList> {
               TextButton(
                 style: flatButtonStyle,
                 onPressed: () {
-                 // cardB.currentState?.toggleExpansion();
+                  // cardB.currentState?.toggleExpansion();
                   _openDeletePopup(context);
                 },
                 child: Column(
                   children: <Widget>[
                     Icon(Icons.delete,
-                    color: Colors.red,
+                      color: Colors.red,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2.0),
                     ),
                     Text(
-                        'delete',
-                    style: TextStyle(
-                      color: Colors.red
-                    ),),
+                      'delete',
+                      style: TextStyle(
+                          color: Colors.red
+                      ),),
                   ],
                 ),
               ),
@@ -365,6 +369,17 @@ class _RolesListState extends State<RolesList> {
           ),
 
         ],
+        onExpansionChanged: ((newState) {
+          if (newState)
+            setState(() {
+              Duration(seconds: 20000);
+              selected = index!;
+            });
+          else
+            setState(() {
+              selected = -1;
+            });
+        }),
       ),
     );
   }
@@ -530,12 +545,18 @@ class _RolesListState extends State<RolesList> {
           color: Colors.blueAccent,
         ),
         DialogButton(
+          color: Colors.red,
           child: Text(
             "Delete",
             style: TextStyle(color: Colors.white, fontSize: 18),
+
           ),
-          onPressed: () => Navigator.pop(context),
-          color: Colors.red,
+          onPressed: (){
+            setState(() {
+
+            });
+          }
+          //=> Navigator.pop(context),
         )
       ],
     ).show();
