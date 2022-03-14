@@ -1,7 +1,13 @@
 import 'package:company/UI/User/profile_detail.dart';
+import 'package:company/UI/User/profile_detail.dart';
+import 'package:company/api/Response/ListRoles/Role.dart';
+import 'package:company/api/Response/ListUsers/Organizations.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
+import 'package:company/api/Response/ListUsersResponse.dart';
+import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 import 'edit_profile.dart';
 
@@ -17,6 +23,10 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   var email = "";
   var username = "";
   var role = "";
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  var service = NetworkService();
+
   @override
   void initState()  {
     super.initState();
@@ -35,20 +45,22 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.grey.shade100,
+        backgroundColor: Colors.grey.shade300,
         extendBodyBehindAppBar: true,
         extendBody: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: Column(
-          children: <Widget>[
-            profileHeader(context),
-            const SizedBox(height: 10.0),
-            usersContent(context),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              profileHeader(context),
+              const SizedBox(height: 10.0),
+              usersContent(context),
 
-          ],
+            ],
+          ),
         ));
   }
   Widget profileHeader(BuildContext context){
@@ -73,118 +85,249 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
     );
   }
   Widget usersContent(BuildContext context) {
+
+    double length = widget.usersResponse.relationships!.roles!.length.toDouble();
+    double orgLength = widget.usersResponse.relationships!.organizations!.length.toDouble();
+    print(length);
     return Container(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
-            alignment: Alignment.topLeft,
-            child: Text(
-              "User Information",
-              style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-              ),
-              textAlign: TextAlign.left,
-            ),
+      decoration:  BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15),
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15) ,
           ),
-          Card(
-            child: Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.all(15),
-              child: Column(
-                children: <Widget>[
-                  Row(
+
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 8.0, bottom: 4.0),
+              alignment: Alignment.topCenter,
+              child: Card(
+                color: Colors.grey.shade100,
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(7, 3, 7, 3),
+                  child: Text(
+                    "User Information",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width/2-20,
+
+                  child: Column(
                     children: [
                       Card(
-                        child: Column(
-                          children: <Widget>[
-                            ...ListTile.divideTiles(
-                              color: Colors.grey,
-                              tiles: [
-                                /*
-                                ListTile(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 4),
-                                  leading: Icon(Icons.my_location),
-                                  title: Text("Location"),
-                                  subtitle: Text("Kathmandu"),
-                                ),
-
-                                 */
-                                ListTile(
-                                  leading: Icon(Icons.email),
-                                  title: Text("Email"),
-                                  subtitle: Text(email),
-                                ),
-                                /*
-                                ListTile(
-                                  leading: Icon(Icons.phone),
-                                  title: Text("Phone"),
-                                  subtitle: Text("99--99876-56"),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.person),
-                                  title: Text("About Me"),
-                                  subtitle: Text(
-                                      "This is a about me link and you can khow about me in this section."),
-                                ),
-                                */
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Card(
-                        child: Column(
-                          children: <Widget>[
-                            ...ListTile.divideTiles(
-                              color: Colors.grey,
-                              tiles: [
-                                /*
-                                ListTile(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 4),
-                                  leading: Icon(Icons.my_location),
-                                  title: Text("Location"),
-                                  subtitle: Text("Kathmandu"),
-                                ),
-
-                                 */
-                                ListTile(
-                                  leading: Icon(Icons.email),
-                                  title: Text("Email"),
-                                  subtitle: Text(email),
-                                ),
-                                /*
-                                ListTile(
-                                  leading: Icon(Icons.phone),
-                                  title: Text("Phone"),
-                                  subtitle: Text("99--99876-56"),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.person),
-                                  title: Text("About Me"),
-                                  subtitle: Text(
-                                      "This is a about me link and you can khow about me in this section."),
-                                ),
-                                */
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                  color: Colors.grey.shade100,
+                          child: Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(7, 3, 7, 3),
+                        child: Text("My Organizations"),
+                      )),
                     ],
-                  )
-                ],
-              ),
+                  ),
+                ),
+                //SizedBox(width: MediaQuery.of(context).size.width*0.1,),
+                Container(
+                  width: MediaQuery.of(context).size.width/2-20,
+                  child: Column(
+                    children: [
+                      Card(
+                          color: Colors.grey.shade100,
+                          child: Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(7, 3, 7, 3),
+                        child: Text("My Roles"),
+                      )),
+
+                    ],
+                  ),
+                ),
+              ],
             ),
-          )
-        ],
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width/2-20,
+                  child: Card(
+                    color: Colors.grey.shade100,
+                    child: Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                          shrinkWrap: true,itemCount:orgLength.toInt(),itemBuilder: (context,index){
+                        return getOrganizationList(context, widget.usersResponse.relationships!.organizations![index]);
+                      }),
+                    ),
+
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width/2-20,
+                  child: Card(
+                    color: Colors.grey.shade100,
+                    child: Expanded(
+                      child:  ListView.builder(
+                        padding:  EdgeInsets.zero,
+                          shrinkWrap: true,itemCount:length.toInt(),itemBuilder: (context, index){
+                        return getRoleList(context,widget.usersResponse.relationships!.roles![index]);
+                      }),
+                      )
+                    ),
+                ),
+                //SizedBox(width: MediaQuery.of(context).size.width*0.1,),
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+  Widget getOrganizationList(BuildContext context, Organizations organizations) {
+    //return Text("index $index");
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 40,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Row(
+         // mainAxisSize: MainAxisSize.max,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                      2, 2, 2, 2),
+                  child: ClipRRect(
+                    borderRadius:
+                    BorderRadius.circular(8),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                    8, 0, 0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment:
+                  MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                            organizations.attributes!.name!,
+                          style: const TextStyle(
+                            fontFamily: 'Lexend Deca',
+                            color: const Color(0xFF15212B),
+                            fontSize: 18,
+                            fontWeight:
+                            FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+  }
+  Widget getRoleList(BuildContext context, Role role) {
+    //return Text("index $index");
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(3, 5, 3, 0),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 40,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                      2, 2, 2, 2),
+                  child: ClipRRect(
+                    borderRadius:
+                    BorderRadius.circular(8),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                    8, 0, 0, 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment:
+                  MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          "${role.attributes!.title}",
+                          //  organization.attributes!.name!,
+                          style: const TextStyle(
+                            fontFamily: 'Lexend Deca',
+                            color: const Color(0xFF15212B),
+                            fontSize: 18,
+                            fontWeight:
+                            FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
   }
 
 }

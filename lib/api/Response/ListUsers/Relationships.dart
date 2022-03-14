@@ -8,7 +8,7 @@ Relationships relationshipsFromJson(String str) => Relationships.fromJson(json.d
 String relationshipsToJson(Relationships data) => json.encode(data.toJson());
 class Relationships {
   Relationships({
-      List<dynamic>? roles, 
+      List<Role>? roles,
       List<Organizations>? organizations,}){
     _roles = roles;
     _organizations = organizations;
@@ -18,7 +18,7 @@ class Relationships {
     if (json['roles'] != null) {
       _roles = [];
       json['roles'].forEach((v) {
-        _roles?.add(Users.fromJson(v));
+        _roles?.add(Role.fromJson(v));
       });
     }
     if (json['organizations'] != null) {
@@ -28,10 +28,10 @@ class Relationships {
       });
     }
   }
-  List<dynamic>? _roles;
+  List<Role>? _roles;
   List<Organizations>? _organizations;
 
-  List<dynamic>? get roles => _roles;
+  List<Role>? get roles => _roles;
   List<Organizations>? get organizations => _organizations;
 
   Map<String, dynamic> toJson() {

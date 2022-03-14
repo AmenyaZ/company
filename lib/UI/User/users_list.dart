@@ -58,6 +58,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                              // print("list${snapshot.data!.users!.toString()}");
                               return InkWell(
                                   onTap: (){
+                                    print(snapshot.data!.users![index].toJson());
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context)=> UserProfileWidget(
                                             usersResponse: snapshot.data!.users![index]
@@ -238,7 +239,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                   CrossAxisAlignment.start,
                   children: [
                     Text(
-                      users.attributes!.name!,
+                      "${users.attributes?.name}",
                       style: TextStyle(
                         fontFamily: 'Lexend Deca',
                         color: Color(0xFF1E2429),
