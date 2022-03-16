@@ -55,10 +55,10 @@ class _UserListWidgetState extends State<UserListWidget> {
                           return ListView.builder(
                             itemCount: snapshot.data!.users!.length,
                             itemBuilder: (context, index){
-                             // print("list${snapshot.data!.users!.toString()}");
+                              print("list${snapshot.data!.users![index].attributes!.name}");
                               return InkWell(
                                   onTap: (){
-                                    print(snapshot.data!.users![index].toJson());
+                                   // print(snapshot.data!.users![index].toJson());
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context)=> UserProfileWidget(
                                             usersResponse: snapshot.data!.users![index]

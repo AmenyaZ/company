@@ -37,7 +37,6 @@ class _RolesListState extends State<RolesList> {
         roleList = service.RoleList(value.accessToken!);
       });
     });
-
   }
 
   @override
@@ -323,25 +322,7 @@ class _RolesListState extends State<RolesList> {
                   ],
                 ),
               ),
-              /*
-              TextButton(
-                style: flatButtonStyle,
 
-                onPressed: () {
-                  cardB.currentState?.collapse();
-                },
-                child: Column(
-                  children: <Widget>[
-                    Icon(Icons.arrow_upward),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 2.0),
-                    ),
-                    Text('Close'),
-                  ],
-                ),
-              ),
-
-               */
               SizedBox(width: 70,),
               TextButton(
                 style: flatButtonStyle,
@@ -396,7 +377,6 @@ class _RolesListState extends State<RolesList> {
         title: "Edit Role",
         content:  Container(
           width: 800,
-
           child: Column(
             //mainAxisSize: MainAxisSize.max,
             children:<Widget>[
