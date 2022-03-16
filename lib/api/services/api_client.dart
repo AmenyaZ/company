@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import '../Response/ListOrganizationResponse.dart';
 
 class NetworkService {
-  final String url = 'https://5f4d-197-232-1-50.ngrok.io/api';
+  final String url = 'https://baff-197-232-1-50.ngrok.io/api';
   final sp = SharedPreferenceHelper();
 
   Future<LogInResponse> UserLogIn(LoginRequest loginRequest) async {
@@ -71,7 +71,7 @@ class NetworkService {
     };
     var response = await http.get(uri,
         headers: requestHeaders );
-    print('Response ${response.statusCode}');
+    //print('Response ${response.statusCode}');
     if (response.statusCode == 200 || response.statusCode == 201) {
       return ListRolesResponse.fromJson(jsonDecode(response.body));
     } else {

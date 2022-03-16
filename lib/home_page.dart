@@ -9,6 +9,12 @@ import 'package:company/UI/User/profile_detail.dart';
 import 'package:company/UI/User/users_list.dart';
 import 'package:company/UI/roles/roles_list.dart';
 import 'package:company/UI/settings/settings.dart';
+import 'package:company/api/Response/ListOrganization/Organizations.dart';
+import 'package:company/api/Response/ListOrganizationResponse.dart';
+import 'package:company/api/Response/ListRoles/Role.dart';
+import 'package:company/api/Response/ListRolesResponse.dart';
+import 'package:company/api/Response/ListUsers/Users.dart';
+import 'package:company/api/Response/ListUsersResponse.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +22,7 @@ import 'package:flutter/painting.dart';
 //import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:dio/dio.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePageWidget extends StatefulWidget {
@@ -28,9 +35,18 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   var email = "";
   var username = "";
+  var userId = "";
+  var organizationId = "";
+  var rolesId = "";
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var accessToken = "";
   var service = NetworkService();
+  var dropdownValue;
+  Future<ListUsersResponse>? userList;
+  Future<ListOrganizationResponse>? organizationList;
+  Future<ListRolesResponse>? roleList;
+
+
 
   @override
   void initState()  {
@@ -40,21 +56,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       setState(() {
         email = value.email!;
         username = value.userName!;
+        userList = service.UserList(value.accessToken!);
+        organizationList = service.OrganizationList(value.accessToken!);
+        roleList = service.RoleList(value.accessToken!);
         // accessToken = value.accessToken!;
-        print("Print token: ${value.accessToken}");
-        print("Email: ${value.email}");
+       // print("Print token: ${value.accessToken}");
+       // print("Email: ${value.email}");
       });
     });
-
   }
-
-
   @override
   void deactivate() {
     EasyLoading.dismiss();
     super.deactivate();
   }
-
   void loadData() async {
     try {
       EasyLoading.show();
@@ -63,7 +78,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       EasyLoading.dismiss();
     } catch (e) {
       EasyLoading.showError(e.toString());
-      print(e);
+     // print(e);
     }
   }
   @override
@@ -84,8 +99,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
             ElevatedButton(
               onPressed: () {
-               // exit(0);
-               Navigator.of(context).pop(true);
+                // exit(0);
+                Navigator.of(context).pop(true);
               },
               //return true when click on "Yes"
               child:Text('Yes'),
@@ -310,10 +325,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: (){
-                                    Navigator.push(context,
-                                    MaterialPageRoute(builder: (context)=> AssignActivityWidget())
-                                    );
+                                  onTap: () {
+                                    _openEditPopup(context);
                                   },
                                   child: Container(
                                     width: 110,
@@ -1509,4 +1522,265 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       ),
     );
   }
+  _openEditPopup(context) {
+    Alert(
+        context: context,
+        image: Image.asset(
+          'assets/images/profile.png',
+          fit: BoxFit.fitWidth,
+          width: 100,
+          height: 100,
+        ),
+        title: "User name here",
+        desc: "Email Address here",
+        content:  Container(
+          width: 800,
+          child: activityContent(context)
+        ),
+
+        buttons: [
+          DialogButton(
+            width: 150,
+            onPressed: (){
+              ////
+            },
+            child: Text(
+              "Save Info",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            radius: BorderRadius.all(Radius.circular(16)),
+          )
+        ]).show();
+  }
+
+  Widget activityContent(context){
+    return // Generated code for this Column Widget...
+      Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
+                    color:Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        "Users",
+                        style: TextStyle(
+                            fontSize: 20
+                        ),
+                      ),
+                    )),
+                _hintUserDown(),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
+                    color:Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        "Organization",
+                        style: TextStyle(
+                            fontSize: 20
+                        ),
+                      ),
+                    )),
+                _hintOrganizationDown(),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
+                    color:Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        "Roles",
+                        style: TextStyle(
+                            fontSize: 20
+                        ),
+                      ),
+                    )),
+                _hintRoleDown(),
+              ],
+            ),
+          ),
+        ],
+      );
+  }
+  Widget _hintUserDown() => Container(
+      width:  600,
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: Colors.grey),
+        borderRadius: BorderRadius.circular(10.0),
+
+      ),
+      child: FutureBuilder<ListUsersResponse>(builder: (context,snapshot){
+        if(snapshot.hasData){
+          return Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
+            child: DropdownButtonFormField(
+
+              hint: Text('Select User'),
+              icon: Icon(
+                  Icons.arrow_drop_down
+              ),
+              iconSize: 30, //this inicrease the size
+              alignment: AlignmentDirectional.center,
+              elevation: 10,
+              style: TextStyle(color: Colors.black),
+              // this is for underline
+              // to give an underline us this in your underline inspite of Container
+              //       Container(
+              //         height: 2,
+              //         color: Colors.grey,
+              //       )
+
+              onChanged: (newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                });
+                print(snapshot.data!.users!.indexOf(dropdownValue));
+              },
+              items: snapshot.data!.users!
+                  .map<DropdownMenuItem<Users>>((Users value) {
+                return DropdownMenuItem<Users>(
+                  value: value,
+                  child: Text(value.attributes!.name!),
+                );
+              }).toList(),
+            ),
+          );
+        }
+        return Center(child: CircularProgressIndicator(),);
+      },future: userList,)
+  );
+
+  Widget _hintOrganizationDown() => Container(
+      width:  600,
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: Colors.grey),
+        borderRadius: BorderRadius.circular(10.0),
+
+      ),
+      child:  FutureBuilder<ListOrganizationResponse>(builder: (context,snapshot){
+        if(snapshot.hasData){
+          return Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
+              child: DropdownButtonFormField(
+
+                hint: Text('Select Organization'),
+                icon: Icon(
+                    Icons.arrow_drop_down
+                ),
+                iconSize: 30, //this inicrease the size
+                alignment: AlignmentDirectional.center,
+                elevation: 10,
+                style: TextStyle(color: Colors.black),
+                // this is for underline
+                // to give an underline us this in your underline inspite of Container
+                //       Container(
+                //         height: 2,
+                //         color: Colors.grey,
+                //       )
+                value: dropdownValue,
+                onChanged: (newValue) {
+                  setState(() {
+                    dropdownValue = newValue;
+                  });
+                  print(snapshot.data!.organizations!.indexOf(dropdownValue));
+                },
+                items: snapshot.data!.organizations!
+                    .map<DropdownMenuItem<Organizations>>((Organizations value) {
+                  return DropdownMenuItem<Organizations>(
+                    value: value,
+                    child: Text(value.attributes!.name!),
+                  );
+                }).toList(),
+              )
+
+          );
+        }
+        return Center(child: CircularProgressIndicator(),);
+      },future: organizationList,)
+
+  );
+  Widget _hintRoleDown() => Container(
+      width:  600,
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: Colors.grey),
+        borderRadius: BorderRadius.circular(10.0),
+
+      ),
+      child:  FutureBuilder<ListRolesResponse>(builder: (context,snapshot){
+        if(snapshot.hasData){
+          return Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
+              child: DropdownButtonFormField(
+                hint: Text('Select Role'),
+                icon: Icon(Icons.arrow_drop_down),
+                iconSize: 30, //this inicrease the size
+                alignment: AlignmentDirectional.center,
+                elevation: 10,
+                style: TextStyle(color: Colors.black),
+                // this is for underline
+                // to give an underline us this in your underline inspite of Container
+                //       Container(
+                //         height: 2,
+                //         color: Colors.grey,
+                //       )
+                onChanged: (newValue) {
+                  setState(() {
+                    dropdownValue = newValue;
+                  });
+                  print(snapshot.data!.role!.indexOf(dropdownValue));
+                },
+                items: snapshot.data!.role!
+                    .map<DropdownMenuItem<Role>>((value) {
+                  return DropdownMenuItem<Role>(
+                    value: value,
+                    child: Text(value.attributes!.title!),
+                  );
+                }).toList(),
+              )
+          );
+        }
+        return Center(child: CircularProgressIndicator(),);
+      },future: roleList,)
+
+  );
+  Widget myList(context){
+    return Expanded(
+      child: FutureBuilder<ListUsersResponse>(
+          future: userList,
+          builder: (context, snapshot){
+             // itemCount: snapshot.data!.users!.length,
+             // itemBuilder: (context, index){
+                print("list${snapshot.data!.users!.toString()}");
+                return Text("${snapshot.data!.toJson()}");
+                //getUserList(context, snapshot.data!.users![index]);
+              }
+
+      ),
+    );
+
+  }
+
+
 }
