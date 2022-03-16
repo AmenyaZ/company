@@ -1654,6 +1654,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 setState(() {
                   dropdownValue = newValue;
                 });
+                print(snapshot.data!.users!.indexOf(dropdownValue));
               },
               items: snapshot.data!.users!
                   .map<DropdownMenuItem<Users>>((Users value) {
@@ -1748,6 +1749,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   setState(() {
                     dropdownValue = newValue;
                   });
+                  print(snapshot.data!.role!.indexOf(dropdownValue));
                 },
                 items: snapshot.data!.role!
                     .map<DropdownMenuItem<Role>>((value) {
