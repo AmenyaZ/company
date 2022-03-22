@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 import '../Response/ListOrganizationResponse.dart';
 
 class NetworkService {
-  final String url = 'https://eeb3-197-232-1-50.ngrok.io/api';
+  final String url = 'https://b4ab-197-232-1-50.ngrok.io/api';
   final sp = SharedPreferenceHelper();
 
   Future<LogInResponse> UserLogIn(LoginRequest loginRequest) async {

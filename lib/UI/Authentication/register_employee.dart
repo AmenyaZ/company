@@ -49,14 +49,15 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
     }
   }
 
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var passwordConfirmationController = TextEditingController();
+  var passwordVisibility = false;
+
+
   @override
   Widget build(BuildContext context) {
-    var nameController = TextEditingController();
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
-    var passwordConfirmationController = TextEditingController();
-    var passwordVisibility = false;
-
 
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
@@ -122,8 +123,17 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  const SnackBar(
+                                      content: Text("Enter Full Name"));
+                                } else {
+                                  return null;
+                                }
+                              },
+                              keyboardType: TextInputType.text,
                               controller: nameController,
-                              obscureText: false,
+
                               decoration: InputDecoration(
                                 labelText: 'Full Name',
                                 labelStyle: TextStyle(
@@ -132,7 +142,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
-                                hintText: 'Enter Full Name...',
+                                hintText: 'Enter your Name here...',
                                 hintStyle: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF090F13),
@@ -141,7 +151,8 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFF090F13),
+                                    color: Color(0xFF090F13
+                                    ),
                                     width: 2,
                                   ),
                                   borderRadius: BorderRadius.circular(8),
@@ -155,7 +166,8 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
+                                contentPadding:
+                                EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
                               ),
                               style: TextStyle(
                                 fontFamily: 'Lexend Deca',
@@ -176,8 +188,17 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  const SnackBar(
+                                      content: Text("Please enter your Email"));
+                                } else {
+                                  return null;
+                                }
+                              },
+                              keyboardType: TextInputType.emailAddress,
                               controller: emailController,
-                              obscureText: false,
+
                               decoration: InputDecoration(
                                 labelText: 'Email Address',
                                 labelStyle: TextStyle(
@@ -186,7 +207,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
-                                hintText: 'Enter email address here...',
+                                hintText: 'Enter your email here...',
                                 hintStyle: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF090F13),
@@ -202,14 +223,16 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0xFFDBE2E7),
+                                    color: Color(0xFFDBE2E7
+                                    ),
                                     width: 2,
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
+                                contentPadding:
+                                EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
                               ),
                               style: TextStyle(
                                 fontFamily: 'Lexend Deca',
@@ -230,8 +253,17 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  const SnackBar(
+                                      content:
+                                      Text("Please enter your Password"));
+                                } else {
+                                  return null;
+                                }
+                              },
                               controller: passwordController,
-                              //obscureText: !passwordVisibility,
+                              obscureText: !passwordVisibility,
                               decoration: InputDecoration(
                                 labelText: 'Password',
                                 labelStyle: TextStyle(
@@ -240,7 +272,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
-                                hintText: 'Enter one time password here...',
+                                hintText: 'Enter your password here...',
                                 hintStyle: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF090F13),
@@ -263,13 +295,16 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
+                                contentPadding:
+                                EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
                                 suffixIcon: InkWell(
                                   onTap: () => setState(
-                                        () => _isObscure = !_isObscure,
+                                        () =>
+                                    passwordVisibility = !passwordVisibility,
                                   ),
                                   child: Icon(
-                                    _isObscure ? Icons.visibility_outlined
+                                    passwordVisibility
+                                        ? Icons.visibility_outlined
                                         : Icons.visibility_off_outlined,
                                     color: Color(0xFF95A1AC),
                                     size: 22,
@@ -295,17 +330,26 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  const SnackBar(
+                                      content:
+                                      Text("Please confirm your Password"));
+                                } else {
+                                  return null;
+                                }
+                              },
                               controller: passwordConfirmationController,
-                              //obscureText: !passwordVisibility,
+                              obscureText: !passwordVisibility,
                               decoration: InputDecoration(
-                                labelText: 'Confirm Password',
+                                labelText: 'Password',
                                 labelStyle: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF090F13),
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
-                                hintText: 'Confirm Password here...',
+                                hintText: 'Enter your password here...',
                                 hintStyle: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF090F13),
@@ -328,13 +372,16 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
+                                contentPadding:
+                                EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
                                 suffixIcon: InkWell(
                                   onTap: () => setState(
-                                        () => _isObscure = !_isObscure,
+                                        () =>
+                                    passwordVisibility = !passwordVisibility,
                                   ),
                                   child: Icon(
-                                    _isObscure ? Icons.visibility_outlined
+                                    passwordVisibility
+                                        ? Icons.visibility_outlined
                                         : Icons.visibility_off_outlined,
                                     color: Color(0xFF95A1AC),
                                     size: 22,
@@ -352,7 +399,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                         ],
                       ),
                     ),
-
+                    /*
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
                       child: Row(
@@ -415,6 +462,8 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                         ],
                       ),
                     ),
+
+                     */
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 16),
                       child: Row(
@@ -482,14 +531,6 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                           )
 
                     ),
-                    /*
-                    Divider(
-                      height: 2,
-                      thickness: 2,
-                      indent: 20,
-                      endIndent: 20,
-                      color: Color(0xFFDBE2E7),
-                    ),*/
                   ],
                 ),
               )

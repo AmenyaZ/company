@@ -340,14 +340,6 @@ class _LogInState extends State<LogIn> {
                       )
 
                   ),
-                  /*
-                  Divider(
-                    height: 2,
-                    thickness: 2,
-                    indent: 20,
-                    endIndent: 20,
-                    color: Color(0xFFDBE2E7),
-                  ),*/
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 16),
                     child: Row(
