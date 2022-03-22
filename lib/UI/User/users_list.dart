@@ -202,7 +202,7 @@ class _UserListWidgetState extends State<UserListWidget> {
   }
   Widget getUserList(BuildContext context, Users users){
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(5, 3, 5, 0),
+      padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
       child: Card(
         color: const Color(0xFFF1F4F8),
         shadowColor: Colors.blue,
@@ -213,10 +213,10 @@ class _UserListWidgetState extends State<UserListWidget> {
           children: [
             Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(
-                    8, 0, 0, 0),
+                    8, 2, 2, 2),
                 child: Container(
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -251,34 +251,6 @@ class _UserListWidgetState extends State<UserListWidget> {
                 ),
               ),
             ),
-            /*
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(
-                  12, 0, 12, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(
-                        0, 4, 0, 0),
-                    child: Text(
-                      'Hello World',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontFamily: 'Lexend Deca',
-                        color: Color(0xFF090F13),
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-             */
           ],
         ),
       ),
