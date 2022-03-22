@@ -1588,6 +1588,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     backgroundColor: Colors.blueAccent,
                   );
                   EasyLoading.dismiss();
+                  ScaffoldMessenger.of(context).showSnackBar(snack);
                   setState(() {
                     isLoading = false;
                   });
