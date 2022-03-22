@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:company/api/Requests/LoginRequest.dart';
+import 'package:company/api/Requests/OrganizationUserRequest.dart';
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/Response/ListRolesResponse.dart';
 import 'package:company/api/Response/ListUsersResponse.dart';
 import 'package:company/api/Response/LogInResponse.dart';
+import 'package:company/api/Response/OrganizationUser/OrganizationUserResponse.dart';
 import 'package:company/api/Response/RegistrationResponse.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +14,7 @@ import 'package:http/http.dart' as http;
 import '../Response/ListOrganizationResponse.dart';
 
 class NetworkService {
-  final String url = 'https://baff-197-232-1-50.ngrok.io/api';
+  final String url = 'https://fe30-197-232-1-50.ngrok.io/api';
   final sp = SharedPreferenceHelper();
 
   Future<LogInResponse> UserLogIn(LoginRequest loginRequest) async {
@@ -29,15 +31,16 @@ class NetworkService {
     }
   }
 
-  Future<RegistrationResponse> UserRegistration(
-      RegistrationRequest registrationRequest) async {
+  Future<RegistrationResponse> UserRegistration(RegistrationRequest registrationRequest,String token) async {
     var uri = Uri.parse(url + "/register");
     Map<String, String> requestHeaders = {
       'Accept': 'application/json',
+     "Authorization":"Bearer $token"
 
     };
     var response = await http.post(uri,
         body: registrationRequest.toJson(), headers: requestHeaders);
+    print("register Response${response.statusCode}");
     if (response.statusCode == 200 || response.statusCode == 201) {
       return RegistrationResponse.fromJson(jsonDecode(response.body));
     } else {
@@ -94,6 +97,21 @@ class NetworkService {
       throw Exception("Error: ${response.body}");
     }
   }
-
-
+  Future<OrganizationUserResponse> OrganizationUser( OrganizationUserRequest organizationUserRequest, String token) async {
+    var uri = Uri.parse(url + "/userorganization");
+    Map<String, String> requestHeaders = {
+      'accept': 'application/json',
+      // 'Content-Type': 'application/json',
+     "Authorization": "Bearer $token"
+    };
+    var response = await http.post( uri,
+        body: organizationUserRequest.toJson(),
+        headers: requestHeaders);
+    print("Response${response.statusCode}");
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return OrganizationUserResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load ${response.body}');
+    }
+  }
 }

@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:company/UI/Assign_Activity/assign_activity.dart';
@@ -9,14 +10,17 @@ import 'package:company/UI/User/profile_detail.dart';
 import 'package:company/UI/User/users_list.dart';
 import 'package:company/UI/roles/roles_list.dart';
 import 'package:company/UI/settings/settings.dart';
+import 'package:company/api/Requests/OrganizationUserRequest.dart';
 import 'package:company/api/Response/ListOrganization/Organizations.dart';
 import 'package:company/api/Response/ListOrganizationResponse.dart';
 import 'package:company/api/Response/ListRoles/Role.dart';
 import 'package:company/api/Response/ListRolesResponse.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
 import 'package:company/api/Response/ListUsersResponse.dart';
+import 'package:company/api/Response/OrganizationUser/OrganizationUserResponse.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 //import 'package:flutter/material.dart';
@@ -41,12 +45,23 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var accessToken = "";
   var service = NetworkService();
-  var dropdownValue;
+  var userdropdownValue;
+  var roledropdownValue;
+  var orgdropdownValue;
+  var userdropdownname;
+  var userdropdownemail;
+  var organizationid;
+  var userid;
+  Timer? timer;
+  bool isLoading = false;
+  //bool _isHidden = true;
+  bool _isObscure = true;
+
+
   Future<ListUsersResponse>? userList;
   Future<ListOrganizationResponse>? organizationList;
   Future<ListRolesResponse>? roleList;
-
-
+  //Future<OrganizationUserResponse>? organizationUser;
 
   @override
   void initState()  {
@@ -59,6 +74,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         userList = service.UserList(value.accessToken!);
         organizationList = service.OrganizationList(value.accessToken!);
         roleList = service.RoleList(value.accessToken!);
+        //organizationUser = service.OrganizationUser(value.accessToken!, OrganizationUserRequest());
         // accessToken = value.accessToken!;
        // print("Print token: ${value.accessToken}");
        // print("Email: ${value.email}");
@@ -72,6 +88,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   }
   void loadData() async {
     try {
+      Future.delayed(const Duration(seconds: 4));
       EasyLoading.show();
       Response response = await Dio().get('https://github.com');
       print(response);
@@ -1531,18 +1548,44 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           width: 100,
           height: 100,
         ),
-        title: "User name here",
-        desc: "Email Address here",
+
+        title: userdropdownname,
+        desc: userdropdownemail,
         content:  Container(
           width: 800,
           child: activityContent(context)
         ),
-
         buttons: [
           DialogButton(
             width: 150,
-            onPressed: (){
-              ////
+            onPressed: () {
+              loadData();
+              EasyLoading.show(status: 'Processing');
+              setState(() {
+                isLoading = true;
+              });
+              var request = OrganizationUserRequest(
+                organizationId: organizationId.toString(),
+                userId: userid.toString(),
+              );
+              SharedPreferenceHelper().getUserInformation().then((value){
+                service.OrganizationUser(request, value.accessToken!).then((value) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePageWidget()),
+                  );
+                  EasyLoading.dismiss();
+                  setState(() {
+                    isLoading = false;
+                  });
+                }).onError((error, stackTrace) {
+                  //  Scaffold.of(context).showSnackBar(
+                  //   SnackBar(content: Text('$error')))
+                  setState(() {
+                    isLoading = false;
+                  });
+                });
+              });
             },
             child: Text(
               "Save Info",
@@ -1634,7 +1677,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           return Padding(
             padding: EdgeInsetsDirectional.fromSTEB(5, 5, 5, 0),
             child: DropdownButtonFormField(
-
               hint: Text('Select User'),
               icon: Icon(
                   Icons.arrow_drop_down
@@ -1643,18 +1685,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               alignment: AlignmentDirectional.center,
               elevation: 10,
               style: TextStyle(color: Colors.black),
-              // this is for underline
-              // to give an underline us this in your underline inspite of Container
-              //       Container(
-              //         height: 2,
-              //         color: Colors.grey,
-              //       )
-
               onChanged: (newValue) {
                 setState(() {
-                  dropdownValue = newValue;
+                  userdropdownValue = newValue;
+                userdropdownname = userdropdownValue.attributes!.name!;
+                userdropdownemail = userdropdownValue.attributes!.email!;
+                userid = snapshot.data!.users!.indexOf(userdropdownValue);
                 });
-                print(snapshot.data!.users!.indexOf(dropdownValue));
+                print(snapshot.data!.users!.indexOf(userdropdownValue));
+                print(userdropdownValue.attributes!.name!);
+
               },
               items: snapshot.data!.users!
                   .map<DropdownMenuItem<Users>>((Users value) {
@@ -1663,10 +1703,23 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   child: Text(value.attributes!.name!),
                 );
               }).toList(),
+
             ),
           );
         }
-        return Center(child: CircularProgressIndicator(),);
+        return Padding(
+          padding: const EdgeInsets.only(left:  10.0, top: 10.0, bottom: 2.0),
+          child: Text(
+              "Please Wait ...",
+            style: TextStyle(
+              color: Colors.black54,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.normal,
+              fontSize: 16,
+            )
+
+          ),
+        );
       },future: userList,)
   );
 
@@ -1698,12 +1751,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 //         height: 2,
                 //         color: Colors.grey,
                 //       )
-                value: dropdownValue,
+               // value: dropdownValue,
                 onChanged: (newValue) {
                   setState(() {
-                    dropdownValue = newValue;
+                    orgdropdownValue = newValue;
+                    organizationid = snapshot.data!.organizations!.indexOf(orgdropdownValue);
                   });
-                  print(snapshot.data!.organizations!.indexOf(dropdownValue));
+                  print(snapshot.data!.organizations!.indexOf(orgdropdownValue));
                 },
                 items: snapshot.data!.organizations!
                     .map<DropdownMenuItem<Organizations>>((Organizations value) {
@@ -1716,8 +1770,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
           );
         }
-        return Center(child: CircularProgressIndicator(),);
-      },future: organizationList,)
+        return Padding(
+          padding: const EdgeInsets.only(left:  10.0, top: 10.0, bottom: 2.0),
+          child: Text(
+              "Please Wait ...",
+              style: TextStyle(
+                color: Colors.black54,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.normal,
+                fontSize: 16,
+              )
+
+          ),
+        );
+        },future: organizationList,)
 
   );
   Widget _hintRoleDown() => Container(
@@ -1747,9 +1813,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 //       )
                 onChanged: (newValue) {
                   setState(() {
-                    dropdownValue = newValue;
+                    roledropdownValue = newValue;
                   });
-                  print(snapshot.data!.role!.indexOf(dropdownValue));
+                  print(snapshot.data!.role!.indexOf(roledropdownValue));
                 },
                 items: snapshot.data!.role!
                     .map<DropdownMenuItem<Role>>((value) {
@@ -1761,8 +1827,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               )
           );
         }
-        return Center(child: CircularProgressIndicator(),);
-      },future: roleList,)
+        return Padding(
+          padding: const EdgeInsets.only(left:  10.0, top: 10.0, bottom: 2.0),
+          child: Text(
+              "Please Wait ...",
+              style: TextStyle(
+                color: Colors.black54,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.normal,
+                fontSize: 16,
+              )
+
+          ),
+        );
+        },future: roleList,)
 
   );
   Widget myList(context){
