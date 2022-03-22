@@ -1,6 +1,7 @@
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/home_page.dart';
+import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 
@@ -50,8 +51,10 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
 
   @override
   Widget build(BuildContext context) {
+    var nameController = TextEditingController();
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
+    var passwordConfirmationController = TextEditingController();
     var passwordVisibility = false;
 
 
@@ -108,23 +111,6 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                               ),
                             ),
                           ),
-                          /*
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Color(0xFFDBE2E7),
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.call_rounded,
-                              color: Color(0xFF090F13),
-                              size: 24,
-                            ),
-                          ),*/
                         ],
                       ),
                     ),
@@ -136,7 +122,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                         children: [
                           Expanded(
                             child: TextFormField(
-                              controller: emailController,
+                              controller: nameController,
                               obscureText: false,
                               decoration: InputDecoration(
                                 labelText: 'Full Name',
@@ -302,6 +288,72 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                       ),
                     ),
                     Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 16, 20, 0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: passwordConfirmationController,
+                              //obscureText: !passwordVisibility,
+                              decoration: InputDecoration(
+                                labelText: 'Confirm Password',
+                                labelStyle: TextStyle(
+                                  fontFamily: 'Lexend Deca',
+                                  color: Color(0xFF090F13),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                hintText: 'Confirm Password here...',
+                                hintStyle: TextStyle(
+                                  fontFamily: 'Lexend Deca',
+                                  color: Color(0xFF090F13),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xFF090F13),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xFFDBE2E7),
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
+                                suffixIcon: InkWell(
+                                  onTap: () => setState(
+                                        () => _isObscure = !_isObscure,
+                                  ),
+                                  child: Icon(
+                                    _isObscure ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    color: Color(0xFF95A1AC),
+                                    size: 22,
+                                  ),
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontFamily: 'Lexend Deca',
+                                color: Color(0xFF2B343A),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 0),
                       child: Row(
                         children: [
@@ -390,27 +442,29 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                       isLoading = true;
                                     });
                                     var request = RegistrationRequest(
-                                        email:
-                                        emailController.text.toString().trim(),
-                                        password: passwordController.text
-                                            .toString()
-                                            .trim());
-                                    service.UserRegistration(request).then((value) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => HomePageWidget()),
-                                      );
-                                      EasyLoading.dismiss();
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    }).onError((error, stackTrace) {
-                                      //  Scaffold.of(context).showSnackBar(
-                                      //   SnackBar(content: Text('$error')))
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    });
+                                        name: nameController.text.toString().trim(),
+                                        email: emailController.text.toString().trim(),
+                                        password: passwordController.text.toString().trim());
+
+                                    SharedPreferenceHelper().getUserInformation().then((value){
+                                      service.UserRegistration(request,value.accessToken!).then((value) {
+                                        print("here..........................................................................................");
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => HomePageWidget()),
+                                        );
+                                        EasyLoading.dismiss();
+                                        setState(() {
+                                          isLoading = false;
+                                     });
+                                   }).onError((error, stackTrace) {
+                                     //  Scaffold.of(context).showSnackBar(
+                                     //   SnackBar(content: Text('$error')))
+                                     setState(() {
+                                       isLoading = false;
+                                     });
+                                   });
+                                 });
                                   },
                                   child: const Text('Register'),
                                   style: ButtonStyle(
