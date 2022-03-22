@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 import '../Response/ListOrganizationResponse.dart';
 
 class NetworkService {
-  final String url = 'https://66a7-197-232-1-50.ngrok.io/api';
+  final String url = 'https://eeb3-197-232-1-50.ngrok.io/api';
   final sp = SharedPreferenceHelper();
 
   Future<LogInResponse> UserLogIn(LoginRequest loginRequest) async {
@@ -107,6 +107,7 @@ class NetworkService {
     var response = await http.post( uri,
         body: organizationUserRequest.toJson(),
         headers: requestHeaders);
+    print(organizationUserRequest.toJson());
     print("Response${response.statusCode}");
     if (response.statusCode == 200 || response.statusCode == 201) {
       return OrganizationUserResponse.fromJson(jsonDecode(response.body));

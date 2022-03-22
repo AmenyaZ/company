@@ -1565,14 +1565,27 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 isLoading = true;
               });
               var request = OrganizationUserRequest(
-                organizationId: organizationId.toString(),
-                userId: userid.toString(),
+                organizationId: organizationid.toString().trim(),
+                userId: userid.toString().trim(),
               );
               SharedPreferenceHelper().getUserInformation().then((value){
                 service.OrganizationUser(request, value.accessToken!).then((value) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomePageWidget()),
+                  );
+                  final snack = SnackBar(
+                    padding: EdgeInsetsDirectional.only(start: 30, top: 0, end: 30, bottom: 20),
+                    content: Text(
+                      'Saved Succesfully',
+                      textAlign: TextAlign.center,
+                    ),
+                    duration: Duration(seconds: 5),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.blueAccent,
                   );
                   EasyLoading.dismiss();
                   setState(() {
@@ -1690,9 +1703,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   userdropdownValue = newValue;
                 userdropdownname = userdropdownValue.attributes!.name!;
                 userdropdownemail = userdropdownValue.attributes!.email!;
-                userid = snapshot.data!.users!.indexOf(userdropdownValue);
+                userid = userdropdownValue.id!;
                 });
                 print(snapshot.data!.users!.indexOf(userdropdownValue));
+               print(userdropdownValue.id!);
                 print(userdropdownValue.attributes!.name!);
 
               },
@@ -1755,9 +1769,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 onChanged: (newValue) {
                   setState(() {
                     orgdropdownValue = newValue;
-                    organizationid = snapshot.data!.organizations!.indexOf(orgdropdownValue);
+                    organizationid = orgdropdownValue.id!;
                   });
-                  print(snapshot.data!.organizations!.indexOf(orgdropdownValue));
+                  print(orgdropdownValue.id!);
                 },
                 items: snapshot.data!.organizations!
                     .map<DropdownMenuItem<Organizations>>((Organizations value) {
