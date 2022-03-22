@@ -56,6 +56,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   bool isLoading = false;
   //bool _isHidden = true;
   bool _isObscure = true;
+  late double w;
+  late double h;
+
 
 
   Future<ListUsersResponse>? userList;
@@ -100,6 +103,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   }
   @override
   Widget build(BuildContext context) {
+
+     w = MediaQuery.of(context).size.width;
+     h = MediaQuery.of(context).size.height;
+
     Future<bool> showExitPopup() async {
       return await showDialog( //show confirm dialogue
         //the return value will be from "Yes" or "No" options
@@ -1357,6 +1364,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           ),
         ),
         drawer: Drawer(
+
           backgroundColor: Colors.grey[200],
           // Add a ListView to the drawer. This ensures the user can scroll
           // through the options in the drawer if there isn't enough vertical
@@ -1575,11 +1583,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     MaterialPageRoute(builder: (context) => HomePageWidget()),
                   );
                   final snack = SnackBar(
-                    padding: EdgeInsetsDirectional.only(start: 30, top: 0, end: 30, bottom: 20),
+                    padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
                     content: Text(
                       'Saved Succesfully',
                       textAlign: TextAlign.center,
                     ),
+                    width: w*0.2,
                     duration: Duration(seconds: 5),
                     behavior: SnackBarBehavior.floating,
                     shape: RoundedRectangleBorder(
@@ -1593,8 +1602,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     isLoading = false;
                   });
                 }).onError((error, stackTrace) {
-                  //  Scaffold.of(context).showSnackBar(
-                  //   SnackBar(content: Text('$error')))
+                  final snack = SnackBar(
+                    padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
+                    content: Text(
+                      'Failed Please Try Again',
+                      textAlign: TextAlign.center,
+                    ),
+                    width: w*0.2,
+                    duration: Duration(seconds: 5),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.blueAccent,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snack);
                   setState(() {
                     isLoading = false;
                   });
