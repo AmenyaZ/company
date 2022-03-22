@@ -295,28 +295,30 @@ class _LogInState extends State<LogIn> {
 
                                 final snack = SnackBar(
 
-                                  padding: EdgeInsetsDirectional.only(start: 30, top: 0, end: 30, bottom: 20),
+                                  padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
                                   content: Text(
                                       'Login Succesful',
                                     textAlign: TextAlign.center,
                                   ),
-
+                                  width: w*0.2,
                                   duration: Duration(seconds: 5),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   backgroundColor: Colors.blueAccent,
-                                ); EasyLoading.dismiss();
+                                );
+                                EasyLoading.dismiss();
                                 ScaffoldMessenger.of(context).showSnackBar(snack);
                               }).onError((error, stackTrace) {
                                 //  Scaffold.of(context).showSnackBar(
                                 final snack = SnackBar(
-                                  padding: EdgeInsetsDirectional.only(start: 20, top: 0, end: 20, bottom: 30),
+                                  padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
                                   content: Text(
-                                      '$error',
+                                      'Login failed, Try Again',
                                     textAlign: TextAlign.center,
                                   ),
+                                  width: w*0.2,
                                   duration: Duration(seconds: 5),
                                   action: SnackBarAction(
                                     label: '',
@@ -331,7 +333,6 @@ class _LogInState extends State<LogIn> {
                                 );
                                 EasyLoading.dismiss();
                                 ScaffoldMessenger.of(context).showSnackBar(snack);
-                                print(error);
                               });
                             },
                             child: const Text('Login'),

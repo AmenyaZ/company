@@ -55,7 +55,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                           return ListView.builder(
                             itemCount: snapshot.data!.users!.length,
                             itemBuilder: (context, index){
-                              print("list${snapshot.data!.users![index].attributes!.name}");
+                              //print("list${snapshot.data!.users![index].attributes!.name}");
                               return InkWell(
                                   onTap: (){
                                    // print(snapshot.data!.users![index].toJson());

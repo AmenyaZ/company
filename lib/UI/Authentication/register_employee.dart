@@ -1,3 +1,4 @@
+import 'package:company/UI/User/users_list.dart';
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/home_page.dart';
@@ -342,14 +343,14 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                               controller: passwordConfirmationController,
                               obscureText: !passwordVisibility,
                               decoration: InputDecoration(
-                                labelText: 'Password',
+                                labelText: 'Confirm Password',
                                 labelStyle: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF090F13),
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
-                                hintText: 'Enter your password here...',
+                                hintText: 'Re-Enter your password here...',
                                 hintStyle: TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF090F13),
@@ -465,7 +466,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
 
                      */
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(20, 12, 20, 16),
+                      padding: EdgeInsetsDirectional.fromSTEB(50, 12, 50, 16),
                       child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -493,22 +494,51 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                                     var request = RegistrationRequest(
                                         name: nameController.text.toString().trim(),
                                         email: emailController.text.toString().trim(),
-                                        password: passwordController.text.toString().trim());
+                                        password: passwordController.text.toString().trim(),
+                                        passwordConfirmation: passwordConfirmationController.text.toString().trim()
+                                    );
 
                                     SharedPreferenceHelper().getUserInformation().then((value){
-                                      service.UserRegistration(request,value.accessToken!).then((value) {
-                                        print("here..........................................................................................");
+                                      service.UserRegistration(request, value.accessToken!).then((value) {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => HomePageWidget()),
+                                          MaterialPageRoute(builder: (context) => UserListWidget()),
+                                        );
+                                        final snack = SnackBar(
+                                          padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
+                                          content: Text(
+                                            'User Created Succesfully',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          width: w*0.2,
+                                          duration: Duration(seconds: 5),
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20),
+                                          ),
+                                          backgroundColor: Colors.blueAccent,
                                         );
                                         EasyLoading.dismiss();
+                                        ScaffoldMessenger.of(context).showSnackBar(snack);
                                         setState(() {
                                           isLoading = false;
-                                     });
+                                        });
                                    }).onError((error, stackTrace) {
-                                     //  Scaffold.of(context).showSnackBar(
-                                     //   SnackBar(content: Text('$error')))
+                                        final snack = SnackBar(
+                                          padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
+                                          content: Text(
+                                            'Failed, Please Try again',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          width: w*0.2,
+                                          duration: Duration(seconds: 5),
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20),
+                                          ),
+                                          backgroundColor: Colors.blueAccent,
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(snack);
                                      setState(() {
                                        isLoading = false;
                                      });
