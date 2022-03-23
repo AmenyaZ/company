@@ -1,5 +1,13 @@
+import 'package:company/UI/roles/roles_list.dart';
+import 'package:company/api/Requests/CreateRoleRequest.dart';
+import 'package:company/api/services/api_client.dart';
+import 'package:company/local/shared_preferences.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import 'package:flutter/painting.dart';
 
 class CreateRoleWidget extends StatefulWidget {
   const CreateRoleWidget({Key? key}) : super(key: key);
@@ -8,10 +16,36 @@ class CreateRoleWidget extends StatefulWidget {
   _CreateRoleWidgetState createState() => _CreateRoleWidgetState();
 }
 
-
 class _CreateRoleWidgetState extends State<CreateRoleWidget> {
   var titleController = TextEditingController();
   var descriptionController = TextEditingController();
+  bool isLoading = false;
+  var service = NetworkService();
+
+  @override
+  void initState() {
+    super.initState();
+    // EasyLoading.show();
+  }
+
+  @override
+  void deactivate() {
+    EasyLoading.dismiss();
+    super.deactivate();
+  }
+
+  void loadData() async {
+    try {
+      EasyLoading.show();
+      Response response = await Dio().get('https://github.com');
+      print(response);
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.showError(e.toString());
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -61,7 +95,7 @@ class _CreateRoleWidgetState extends State<CreateRoleWidget> {
           width: 100,
           height: 100,
           decoration: BoxDecoration(
-           // color: Color(0xFFDBE2E7),
+            // color: Color(0xFFDBE2E7),
             shape: BoxShape.circle,
           ),
           child: Padding(
@@ -182,13 +216,86 @@ class _CreateRoleWidgetState extends State<CreateRoleWidget> {
     );
   }
   Widget saveButton(BuildContext context){
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return  Align(
       alignment: AlignmentDirectional(0, 0.05),
       child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
           child: DialogButton(
             width: 200,
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.of(context).pop();
+              loadData();
+              EasyLoading.show(status: 'Processing');
+              setState(() {
+                isLoading = true;
+              });
+              var request = CreateRoleRequest(
+                  title: titleController.text.toString().trim(),
+                  description: descriptionController.text.toString().trim()
+              );
+              /*
+              SharedPreferenceHelper().getUserInformation().then((value){
+                print(value.accessToken);
+                service.CreateRole(request, "${value.accessToken}").then((value) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context)=>RolesList()),
+                  );
+                  EasyLoading.dismiss();
+                });
+              });
+
+               */
+              SharedPreferenceHelper().getUserInformation().then((value){
+                service.CreateRole(request, value.accessToken!).then((value) {
+                  final snack = SnackBar(
+                    padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
+                    content: Text(
+                      'Role Saved Succesfully',
+                      textAlign: TextAlign.center,
+                    ),
+                    width: w*0.2,
+                    duration: Duration(seconds: 5),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.blueAccent,
+                  );
+                  EasyLoading.dismiss();
+                  ScaffoldMessenger.of(context).showSnackBar(snack);
+                  setState(() {
+                    isLoading = false;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RolesList()),
+                  );
+                }).onError((error, stackTrace) {
+                  final snack = SnackBar(
+                    padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
+                    content: Text(
+                      'Failed',
+                      textAlign: TextAlign.center,
+                    ),
+                    width: w*0.2,
+                    duration: Duration(seconds: 5),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.blueAccent,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snack);
+                  setState(() {
+                    isLoading = false;
+                  });
+                });
+              });
+
+            },
             child: Text(
               "Add Role",
               style: TextStyle(color: Colors.white, fontSize: 20),

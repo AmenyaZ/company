@@ -486,6 +486,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                               SizedBox(width: w * 0.25,),
                               TextButton(
                                   onPressed: () {
+                                    Navigator.of(context).pop();
                                     loadData();
                                     EasyLoading.show(status: 'Processing');
                                     setState(() {

@@ -31,12 +31,24 @@ class _RolesListState extends State<RolesList> {
   @override
   void initState() {
     super.initState();
+    print("Started........................................");
+    getRoles();
+  }
+
+  void getRoles() async {
     textController = TextEditingController();
     SharedPreferenceHelper().getUserInformation().then((value){
       setState(() {
         roleList = service.RoleList(value.accessToken!);
       });
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("Started........................................");
+    getRoles();
   }
 
   @override
@@ -55,7 +67,6 @@ class _RolesListState extends State<RolesList> {
                 //SizedBox(height: h*0.3,),
                 Expanded(
                     child: FutureBuilder<ListRolesResponse>(
-
                         future: roleList,
                         builder: (context, snapshot){
                          // print(snapshot.data);

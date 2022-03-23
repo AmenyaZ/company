@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:company/api/Requests/CreateRoleRequest.dart';
 import 'package:company/api/Requests/LoginRequest.dart';
 import 'package:company/api/Requests/OrganizationUserRequest.dart';
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/Requests/RoleUserRequest.dart';
+import 'package:company/api/Response/CreateRoles/CreateRoleResponse.dart';
 import 'package:company/api/Response/ListRoles/ListRolesResponse.dart';
 import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
 import 'package:company/api/Response/Login/LogInResponse.dart';
@@ -16,7 +18,7 @@ import '../Response/ListOrganization/ListOrganizationResponse.dart';
 import '../Response/RoleUser/RoleUserResponse.dart';
 
 class NetworkService {
-  final String url = 'https://2319-197-232-1-50.ngrok.io/api';
+  final String url = 'https://b253-197-232-1-50.ngrok.io/api';
   final sp = SharedPreferenceHelper();
 
   Future<LogInResponse> UserLogIn(LoginRequest loginRequest) async {
@@ -132,6 +134,25 @@ class NetworkService {
       return RoleUserResponse.fromJson(jsonDecode(response.body));
     }else{
       throw Exception('Failed to load ${response.body}');
+    }
+  }
+  Future<CreateRoleResponse> CreateRole(CreateRoleRequest createRoleRequest, String token) async{
+    var uri = Uri.parse(url+ "/role");
+    Map<String, String> requestHeaders = {
+      'accept': 'application/json',
+      "Authorization": "Bearer $token"
+    };
+    var response = await http.post(uri,
+      body: createRoleRequest.toJson(),
+      headers: requestHeaders
+    );
+    print(createRoleRequest.toJson());
+    print(jsonDecode(response.body));
+    print(response.statusCode);
+    if(response.statusCode ==200 || response.statusCode == 201){
+      return CreateRoleResponse.fromJson(jsonDecode(response.body));
+    }else{
+      throw Exception("Failed to Load ${response.body}");
     }
   }
 }
