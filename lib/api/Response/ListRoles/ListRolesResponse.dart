@@ -1,4 +1,4 @@
-import 'ListRoles/Role.dart';
+import 'Role.dart';
 import 'dart:convert';
 
 ListRolesResponse listRolesResponseFromJson(String str) => ListRolesResponse.fromJson(json.decode(str));

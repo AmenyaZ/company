@@ -1,4 +1,4 @@
-import 'ListUsers/Users.dart';
+import 'Users.dart';
 import 'dart:convert';
 
 ListUsersResponse listUsersResponseFromJson(String str) => ListUsersResponse.fromJson(json.decode(str));

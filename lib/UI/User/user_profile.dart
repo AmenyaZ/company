@@ -3,7 +3,7 @@ import 'package:company/UI/User/profile_detail.dart';
 import 'package:company/api/Response/ListRoles/Role.dart';
 import 'package:company/api/Response/ListUsers/Organizations.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
-import 'package:company/api/Response/ListUsersResponse.dart';
+import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
