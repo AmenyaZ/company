@@ -11,6 +11,7 @@ import 'package:company/UI/User/users_list.dart';
 import 'package:company/UI/roles/roles_list.dart';
 import 'package:company/UI/settings/settings.dart';
 import 'package:company/api/Requests/OrganizationUserRequest.dart';
+import 'package:company/api/Requests/RoleUserRequest.dart';
 import 'package:company/api/Response/ListOrganization/Organizations.dart';
 import 'package:company/api/Response/ListOrganizationResponse.dart';
 import 'package:company/api/Response/ListRoles/Role.dart';
@@ -52,6 +53,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   var userdropdownemail;
   var organizationid;
   var userid;
+  var rolesid;
   Timer? timer;
   bool isLoading = false;
   //bool _isHidden = true;
@@ -1556,7 +1558,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           width: 100,
           height: 100,
         ),
-
         title: userdropdownname,
         desc: userdropdownemail,
         content:  Container(
@@ -1572,12 +1573,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               setState(() {
                 isLoading = true;
               });
-              var request = OrganizationUserRequest(
-                organizationId: organizationid.toString().trim(),
+              var orgrequest = OrganizationUserRequest(
+                organizationId: organizationid?.toString().trim(),
+                userId: userid.toString().trim(),
+              );
+              var rolerequest = RoleUserRequest(
+                roleId: rolesid?.toString().trim(),
                 userId: userid.toString().trim(),
               );
               SharedPreferenceHelper().getUserInformation().then((value){
-                service.OrganizationUser(request, value.accessToken!).then((value) {
+                service.OrganizationUser(orgrequest, value.accessToken!).then((value) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => HomePageWidget()),
@@ -1605,7 +1610,54 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   final snack = SnackBar(
                     padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
                     content: Text(
-                      'Failed Please Try Again',
+                      'Organization not Selected',
+                      textAlign: TextAlign.center,
+                    ),
+                    width: w*0.2,
+                    duration: Duration(seconds: 5),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.blueAccent,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snack);
+                  setState(() {
+                    isLoading = false;
+                  });
+                });
+              });
+
+              SharedPreferenceHelper().getUserInformation().then((value) {
+                service.RoleUser(rolerequest, value.accessToken!).then((value){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePageWidget()),
+                  );
+                  final snack = SnackBar(
+                    padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
+                    content: Text(
+                      'Saved Succesfully',
+                      textAlign: TextAlign.center,
+                    ),
+                    width: w*0.2,
+                    duration: Duration(seconds: 5),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.blueAccent,
+                  );
+                  EasyLoading.dismiss();
+                  ScaffoldMessenger.of(context).showSnackBar(snack);
+                  setState(() {
+                    isLoading = false;
+                  });
+                }).onError((error, stackTrace) {
+                  final snack = SnackBar(
+                    padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
+                    content: Text(
+                      'Role Not Selected',
                       textAlign: TextAlign.center,
                     ),
                     width: w*0.2,
@@ -1759,7 +1811,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         );
       },future: userList,)
   );
-
   Widget _hintOrganizationDown() => Container(
       width:  600,
       decoration: BoxDecoration(
@@ -1851,8 +1902,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 onChanged: (newValue) {
                   setState(() {
                     roledropdownValue = newValue;
+                    rolesid = roledropdownValue.id!;
                   });
                   print(snapshot.data!.role!.indexOf(roledropdownValue));
+                  print(roledropdownValue.id!);
                 },
                 items: snapshot.data!.role!
                     .map<DropdownMenuItem<Role>>((value) {
@@ -1887,15 +1940,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           builder: (context, snapshot){
              // itemCount: snapshot.data!.users!.length,
              // itemBuilder: (context, index){
-                print("list${snapshot.data!.users!.toString()}");
+            //    print("list${snapshot.data!.users!.toString()}");
                 return Text("${snapshot.data!.toJson()}");
                 //getUserList(context, snapshot.data!.users![index]);
               }
 
       ),
     );
-
   }
-
-
 }
