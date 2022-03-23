@@ -1,7 +1,7 @@
 
 import 'package:company/UI/roles/create_role.dart';
 import 'package:company/api/Response/ListRoles/Role.dart';
-import 'package:company/api/Response/ListRolesResponse.dart';
+import 'package:company/api/Response/ListRoles/ListRolesResponse.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';

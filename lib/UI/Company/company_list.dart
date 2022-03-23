@@ -9,7 +9,7 @@ import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
-import '../../api/Response/ListOrganizationResponse.dart';
+import '../../api/Response/ListOrganization/ListOrganizationResponse.dart';
 
 
 class CompanyListWidget extends StatefulWidget {

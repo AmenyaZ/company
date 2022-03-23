@@ -8,7 +8,10 @@ class CreateRoleWidget extends StatefulWidget {
   _CreateRoleWidgetState createState() => _CreateRoleWidgetState();
 }
 
+
 class _CreateRoleWidgetState extends State<CreateRoleWidget> {
+  var titleController = TextEditingController();
+  var descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -40,7 +43,6 @@ class _CreateRoleWidgetState extends State<CreateRoleWidget> {
             ),
             Container(
               height: 100,
-
             ),
             roleTitle(context),
             describeRole(context),
@@ -85,7 +87,7 @@ class _CreateRoleWidgetState extends State<CreateRoleWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 16),
       child: TextFormField(
-        // controller: textController1,
+        controller: titleController,
         obscureText: false,
         decoration: InputDecoration(
           labelText: 'Title',
@@ -133,7 +135,7 @@ class _CreateRoleWidgetState extends State<CreateRoleWidget> {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
       child: TextFormField(
-        //controller: myBioController,
+        controller: descriptionController,
         obscureText: false,
         decoration: InputDecoration(
           labelText: 'Description',

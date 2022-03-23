@@ -7,7 +7,7 @@ import 'dart:async';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/painting.dart';
 import 'package:dio/dio.dart';
-import '../../api/Response/LogInResponse.dart';
+import '../../api/Response/Login/LogInResponse.dart';
 import '../../local/local_user.dart';
 
 

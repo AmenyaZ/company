@@ -2,7 +2,7 @@
 import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/User/user_profile.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
-import 'package:company/api/Response/ListUsersResponse.dart';
+import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:flutter/material.dart';

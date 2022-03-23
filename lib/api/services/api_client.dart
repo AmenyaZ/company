@@ -3,16 +3,16 @@ import 'package:company/api/Requests/LoginRequest.dart';
 import 'package:company/api/Requests/OrganizationUserRequest.dart';
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/Requests/RoleUserRequest.dart';
-import 'package:company/api/Response/ListRolesResponse.dart';
-import 'package:company/api/Response/ListUsersResponse.dart';
-import 'package:company/api/Response/LogInResponse.dart';
+import 'package:company/api/Response/ListRoles/ListRolesResponse.dart';
+import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
+import 'package:company/api/Response/Login/LogInResponse.dart';
 import 'package:company/api/Response/OrganizationUser/OrganizationUserResponse.dart';
-import 'package:company/api/Response/RegistrationResponse.dart';
+import 'package:company/api/Response/Registration/RegistrationResponse.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 
-import '../Response/ListOrganizationResponse.dart';
+import '../Response/ListOrganization/ListOrganizationResponse.dart';
 import '../Response/RoleUser/RoleUserResponse.dart';
 
 class NetworkService {
