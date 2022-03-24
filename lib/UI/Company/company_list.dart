@@ -208,7 +208,6 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
       ),
     );
   }
-
   Widget getOrganizationList(BuildContext context, Organizations organization) {
       //return Text("index $index");
       return Padding(

@@ -1,5 +1,8 @@
+import 'package:company/api/services/api_client.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -13,17 +16,43 @@ class CreateCompanyWidget extends StatefulWidget {
 class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
 
   DateTime? _chosenDateTime;
+  var legalNameController = TextEditingController();
+  var locationController = TextEditingController();
+  var yearController;
+  bool isLoading = false;
+  var service = NetworkService();
 
+  @override
+  void initState() {
+    super.initState();
+    // EasyLoading.show();
+  }
 
+  @override
+  void deactivate() {
+    EasyLoading.dismiss();
+    super.deactivate();
+  }
+
+  void loadData() async {
+    try {
+      EasyLoading.show();
+      Response response = await Dio().get('https://github.com');
+      print(response);
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.showError(e.toString());
+      print(e);
+    }
+  }
 
 
   @override
   Widget build(BuildContext context) {
-    return  SingleChildScrollView(
-      child: Scaffold(
+    return  Scaffold(
 
-        body: Column(
-
+      body: SingleChildScrollView(
+        child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
             SizedBox(height: 80,),
@@ -95,7 +124,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
       child: Container(
 
         child: TextFormField(
-          // controller: textController1,
+          controller: legalNameController,
           obscureText: false,
           decoration: InputDecoration(
             labelText: 'Legal Name',
@@ -145,7 +174,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
       padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
       child: Container(
         child: TextFormField(
-          // controller: textController1,
+          controller: locationController,
           obscureText: false,
           decoration: InputDecoration(
             labelText: 'Location',
@@ -240,90 +269,10 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
       ),
     );
   }
-  Widget saveButton(BuildContext context){
-    return  Align(
-      alignment: AlignmentDirectional(0, 0.05),
-      child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
-          child: DialogButton(
-            width: 200,
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              "Add Company",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            radius: BorderRadius.all(Radius.circular(16)),
-          )
-      ),
-    );
-
-  }
   Widget pickYear(BuildContext context) {
-    /*
-    final Size size = MediaQuery.of(context).size;
-    return AlertDialog(
-      title: Text('Select a Year'),
-      // Changing default contentPadding to make the content looks better
-
-      contentPadding: const EdgeInsets.all(10),
-      content: SizedBox(
-        // Giving some size to the dialog so the gridview know its bounds
-
-        height: size.height*0.3,
-        width: size.width*0.03,
-        //  Creating a grid view with 3 elements per line.
-        child: GridView.count(
-          crossAxisCount: 3,
-          children: [
-            // Generating a list of 123 years starting from 2022
-            // Change it depending on your needs.
-            ...List.generate(
-              123,
-                  (index) => InkWell(
-                onTap: () {
-                  // The action you want to happen when you select the year below,
-
-                  // Quitting the dialog through navigator.
-                  Navigator.pop(context);
-                },
-                // This part is up to you, it's only ui elements
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Chip(
-                    label: Container(
-                      padding: const EdgeInsets.all(2),
-                      child: Text(
-                        // Showing the year text, it starts from 2022 and ends in 1900 (you can modify this as you like)
-                        (2022 - index).toString(),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-
-     */
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
       child: CupertinoPageScaffold(
-        /*
-        navigationBar: CupertinoNavigationBar(
-          //middle: const Text('Kindacode.com'),
-          // This button triggers the _showDatePicker function
-          trailing: CupertinoButton(
-            color: Colors.red,
-
-            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-            child: const Text('Show Picker'),
-            onPressed: () => _showDatePicker(context),
-          ),
-        ),
-
-         */
         child: SafeArea(
           child: Container(
             decoration: BoxDecoration(
@@ -366,7 +315,24 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
     );
 
   }
+  Widget saveButton(BuildContext context){
+    return  Align(
+      alignment: AlignmentDirectional(0, 0.05),
+      child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+          child: DialogButton(
+            width: 200,
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "Add Company",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            radius: BorderRadius.all(Radius.circular(16)),
+          )
+      ),
+    );
 
+  }
   // Show the modal that contains the CupertinoDatePicker
   void _showDatePicker(ctx) {
     // showCupertinoModalPopup is a built-in function of the cupertino library
