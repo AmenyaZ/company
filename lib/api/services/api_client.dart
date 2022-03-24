@@ -11,6 +11,7 @@ import 'package:company/api/Response/Login/LogInResponse.dart';
 import 'package:company/api/Response/OrganizationUser/OrganizationUserResponse.dart';
 import 'package:company/api/Response/Registration/RegistrationResponse.dart';
 import 'package:company/local/shared_preferences.dart';
+import 'package:company/util/constants.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -18,7 +19,7 @@ import '../Response/ListOrganization/ListOrganizationResponse.dart';
 import '../Response/RoleUser/RoleUserResponse.dart';
 
 class NetworkService {
-  final String url = 'https://e196-197-232-1-50.ngrok.io/api';
+  final String url = '${Constants.BASEURL}/api';
   final sp = SharedPreferenceHelper();
 
   Future<LogInResponse> UserLogIn(LoginRequest loginRequest) async {

@@ -6,6 +6,7 @@ import 'package:company/UI/Company/create_company.dart';
 import 'package:company/api/Response/ListOrganization/Organizations.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
+import 'package:company/util/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
@@ -208,9 +209,9 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
       ),
     );
   }
-
   Widget getOrganizationList(BuildContext context, Organizations organization) {
       //return Text("index $index");
+    print(organization.attributes!.logo);
       return Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
         child: Row(
@@ -218,7 +219,7 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 90,
+              height: 80,
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
@@ -231,14 +232,26 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
                       Padding(
                         padding: const EdgeInsetsDirectional.fromSTEB(
                             8, 8, 8, 8),
-                        child: ClipRRect(
-                          borderRadius:
-                          BorderRadius.circular(8),
-                          child: Image.asset(
-                            'assets/images/logo.png',
-                            width: 74,
-                            height: 74,
-                            fit: BoxFit.cover,
+                        child: Container(
+                          width:  60,
+                          height: 60,
+                          child: ClipRRect(
+                            borderRadius:
+                            BorderRadius.circular(8),
+                            child: Image.network(
+                              "${Constants.BASEURL}${organization.attributes!.logo!}",
+                            )
+                            /*
+                            Image.asset(
+                              //'assets/images/logo.png',
+                              organization.attributes!.logo!,
+                              width: 74,
+                              height: 74,
+                              fit: BoxFit.cover,
+                            ),
+
+                             */
+
                           ),
                         ),
                       ),
