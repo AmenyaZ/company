@@ -352,7 +352,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    _openEditPopup(context);
+                                   // _openEditPopup(context);
+                                    Navigator.push(context,
+                                    MaterialPageRoute(builder: (context)=>AssignActivityWidget())
+                                    );
                                   },
                                   child: Container(
                                     width: 110,
