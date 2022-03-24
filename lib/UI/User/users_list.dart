@@ -24,13 +24,22 @@ class _UserListWidgetState extends State<UserListWidget> {
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    getNewUser();
+  }
+
+  void getNewUser() async {
+     textController = TextEditingController();
     SharedPreferenceHelper().getUserInformation().then((value){
       setState(() {
         userList = service.UserList(value.accessToken!);
       });
     });
   }
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    getNewUser();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

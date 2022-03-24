@@ -40,7 +40,7 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   var email = "";
   var username = "";
-  var userId = "";
+  var userId = 0;
   var organizationId = "";
   var rolesId = "";
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -49,10 +49,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   var userdropdownValue;
   var roledropdownValue;
   var orgdropdownValue;
-  var userdropdownname;
+  var userdropdownname="";
   var userdropdownemail;
   var organizationid;
-  var userid;
+  var userid=0;
   var rolesid;
   Timer? timer;
   bool isLoading = false;
@@ -352,7 +352,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    _openEditPopup(context);
+                                   // _openEditPopup(context);
+                                    Navigator.push(context,
+                                    MaterialPageRoute(builder: (context)=>AssignActivityWidget())
+                                    );
                                   },
                                   child: Container(
                                     width: 110,
@@ -1776,12 +1779,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               onChanged: (newValue) {
                 setState(() {
                   userdropdownValue = newValue;
-                userdropdownname = userdropdownValue.attributes!.name!;
-                userdropdownemail = userdropdownValue.attributes!.email!;
-                userid = userdropdownValue.id!;
+                  userdropdownname = userdropdownValue.attributes!.name!;
+                  userdropdownemail = userdropdownValue.attributes!.email!;
+                  userid = userdropdownValue.id!;
                 });
                 print(snapshot.data!.users!.indexOf(userdropdownValue));
-               print(userdropdownValue.id!);
+                print(userdropdownValue.id!);
                 print(userdropdownValue.attributes!.name!);
 
               },
@@ -1795,6 +1798,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
             ),
           );
+
         }
         return Padding(
           padding: const EdgeInsets.only(left:  10.0, top: 10.0, bottom: 2.0),
