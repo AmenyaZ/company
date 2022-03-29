@@ -102,7 +102,7 @@ class _UserListWidgetState extends State<UserListWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) =>const RegisterEmployee())
+              MaterialPageRoute(builder: (context) => RegisterEmployee())
           );
         },
         backgroundColor: Colors.blueAccent,
