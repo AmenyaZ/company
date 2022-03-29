@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:io' as Io;
+
 import 'package:company/api/services/api_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -21,6 +27,9 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
   var yearController;
   bool isLoading = false;
   var service = NetworkService();
+  File? imageFile;
+  String encodedImage="";
+
 
   @override
   void initState() {
@@ -87,34 +96,94 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
       ),
     );
   }
-  Widget logoIcon(BuildContext context){
-    return Row(
+  Widget logoIcon (BuildContext context){
+    return  Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            // color: Color(0xFFDBE2E7),
-            shape: BoxShape.circle,
-          ),
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
-            child: Container(
-              width: 90,
-              height: 90,
-              clipBehavior: Clip.antiAlias,
+            child: imageFile == null
+                ?
+            Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 110,
+                    height: 110,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFDBE2E7),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: InkWell(
+                          onTap: (){
+                            _getFromGallery();
+                          },
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            //fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  /*
+                  RaisedButton(
+                    color: Colors.greenAccent,
+                    onPressed: () {
+                      _getFromGallery();
+                    },
+                    child: Text("PICK FROM GALLERY"),
+                  ),
+                  Container(
+                    height: 40.0,
+                  ),
+                  RaisedButton(
+                    color: Colors.lightGreenAccent,
+                    onPressed: () {
+                      _getFromCamera();
+                    },
+                    child: Text("PICK FROM CAMERA"),
+                  )
+
+                   */
+                ],
+              ),
+            )
+                :
+            Container(
+              width: 110,
+              height: 110,
               decoration: BoxDecoration(
+                color: Color(0xFFDBE2E7),
                 shape: BoxShape.circle,
               ),
-              child: Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.fitWidth,
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.file(
+                    imageFile!,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
+            )),
       ],
     );
   }
@@ -365,5 +434,25 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
           ),
         ));
   }
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+      final bytes = File(pickedFile.path).readAsBytesSync();
+      String img64 = base64Encode(bytes);
+      var base64Image = "data:${lookupMimeType(pickedFile.path)};base64,$img64";
+      setState(() {
+        encodedImage = base64Image;
+      });
+
+    }
+  }
+
 
 }
