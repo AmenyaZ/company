@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -27,6 +28,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
   bool isLoading = false;
   var service = NetworkService();
   File? imageFile;
+  String encodedImage="";
 
 
   @override
@@ -94,7 +96,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
       ),
     );
   }
-  Widget profileImage (BuildContext context){
+  Widget logoIcon (BuildContext context){
     return  Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -184,84 +186,6 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
             )),
       ],
     );
-  }
-
-  Widget logoIcon(BuildContext context){
-    return // Generated code for this Row Widget...
-      Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 110,
-            height: 110,
-            decoration: BoxDecoration(
-              color: Color(0xFFDBE2E7),
-              shape: BoxShape.circle,
-            ),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
-              child: Container(
-                width: 90,
-                height: 90,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1536164261511-3a17e671d380?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=630&q=80',
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
-            ),
-          ),
-          /*
-          MaterialButton(
-            color: Colors.blueAccent,
-           // shape:
-            focusColor: Colors.grey.shade100,
-            elevation: 0,
-            child: Text("Add Logo"),
-            onPressed: () {
-            },
-          )
-
-           */
-        ],
-      );
-
-    /*
-      Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            // color: Color(0xFFDBE2E7),
-            shape: BoxShape.circle,
-          ),
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
-            child: Container(
-              width: 90,
-              height: 90,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-
-       */
   }
   Widget companyName(BuildContext context){
     return Padding(
@@ -521,11 +445,11 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
         imageFile = File(pickedFile.path);
       });
       final bytes = File(pickedFile.path).readAsBytesSync();
-
       String img64 = base64Encode(bytes);
-
-      print("suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................suee...........................................................................................................................................................................................................................................................${img64}");
-
+      var base64Image = "data:${lookupMimeType(pickedFile.path)};base64,$img64";
+      setState(() {
+        encodedImage = base64Image;
+      });
 
     }
   }

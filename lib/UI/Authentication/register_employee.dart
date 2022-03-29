@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:company/UI/User/users_list.dart';
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/services/api_client.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/painting.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'dart:io';
 
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -26,6 +29,7 @@ class RegisterEmployee extends StatefulWidget {
 class _RegisterEmployeeState extends State<RegisterEmployee> {
   File? imageFile;
   var service = NetworkService();
+  String encodedImage = "";
 
 
   bool isLoading = false;
@@ -716,6 +720,12 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);
+      });
+      final bytes = File(pickedFile.path).readAsBytesSync();
+      String img64 = base64Encode(bytes);
+      var base64Image = "data:${lookupMimeType(pickedFile.path)};base64,$img64";
+      setState(() {
+        encodedImage = base64Image;
       });
     }
   }
