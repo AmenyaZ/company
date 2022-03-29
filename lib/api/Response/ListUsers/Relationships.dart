@@ -1,15 +1,22 @@
+import 'dart:convert';
+
+import 'package:company/api/Response/ListOrganization/Organizations.dart';
+import 'package:company/api/Response/ListRoles/Role.dart';
 import 'package:company/api/Response/ListRoles/Role.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
 
-import 'Organizations.dart';
 import 'dart:convert';
+
+
+/// roles : []
+/// organizations : []
 
 Relationships relationshipsFromJson(String str) => Relationships.fromJson(json.decode(str));
 String relationshipsToJson(Relationships data) => json.encode(data.toJson());
 class Relationships {
   Relationships({
-      List<Role>? roles,
-      List<Organizations>? organizations,}){
+      List<dynamic>? roles, 
+      List<dynamic>? organizations,}){
     _roles = roles;
     _organizations = organizations;
 }
@@ -28,11 +35,15 @@ class Relationships {
       });
     }
   }
-  List<Role>? _roles;
-  List<Organizations>? _organizations;
-
-  List<Role>? get roles => _roles;
-  List<Organizations>? get organizations => _organizations;
+  List<dynamic>? _roles;
+  List<dynamic>? _organizations;
+Relationships copyWith({  List<dynamic>? roles,
+  List<dynamic>? organizations,
+}) => Relationships(  roles: roles ?? _roles,
+  organizations: organizations ?? _organizations,
+);
+  List<dynamic>? get roles => _roles;
+  List<dynamic>? get organizations => _organizations;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

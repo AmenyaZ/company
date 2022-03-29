@@ -1,11 +1,12 @@
 import 'package:company/UI/User/profile_detail.dart';
 import 'package:company/UI/User/profile_detail.dart';
+import 'package:company/api/Response/ListOrganization/Organizations.dart';
 import 'package:company/api/Response/ListRoles/Role.dart';
-import 'package:company/api/Response/ListUsers/Organizations.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
 import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
+import 'package:company/util/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
@@ -65,7 +66,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   }
   Widget profileHeader(BuildContext context){
     return ProfileHeader(
-      avatar: NetworkImage('https://images.unsplash.com/photo-1485290334039-a3c69043e517?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTYyOTU3NDE0MQ&ixlib=rb-1.2.1&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=300'),
+      avatar:  NetworkImage("${Constants.BASEURL}/storage/${widget.usersResponse.attributes!.image}") ,
       coverImage: AssetImage('assets/images/card2.jpg'),
       title: "${widget.usersResponse.attributes!.name}",
       subtitle: "${widget.usersResponse.attributes!.email}",
