@@ -211,7 +211,7 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
   }
   Widget getOrganizationList(BuildContext context, Organizations organization) {
       //return Text("index $index");
-    print(organization.attributes!.logo);
+   // print(organization.attributes!.logo);
       return Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
         child: Row(
@@ -238,19 +238,8 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
                           child: ClipRRect(
                             borderRadius:
                             BorderRadius.circular(8),
-                            child: Image.network(
-                              "${Constants.BASEURL}${organization.attributes!.logo!}",
-                            )
-                            /*
-                            Image.asset(
-                              //'assets/images/logo.png',
-                              organization.attributes!.logo!,
-                              width: 74,
-                              height: 74,
-                              fit: BoxFit.cover,
-                            ),
-
-                             */
+                            child:  (organization.attributes!.image == null)
+                                ? Image.asset('assets/images/logo.png',) : Image.network("${Constants.BASEURL}/storage/${organization.attributes!.image}")
 
                           ),
                         ),

@@ -5,6 +5,7 @@ import 'package:company/api/Response/ListUsers/Users.dart';
 import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
 import 'package:company/api/services/api_client.dart';
 import 'package:company/local/shared_preferences.dart';
+import 'package:company/util/constants.dart';
 import 'package:flutter/material.dart';
 
 class UserListWidget extends StatefulWidget {
@@ -231,9 +232,8 @@ class _UserListWidgetState extends State<UserListWidget> {
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                  child: Image.asset(
-                    'assets/images/profile.png',
-                  ),
+                  child: (users.attributes!.image == null)
+                    ? Image.asset('assets/images/profile.png',fit: BoxFit.fitWidth,) :  Image.network("${Constants.BASEURL}/storage/${users.attributes!.image}")
                 )
             ),
             Expanded(

@@ -40,6 +40,7 @@ class HomePageWidget extends StatefulWidget {
 class _HomePageWidgetState extends State<HomePageWidget> {
   var email = "";
   var username = "";
+  var profileImage = "";
   var userId = 0;
   var organizationId = "";
   var rolesId = "";
@@ -1380,7 +1381,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
             padding: EdgeInsets.zero,
             children: [
-
               UserAccountsDrawerHeader(
 
                 currentAccountPicture: InkWell(
