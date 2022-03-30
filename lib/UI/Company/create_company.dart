@@ -2,12 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:io' as Io;
 
+import 'package:company/UI/Company/company_list.dart';
+import 'package:company/api/Requests/CreateOrganizationRequest.dart';
 import 'package:company/api/services/api_client.dart';
+import 'package:company/local/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +28,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
   DateTime? _chosenDateTime;
   var legalNameController = TextEditingController();
   var locationController = TextEditingController();
+  var dateTime;
   var yearController;
   bool isLoading = false;
   var service = NetworkService();
@@ -54,7 +59,6 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
       print(e);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -137,26 +141,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
                       ),
                     ),
                   ),
-                  /*
-                  RaisedButton(
-                    color: Colors.greenAccent,
-                    onPressed: () {
-                      _getFromGallery();
-                    },
-                    child: Text("PICK FROM GALLERY"),
-                  ),
-                  Container(
-                    height: 40.0,
-                  ),
-                  RaisedButton(
-                    color: Colors.lightGreenAccent,
-                    onPressed: () {
-                      _getFromCamera();
-                    },
-                    child: Text("PICK FROM CAMERA"),
-                  )
 
-                   */
                 ],
               ),
             )
@@ -287,56 +272,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
         ),
       ),
     );
-  }
-  Widget describeRole(BuildContext context){
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 12),
-      child: TextFormField(
-        //controller: myBioController,
-        obscureText: false,
-        decoration: InputDecoration(
-          labelText: 'Description',
-          labelStyle: TextStyle(
-            fontFamily: 'Lexend Deca',
-            color: Color(0xFF95A1AC),
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-          ),
-          hintText: 'More Details about Role...',
-          hintStyle: TextStyle(
-            fontFamily: 'Lexend Deca',
-            color: Color(0xFF95A1AC),
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0xFFDBE2E7),
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Color(0xFFDBE2E7),
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsetsDirectional.fromSTEB(20, 24, 0, 24),
-        ),
-        style: TextStyle(
-          fontFamily: 'Lexend Deca',
-          color: Color(0xFF14181B),
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-        ),
-        textAlign: TextAlign.start,
-        maxLines: 3,
-      ),
-    );
+
   }
   Widget pickYear(BuildContext context) {
     return Padding(
@@ -372,12 +308,15 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
                     onPressed: () => _showDatePicker(context),
                   ),
                 ),
+
                 SizedBox(width: 10),
                 Text(_chosenDateTime != null
-                    ? _chosenDateTime.toString()
+                    ?DateFormat.yMMMd().format(_chosenDateTime!)
+                // _chosenDateTime.toString()
                     : 'No date time picked!'),
               ],
             ),
+
           ),
         ),
       ),
@@ -385,13 +324,75 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
 
   }
   Widget saveButton(BuildContext context){
+    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery.of(context).size.height;
     return  Align(
       alignment: AlignmentDirectional(0, 0.05),
       child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
           child: DialogButton(
             width: 200,
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.of(context).pop();
+              loadData();
+              EasyLoading.show(status: 'Processing');
+              setState(() {
+                isLoading = true;
+              });
+              print(dateTime.toString());
+              var request = CreateOrganizationRequest(
+                  legalName: legalNameController.text.toString().trim(),
+                  physicalLocation: locationController.text.toString().trim(),
+                  year: dateTime.toString(),
+                  companyLogo: encodedImage.toString().trim()
+              );
+              SharedPreferenceHelper().getUserInformation().then((value){
+                service.CreateOrganization(request, value.accessToken!).then((value){
+                  final snack = SnackBar(
+                    padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
+                    content: Text(
+                      'Organization Saved Succesfully',
+                      textAlign: TextAlign.center,
+                    ),
+                    width: w*0.2,
+                    duration: Duration(seconds: 5),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.blueAccent,
+                  );
+                  EasyLoading.dismiss();
+                  ScaffoldMessenger.of(context).showSnackBar(snack);
+                  setState(() {
+                    isLoading = false;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CompanyListWidget()),
+                  );
+                }).onError((error, stackTrace) {
+                  final snack = SnackBar(
+                    padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
+                    content: Text(
+                      'Failed',
+                      textAlign: TextAlign.center,
+                    ),
+                    width: w*0.2,
+                    duration: Duration(seconds: 5),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.blueAccent,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snack);
+                  setState(() {
+                    isLoading = false;
+                  });
+                });
+              });
+            },
             child: Text(
               "Add Company",
               style: TextStyle(color: Colors.white, fontSize: 20),
@@ -408,26 +409,39 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
     showCupertinoModalPopup(
         context: ctx,
         builder: (_) => Container(
-          height: 500,
-          color: const Color.fromARGB(255, 255, 255, 255),
+          height: 480,
+          width:  400,
+          decoration:  BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              // bottomLeft: Radius.circular(15),
+              //bottomRight: Radius.circular(15),
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15) ,
+            ),
+          ),
+          //color: const Color.fromARGB(255, 255, 255, 255),
           child: Column(
             children: [
               SizedBox(
                 height: 400,
                 child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.date,
+                    mode: CupertinoDatePickerMode.date,
                     initialDateTime: DateTime.now(),
+                    maximumDate: DateTime.now(),
                     onDateTimeChanged: (val) {
                       setState(() {
+                        // DateFormat.yMMMd().format(val);
                         _chosenDateTime = val;
+                        dateTime = DateFormat.y().format(_chosenDateTime!);
                       });
                     }
-                    ),
+                ),
               ),
 
               // Close the modal
               CupertinoButton(
-                child: const Text('OK'),
+                child: const Text('OK', style: TextStyle(fontWeight: FontWeight.bold),),
                 onPressed: () => Navigator.of(ctx).pop(),
               )
             ],
