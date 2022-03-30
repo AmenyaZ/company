@@ -4,6 +4,7 @@ import 'package:company/api/Requests/LoginRequest.dart';
 import 'package:company/api/Requests/OrganizationUserRequest.dart';
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/Requests/RoleUserRequest.dart';
+import 'package:company/api/Response/CreateCompany/CreateOrganizationResponse.dart';
 import 'package:company/api/Response/CreateRoles/CreateRoleResponse.dart';
 import 'package:company/api/Response/ListRoles/ListRolesResponse.dart';
 import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
@@ -147,13 +148,27 @@ class NetworkService {
       body: createRoleRequest.toJson(),
       headers: requestHeaders
     );
-    print(createRoleRequest.toJson());
-    print(jsonDecode(response.body));
-    print(response.statusCode);
     if(response.statusCode ==200 || response.statusCode == 201){
       return CreateRoleResponse.fromJson(jsonDecode(response.body));
     }else{
       throw Exception("Failed to Load ${response.body}");
     }
   }
+  Future<CreateOrganizationResponse> CreateOrganization(CreateOrganizationRequest, createOrganizationRequest, String token) async{
+    var uri = Uri.parse(url+ "/organization");
+    Map<String, String> requestHeaders = {
+      'accept': 'application/json',
+      "Authorization": "Bearer $token"
+    };
+    var response = await http.post(uri,
+        body: createOrganizationRequest.toJson(),
+        headers: requestHeaders
+    );
+    if(response.statusCode == 200 || response.statusCode == 201){
+      return CreateOrganizationResponse.fromJson(jsonDecode(response.body));
+    }else{
+      throw Exception("Failed to Load${response.body}");
+    }
+}
+
 }
