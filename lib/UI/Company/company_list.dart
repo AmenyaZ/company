@@ -31,12 +31,21 @@ class _CompanyListWidgetState extends State<CompanyListWidget> {
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    getNewOrganization();
+  }
+
+  void getNewOrganization() {
+      textController = TextEditingController();
       SharedPreferenceHelper().getUserInformation().then((value){
         setState(() {
           organizationList = service.OrganizationList(value.accessToken!);
         });
       });
+  }
+  @override
+  void didChangeDependencies(){
+    super.didChangeDependencies();
+    getNewOrganization();
   }
 
   @override
