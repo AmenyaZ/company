@@ -1,5 +1,7 @@
 
 import 'package:company/UI/Authentication/register_employee.dart';
+import 'package:company/UI/Company/create_company.dart';
+import 'package:company/UI/User/create_user.dart';
 import 'package:company/UI/User/user_profile.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
 import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
@@ -102,7 +104,7 @@ class _UserListWidgetState extends State<UserListWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RegisterEmployee())
+              MaterialPageRoute(builder: (context) => CreateUserWidget())
           );
         },
         backgroundColor: Colors.blueAccent,
