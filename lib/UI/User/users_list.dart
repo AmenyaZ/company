@@ -18,12 +18,14 @@ class UserListWidget extends StatefulWidget {
 }
 
 class _UserListWidgetState extends State<UserListWidget> {
-  late TextEditingController textController;
+  var searchUserController = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var service = NetworkService();
   Future<ListUsersResponse>? userList;
 
   bool isLoading = false;
+
+  
   @override
   void initState() {
     super.initState();
@@ -31,7 +33,6 @@ class _UserListWidgetState extends State<UserListWidget> {
   }
 
   void getNewUser() async {
-     textController = TextEditingController();
     SharedPreferenceHelper().getUserInformation().then((value){
       setState(() {
         userList = service.UserList(value.accessToken!);
@@ -158,7 +159,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               4, 0, 0, 0),
                           child: TextFormField(
-                            controller: textController,
+                            controller: searchUserController,
                             obscureText: false,
                             decoration: const InputDecoration(
                               labelText: 'Search User here...',
