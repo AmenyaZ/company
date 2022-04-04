@@ -1,5 +1,7 @@
 
 import 'package:company/UI/Authentication/register_employee.dart';
+import 'package:company/UI/Company/create_company.dart';
+import 'package:company/UI/User/create_user.dart';
 import 'package:company/UI/User/user_profile.dart';
 import 'package:company/api/Response/ListUsers/Users.dart';
 import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
@@ -16,12 +18,14 @@ class UserListWidget extends StatefulWidget {
 }
 
 class _UserListWidgetState extends State<UserListWidget> {
-  late TextEditingController textController;
+  var searchUserController = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var service = NetworkService();
   Future<ListUsersResponse>? userList;
 
   bool isLoading = false;
+
+  
   @override
   void initState() {
     super.initState();
@@ -29,7 +33,6 @@ class _UserListWidgetState extends State<UserListWidget> {
   }
 
   void getNewUser() async {
-     textController = TextEditingController();
     SharedPreferenceHelper().getUserInformation().then((value){
       setState(() {
         userList = service.UserList(value.accessToken!);
@@ -102,7 +105,7 @@ class _UserListWidgetState extends State<UserListWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RegisterEmployee())
+              MaterialPageRoute(builder: (context) => CreateUserWidget())
           );
         },
         backgroundColor: Colors.blueAccent,
@@ -156,7 +159,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               4, 0, 0, 0),
                           child: TextFormField(
-                            controller: textController,
+                            controller: searchUserController,
                             obscureText: false,
                             decoration: const InputDecoration(
                               labelText: 'Search User here...',

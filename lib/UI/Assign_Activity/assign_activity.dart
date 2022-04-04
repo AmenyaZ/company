@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
 import 'package:company/home_page.dart';
+import 'package:company/util/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:company/UI/User/profile_detail.dart';
@@ -36,6 +37,7 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
   var orgdropdownValue;
   var userdropdownname="";
   var userdropdownemail= "";
+  var userdropdownProfile = "";
   var organizationid;
   var userid=0;
   var rolesid;
@@ -92,18 +94,20 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      body: Stack(
-        children:[
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              userContainer(context),
-              activityContent(context),
-              button(context)
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Stack(
+          children:[
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                userContainer(context),
+                activityContent(context),
+                button(context)
+              ],
+            ),
 
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -123,15 +127,27 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-              child: Image.asset(
-                'assets/images/profile.png',
-                width: 90,
-                height: 90,
-                fit: BoxFit.fill,
-                color: Colors.white,
-              ),
+            SizedBox(height: 40,),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width:  70,
+                  height: 70,
+                  decoration:  BoxDecoration(
+                  //  color: Colors.blue,
+                    borderRadius: BorderRadius.circular(9)
+                  ),
+                  child: ClipRRect(
+                      borderRadius:
+                      BorderRadius.circular(8),
+                      child:  (userdropdownProfile == null)
+                          ? Image.asset('assets/images/profile.png',) : Image.network("${Constants.BASEURL}/storage/${userdropdownProfile}", fit: BoxFit.fill,)
+
+                  ),
+                ),
+              ],
             ),
             Row(
               mainAxisSize: MainAxisSize.max,
@@ -272,11 +288,11 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
                   userdropdownname = userdropdownValue.attributes!.name!;
                   userdropdownemail = userdropdownValue.attributes!.email!;
                   userid = userdropdownValue.id!;
+                  userdropdownProfile = userdropdownValue.attributes!.image!;
                 });
                 print(snapshot.data!.users!.indexOf(userdropdownValue));
                 print(userdropdownValue.id!);
-                print(userdropdownValue.attributes!.name!);
-
+                print(userdropdownValue.attributes!.image!);
               },
               items: snapshot.data!.users!
                   .map<DropdownMenuItem<Users>>((Users value) {

@@ -339,7 +339,6 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
               setState(() {
                 isLoading = true;
               });
-              print(dateTime.toString());
               var request = CreateOrganizationRequest(
                   legalName: legalNameController.text.toString().trim(),
                   physicalLocation: locationController.text.toString().trim(),

@@ -300,7 +300,7 @@ class _LogInState extends State<LogIn> {
                                       'Login Succesful',
                                     textAlign: TextAlign.center,
                                   ),
-                                  width: w*0.2,
+                                  width: w*0.4,
                                   duration: Duration(seconds: 5),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
@@ -318,7 +318,7 @@ class _LogInState extends State<LogIn> {
                                       'Login failed, Try Again',
                                     textAlign: TextAlign.center,
                                   ),
-                                  width: w*0.2,
+                                  width: w*0.4,
                                   duration: Duration(seconds: 5),
                                   action: SnackBarAction(
                                     label: '',
