@@ -16,6 +16,7 @@ import 'package:company/util/constants.dart';
 import 'package:http/http.dart' as http;
 
 
+import '../Requests/CreateOrganizationRequest.dart';
 import '../Response/ListOrganization/ListOrganizationResponse.dart';
 import '../Response/RoleUser/RoleUserResponse.dart';
 
@@ -154,7 +155,7 @@ class NetworkService {
       throw Exception("Failed to Load ${response.body}");
     }
   }
-  Future<CreateOrganizationResponse> CreateOrganization(CreateOrganizationRequest, createOrganizationRequest, String token) async{
+  Future<CreateOrganizationResponse> CreateOrganization(CreateOrganizationRequest createOrganizationRequest, String token) async{
     var uri = Uri.parse(url+ "/organization");
     Map<String, String> requestHeaders = {
       'accept': 'application/json',
@@ -164,6 +165,8 @@ class NetworkService {
         body: createOrganizationRequest.toJson(),
         headers: requestHeaders
     );
+    print(createOrganizationRequest.toJson());
+    print("Organization Response ${response.statusCode}");
     if(response.statusCode == 200 || response.statusCode == 201){
       return CreateOrganizationResponse.fromJson(jsonDecode(response.body));
     }else{
