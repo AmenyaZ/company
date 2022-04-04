@@ -3,11 +3,11 @@ import 'package:company/UI/roles/create_role.dart';
 import 'package:company/api/Response/ListRoles/Role.dart';
 import 'package:company/api/Response/ListRoles/ListRolesResponse.dart';
 import 'package:company/api/services/api_client.dart';
+import 'package:company/expansion/card.dart';
 import 'package:company/local/shared_preferences.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:expansion_card/expansion_card.dart';
 import 'package:flutter/painting.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -223,10 +223,7 @@ class _RolesListState extends State<RolesList> {
     return SizedBox(
 
       child: ExpansionCard(
-        //backgroundColor: Colors.blueAccent,
-        background: Image.asset(
-            'assets/images/card3.jpg',
-            fit: BoxFit.fill),
+        backgroundColor: Colors.blueAccent,
         title: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -394,7 +391,7 @@ class _RolesListState extends State<RolesList> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(5, 10, 5, 10),
                 child: TextFormField(
-                  // controller: textController1,
+                  //controller: textController1,
                   obscureText: false,
                   decoration: InputDecoration(
                     labelText: 'Title',

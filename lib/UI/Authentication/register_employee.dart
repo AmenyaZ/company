@@ -486,7 +486,7 @@ class _RegisterEmployeeState extends State<RegisterEmployee> {
                             ),
                           ),
                           //Expanded(child: Container(),),
-                          SizedBox(width: w * 0.25,),
+                          SizedBox(child: Container()),
                           TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();

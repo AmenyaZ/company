@@ -312,6 +312,7 @@ class _LogInState extends State<LogIn> {
                                 ScaffoldMessenger.of(context).showSnackBar(snack);
                               }).onError((error, stackTrace) {
                                 //  Scaffold.of(context).showSnackBar(
+                                print("${error}");
                                 final snack = SnackBar(
                                   padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
                                   content: Text(

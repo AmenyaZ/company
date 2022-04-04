@@ -42,7 +42,6 @@ dependencies:
   flutter_easyloading: ^3.0.3
   dio: ^4.0.4
   shared_preferences: ^2.0.13
-  expansion_card: ^0.1.0
   expansion_tile_card: ^2.0.0
   rflutter_alert: ^2.0.4
   flutter_google_places: ^0.3.0

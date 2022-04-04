@@ -235,19 +235,6 @@ class _CreateRoleWidgetState extends State<CreateRoleWidget> {
                   title: titleController.text.toString().trim(),
                   description: descriptionController.text.toString().trim()
               );
-              /*
-              SharedPreferenceHelper().getUserInformation().then((value){
-                print(value.accessToken);
-                service.CreateRole(request, "${value.accessToken}").then((value) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context)=>RolesList()),
-                  );
-                  EasyLoading.dismiss();
-                });
-              });
-
-               */
               SharedPreferenceHelper().getUserInformation().then((value){
                 service.CreateRole(request, value.accessToken!).then((value) {
                   final snack = SnackBar(
@@ -269,7 +256,7 @@ class _CreateRoleWidgetState extends State<CreateRoleWidget> {
                   setState(() {
                     isLoading = false;
                   });
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => RolesList()),
                   );
