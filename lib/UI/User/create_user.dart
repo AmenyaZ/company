@@ -419,7 +419,7 @@ class _CreateUserWidgetState extends State<CreateUserWidget> {
                             ),
                           ),
                           //Expanded(child: Container(),),
-                          SizedBox(width: w * 0.25,),
+                          SizedBox(child: Container()),
                           TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -438,7 +438,7 @@ class _CreateUserWidgetState extends State<CreateUserWidget> {
 
                                 SharedPreferenceHelper().getUserInformation().then((value){
                                   service.CreateUser(request, value.accessToken!).then((value) {
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(builder: (context) => UserListWidget()),
                                     );

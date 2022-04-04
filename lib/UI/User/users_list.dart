@@ -18,11 +18,11 @@ class UserListWidget extends StatefulWidget {
 }
 
 class _UserListWidgetState extends State<UserListWidget> {
-  var searchUserController = TextEditingController();
+  TextEditingController searchUserController = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var service = NetworkService();
   Future<ListUsersResponse>? userList;
-
+  List<String> newList = List.from();
   bool isLoading = false;
 
   
@@ -39,6 +39,7 @@ class _UserListWidgetState extends State<UserListWidget> {
       });
     });
   }
+
   @override
   void didChangeDependencies(){
     super.didChangeDependencies();
@@ -57,44 +58,7 @@ class _UserListWidgetState extends State<UserListWidget> {
             children: [
               getSearch(context),
               Expanded(
-                child: FutureBuilder<ListUsersResponse>(
-                    future: userList,
-                    builder: (context, snapshot){
-                      if(snapshot.hasData){
-                        if (snapshot.data!.users!.isEmpty){
-                          return Center(child: Text("No Users "));
-                        }
-                        else if(snapshot.data!.users!.isNotEmpty){
-                          return ListView.builder(
-                            itemCount: snapshot.data!.users!.length,
-                            itemBuilder: (context, index){
-                              //print("list${snapshot.data!.users![index].attributes!.name}");
-                              return InkWell(
-                                  onTap: (){
-                                   // print(snapshot.data!.users![index].toJson());
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context)=> UserProfileWidget(
-                                            usersResponse: snapshot.data!.users![index]
-                                        ))
-                                    );
-                                  },
-                                  child: getUserList(context, snapshot.data!.users![index]),
-
-                              );
-                            },
-                          );
-                        }
-                      }
-                      else if(snapshot.hasError){
-                        return Center(
-                          child: Text(snapshot.error.toString()),
-                        );
-                      }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                ),
+                child: mainData(context)
               )
 
             ],
@@ -104,7 +68,7 @@ class _UserListWidgetState extends State<UserListWidget> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
+          Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => CreateUserWidget())
           );
         },
@@ -112,6 +76,50 @@ class _UserListWidgetState extends State<UserListWidget> {
         child: const Icon(Icons.add_outlined),
       ),
 
+    );
+  }
+
+  Widget mainData ( BuildContext context){
+    return Center(
+      child:  FutureBuilder<ListUsersResponse>(
+          future: userList,
+          builder: (context, snapshot){
+            if(snapshot.hasData){
+              if (snapshot.data!.users!.isEmpty){
+                return Center(child: Text("No Users "));
+              }
+              else if(snapshot.data!.users!.isNotEmpty){
+                return ListView.builder(
+                  itemCount: snapshot.data!.users!.length,
+                  itemBuilder: (context, index){
+                    //print("list${snapshot.data!.users![index].attributes!.name}");
+                    return InkWell(
+                      onTap: (){
+                         print(snapshot.data!.users![index].toJson());
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context)=> UserProfileWidget(
+                                usersResponse: snapshot.data!.users![index]
+                            ))
+                        );
+                      },
+                      child: getUserList(context, snapshot.data!.users![index]),
+
+                    );
+                  },
+
+                );
+              }
+            }
+            else if(snapshot.hasError){
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+      )
     );
   }
   Widget getSearch(BuildContext context){
@@ -161,6 +169,8 @@ class _UserListWidgetState extends State<UserListWidget> {
                           child: TextFormField(
                             controller: searchUserController,
                             obscureText: false,
+                            onChanged: (text){
+                            },
                             decoration: const InputDecoration(
                               labelText: 'Search User here...',
                               enabledBorder: UnderlineInputBorder(
@@ -213,6 +223,7 @@ class _UserListWidgetState extends State<UserListWidget> {
       ),
     );
   }
+
   Widget getUserList(BuildContext context, Users users){
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
