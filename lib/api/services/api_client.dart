@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:company/api/Requests/CreateRoleRequest.dart';
+import 'package:company/api/Requests/CreateUserRequest.dart';
 import 'package:company/api/Requests/LoginRequest.dart';
 import 'package:company/api/Requests/OrganizationUserRequest.dart';
 import 'package:company/api/Requests/RegistrationRequest.dart';
 import 'package:company/api/Requests/RoleUserRequest.dart';
 import 'package:company/api/Response/CreateCompany/CreateOrganizationResponse.dart';
 import 'package:company/api/Response/CreateRoles/CreateRoleResponse.dart';
+import 'package:company/api/Response/CreateUser/CreateUsersResponse.dart';
 import 'package:company/api/Response/ListRoles/ListRolesResponse.dart';
 import 'package:company/api/Response/ListUsers/ListUsersResponse.dart';
 import 'package:company/api/Response/Login/LogInResponse.dart';
@@ -16,6 +18,7 @@ import 'package:company/util/constants.dart';
 import 'package:http/http.dart' as http;
 
 
+import '../Requests/CreateOrganizationRequest.dart';
 import '../Response/ListOrganization/ListOrganizationResponse.dart';
 import '../Response/RoleUser/RoleUserResponse.dart';
 
@@ -41,7 +44,7 @@ class NetworkService {
     var uri = Uri.parse(url + "/register");
     Map<String, String> requestHeaders = {
       'Accept': 'application/json',
-     "Authorization":"Bearer $token"
+      "Authorization":"Bearer $token"
     };
     var response = await http.post(uri,
         body: registrationRequest.toJson(), headers: requestHeaders);
@@ -62,8 +65,8 @@ class NetworkService {
       "Authorization":"Bearer $token"
     };
     var response = await http.get(uri,
-         headers: requestHeaders );
-   // print('Response ${response.statusCode}');
+        headers: requestHeaders );
+    // print('Response ${response.statusCode}');
     if (response.statusCode == 200 || response.statusCode == 201) {
 
       return ListOrganizationResponse.fromJson(jsonDecode(response.body));
@@ -108,7 +111,7 @@ class NetworkService {
     Map<String, String> requestHeaders = {
       'accept': 'application/json',
       // 'Content-Type': 'application/json',
-     "Authorization": "Bearer $token"
+      "Authorization": "Bearer $token"
     };
     var response = await http.post( uri,
         body: organizationUserRequest.toJson(),
@@ -128,8 +131,8 @@ class NetworkService {
       "Authorization": "Bearer $token"
     };
     var response = await http.post(uri,
-    body: roleUserRequest.toJson(),
-    headers: requestHeaders);
+        body: roleUserRequest.toJson(),
+        headers: requestHeaders);
     print(roleUserRequest.toJson());
     print("Role Response ${response.statusCode}");
     if(response.statusCode == 200 || response.statusCode == 201){
@@ -145,8 +148,8 @@ class NetworkService {
       "Authorization": "Bearer $token"
     };
     var response = await http.post(uri,
-      body: createRoleRequest.toJson(),
-      headers: requestHeaders
+        body: createRoleRequest.toJson(),
+        headers: requestHeaders
     );
     if(response.statusCode ==200 || response.statusCode == 201){
       return CreateRoleResponse.fromJson(jsonDecode(response.body));
@@ -154,7 +157,7 @@ class NetworkService {
       throw Exception("Failed to Load ${response.body}");
     }
   }
-  Future<CreateOrganizationResponse> CreateOrganization(CreateOrganizationRequest, createOrganizationRequest, String token) async{
+  Future<CreateOrganizationResponse> CreateOrganization(CreateOrganizationRequest createOrganizationRequest, String token) async{
     var uri = Uri.parse(url+ "/organization");
     Map<String, String> requestHeaders = {
       'accept': 'application/json',
@@ -164,11 +167,29 @@ class NetworkService {
         body: createOrganizationRequest.toJson(),
         headers: requestHeaders
     );
+    print(createOrganizationRequest.toJson());
+    print("Organization Response ${response.statusCode}");
     if(response.statusCode == 200 || response.statusCode == 201){
       return CreateOrganizationResponse.fromJson(jsonDecode(response.body));
     }else{
       throw Exception("Failed to Load${response.body}");
     }
-}
-
+  }
+  Future<CreateUsersResponse> CreateUser(CreateUserRequest createUserRequest, String token) async{
+    var uri = Uri.parse(url+ "/user");
+    Map<String, String> requestHeaders = {
+      'accept': 'application/json',
+      "Authorization": "Bearer $token"
+    };
+    var response = await http.post(uri,
+        body: createUserRequest.toJson(),
+        headers: requestHeaders
+    );
+    print(createUserRequest.toJson());
+    if(response.statusCode == 200 || response.statusCode == 201){
+      return CreateUsersResponse.fromJson(jsonDecode(response.body));
+    }else{
+      throw Exception("Failed to Load${response.body}");
+    }
+  }
 }
