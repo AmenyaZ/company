@@ -366,7 +366,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
                   setState(() {
                     isLoading = false;
                   });
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => CompanyListWidget()),
                   );
