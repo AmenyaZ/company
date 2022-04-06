@@ -142,8 +142,8 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
                   child: ClipRRect(
                       borderRadius:
                       BorderRadius.circular(8),
-                      child:  (userdropdownProfile == null)
-                          ? Image.asset('assets/images/profile.png',) : Image.network("${Constants.BASEURL}/storage/${userdropdownProfile}", fit: BoxFit.fill,)
+                      child:  (userdropdownProfile.isEmpty)
+                          ?Image.asset('assets/images/profile.png') : Image.network("${Constants.BASEURL}/storage/${userdropdownProfile}", fit: BoxFit.fill,)
 
                   ),
                 ),
@@ -283,12 +283,13 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
               elevation: 10,
               style: TextStyle(color: Colors.black),
               onChanged: (newValue) {
+
                 setState(() {
                   userdropdownValue = newValue;
                   userdropdownname = userdropdownValue.attributes!.name!;
                   userdropdownemail = userdropdownValue.attributes!.email!;
                   userid = userdropdownValue.id!;
-                  userdropdownProfile = userdropdownValue.attributes!.image!;
+                  userdropdownProfile = userdropdownValue.attributes?.image!;
                 });
                 print(snapshot.data!.users!.indexOf(userdropdownValue));
                 print(userdropdownValue.id!);
@@ -462,10 +463,6 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
         );
         SharedPreferenceHelper().getUserInformation().then((value){
           service.OrganizationUser(orgrequest, value.accessToken!).then((value) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePageWidget()),
-            );
             final snack = SnackBar(
               padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
               content: Text(
@@ -506,13 +503,8 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
             });
           });
         });
-
         SharedPreferenceHelper().getUserInformation().then((value) {
           service.RoleUser(rolerequest, value.accessToken!).then((value){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePageWidget()),
-            );
             final snack = SnackBar(
               padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
               content: Text(
@@ -533,6 +525,7 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
               isLoading = false;
             });
           }).onError((error, stackTrace) {
+            print(error);
             final snack = SnackBar(
               padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
               content: Text(
@@ -553,6 +546,10 @@ class _AssignActivityWidgetState extends State<AssignActivityWidget> {
             });
           });
         });
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePageWidget()),
+        );
       },
       child: Text(
         "Save Info",

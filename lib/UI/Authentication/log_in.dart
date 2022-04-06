@@ -283,7 +283,6 @@ class _LogInState extends State<LogIn> {
                               EasyLoading.show(status: 'loading...');
                               await Future.delayed(Duration(seconds: 5));
                               //EasyLoading.dismiss();
-
                               var request = LoginRequest(
                                   email: emailController.text.toString().trim(),
                                   password: passwordController.text

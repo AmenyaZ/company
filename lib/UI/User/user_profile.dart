@@ -24,6 +24,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   var email = "";
   var username = "";
   var role = "";
+  ImageProvider? profile;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var service = NetworkService();
@@ -59,15 +60,24 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
               profileHeader(context),
               const SizedBox(height: 10.0),
               usersContent(context),
-
             ],
           ),
         ));
   }
   Widget profileHeader(BuildContext context){
+    if (widget.usersResponse.attributes!.image == null){
+       profile =  AssetImage("assets/images/profile.png");
+    }else{
+      profile = NetworkImage("${Constants.BASEURL}/storage/${widget.usersResponse.attributes!.image}");
+    }
+
     return ProfileHeader(
-      avatar:  NetworkImage("${Constants.BASEURL}/storage/${widget.usersResponse.attributes!.image}") ,
-      coverImage: AssetImage('assets/images/card2.jpg'),
+    //widget.usersResponse.attributes?.image.toString()==null?AssetImage("").toString():NetworkImage("").toString(),
+    // Image.network("${Constants.BASEURL}/storage/${widget.usersResponse.attributes!.image}") ,
+      avatar: profile!,
+      coverImage: AssetImage("assets/images/card2.jpg"),
+     // AssetImage("/assets/images/card2.jpg"),
+
       title: "${widget.usersResponse.attributes!.name}",
       subtitle: "${widget.usersResponse.attributes!.email}",
       actions: <Widget>[
@@ -89,7 +99,6 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
 
     double length = widget.usersResponse.relationships!.roles!.length.toDouble();
     double orgLength = widget.usersResponse.relationships!.organizations!.length.toDouble();
-    print(length);
     return Container(
       decoration:  BoxDecoration(
         color: Colors.white,
@@ -129,15 +138,14 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width/2-20,
-
                   child: Column(
                     children: [
                       Card(
-                  color: Colors.grey.shade100,
+                          color: Colors.grey.shade100,
                           child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(7, 3, 7, 3),
-                        child: Text("My Organizations"),
-                      )),
+                            padding: const EdgeInsetsDirectional.fromSTEB(7, 3, 7, 3),
+                            child: Text("My Organizations"),
+                          )),
                     ],
                   ),
                 ),
@@ -166,13 +174,11 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   width: MediaQuery.of(context).size.width/2-20,
                   child: Card(
                     color: Colors.grey.shade100,
-                    child: Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                          shrinkWrap: true,itemCount:orgLength.toInt(),itemBuilder: (context,index){
-                        return getOrganizationList(context, widget.usersResponse.relationships!.organizations![index]);
-                      }),
-                    ),
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                        shrinkWrap: true,itemCount:orgLength.toInt(),itemBuilder: (context,index){
+                      return getOrganizationList(context, widget.usersResponse.relationships!.organizations![index]);
+                    }),
 
                   ),
                 ),
@@ -180,13 +186,11 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                   width: MediaQuery.of(context).size.width/2-20,
                   child: Card(
                     color: Colors.grey.shade100,
-                    child: Expanded(
-                      child:  ListView.builder(
-                        padding:  EdgeInsets.zero,
-                          shrinkWrap: true,itemCount:length.toInt(),itemBuilder: (context, index){
-                        return getRoleList(context,widget.usersResponse.relationships!.roles![index]);
-                      }),
-                      )
+                    child: ListView.builder(
+                      padding:  EdgeInsets.zero,
+                        shrinkWrap: true,itemCount:length.toInt(),itemBuilder: (context, index){
+                      return getRoleList(context,widget.usersResponse.relationships!.roles![index]);
+                    })
                     ),
                 ),
                 //SizedBox(width: MediaQuery.of(context).size.width*0.1,),
@@ -210,24 +214,19 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         child: Row(
          // mainAxisSize: MainAxisSize.max,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(
-                      2, 2, 2, 2),
-                  child: ClipRRect(
-                    borderRadius:
-                    BorderRadius.circular(8),
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: 30,
-                      height: 30,
-                      fit: BoxFit.cover,
-                    ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(
+                  2, 2, 2, 2),
+              child: Container(
+                  width: 30,
+                  height: 30,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
                   ),
-                ),
-              ],
+                  child: (organizations.attributes?.image == null) ? Image.asset('assets/images/logo.png',fit: BoxFit.fitWidth,) :  Image.network("${Constants.BASEURL}/storage/${organizations.attributes!.image}")
+              )
             ),
             Container(
               child: Padding(
@@ -246,9 +245,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                           style: const TextStyle(
                             fontFamily: 'Lexend Deca',
                             color: const Color(0xFF15212B),
-                            fontSize: 18,
-                            fontWeight:
-                            FontWeight.w500,
+                            fontSize: 13,
                           ),
                         ),
                       ],
@@ -313,9 +310,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                           style: const TextStyle(
                             fontFamily: 'Lexend Deca',
                             color: const Color(0xFF15212B),
-                            fontSize: 18,
-                            fontWeight:
-                            FontWeight.w500,
+                            fontSize: 13,
                           ),
                         ),
                       ],

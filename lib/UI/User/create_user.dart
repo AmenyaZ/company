@@ -421,8 +421,10 @@ class _CreateUserWidgetState extends State<CreateUserWidget> {
                           //Expanded(child: Container(),),
                           SizedBox(child: Container()),
                           TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
+                              onPressed: () async {
+                                await Future.delayed(const Duration(seconds: 2));
+                                EasyLoading.show(status: 'loading...');
+                                await Future.delayed(Duration(seconds: 5));
                                 loadData();
                                 EasyLoading.show(status: 'Processing');
                                 setState(() {
@@ -435,13 +437,9 @@ class _CreateUserWidgetState extends State<CreateUserWidget> {
                                     password: passwordController.text.toString().trim(),
                                     passwordConfirmation: passwordConfirmationController.text.toString().trim()
                                 );
-
                                 SharedPreferenceHelper().getUserInformation().then((value){
                                   service.CreateUser(request, value.accessToken!).then((value) {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => UserListWidget()),
-                                    );
+
                                     final snack = SnackBar(
                                       padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
                                       content: Text(
@@ -461,11 +459,15 @@ class _CreateUserWidgetState extends State<CreateUserWidget> {
                                     setState(() {
                                       isLoading = false;
                                     });
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context)=>UserListWidget())
+                                    );
                                   }).onError((error, stackTrace) {
                                     final snack = SnackBar(
                                       padding: EdgeInsetsDirectional.only( top: 20, bottom: 20),
                                       content: Text(
-                                        'Failed, Please Try again',
+                                        'Failed',
                                         textAlign: TextAlign.center,
                                       ),
                                       width: w*0.2,
@@ -481,7 +483,9 @@ class _CreateUserWidgetState extends State<CreateUserWidget> {
                                       isLoading = false;
                                     });
                                   });
+
                                 });
+
                               },
                               child: const Text('Register'),
                               style: ButtonStyle(

@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:company/UI/Authentication/register_employee.dart';
 import 'package:company/UI/Company/create_company.dart';
 import 'package:company/UI/User/create_user.dart';
@@ -16,21 +18,41 @@ class UserListWidget extends StatefulWidget {
   @override
   _UserListWidgetState createState() => _UserListWidgetState();
 }
+class Debouncer {
+  int? milliseconds;
+  VoidCallback? action;
+  Timer? timer;
+
+  run(VoidCallback action) {
+    if (null != timer) {
+      timer!.cancel();
+    }
+    timer = Timer(
+      Duration(milliseconds: Duration.millisecondsPerSecond),
+      action,
+    );
+  }
+}
 
 class _UserListWidgetState extends State<UserListWidget> {
   TextEditingController searchUserController = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var service = NetworkService();
   Future<ListUsersResponse>? userList;
-  List<String> newList = List.from();
   bool isLoading = false;
+  ValueNotifier<String> usrName = ValueNotifier('');
 
-  
+  final _debouncer = Debouncer();
+
+  List empList = [];
+  List filteredList = [];
+
   @override
   void initState() {
     super.initState();
     getNewUser();
   }
+
 
   void getNewUser() async {
     SharedPreferenceHelper().getUserInformation().then((value){
@@ -38,6 +60,11 @@ class _UserListWidgetState extends State<UserListWidget> {
         userList = service.UserList(value.accessToken!);
       });
     });
+  }
+  void changed(String query) {
+
+    filteredList = empList.where((e) => e['name'].toString().toLowerCase() == query.toLowerCase()).toList();
+    usrName.value = query;
   }
 
   @override
@@ -130,7 +157,7 @@ class _UserListWidgetState extends State<UserListWidget> {
         color: const Color(0xFFF1F4F8),
       ),
       child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+        padding: const EdgeInsetsDirectional.fromSTEB(0, 28, 0, 0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -169,8 +196,7 @@ class _UserListWidgetState extends State<UserListWidget> {
                           child: TextFormField(
                             controller: searchUserController,
                             obscureText: false,
-                            onChanged: (text){
-                            },
+                            onChanged: changed,
                             decoration: const InputDecoration(
                               labelText: 'Search User here...',
                               enabledBorder: UnderlineInputBorder(
@@ -223,7 +249,6 @@ class _UserListWidgetState extends State<UserListWidget> {
       ),
     );
   }
-
   Widget getUserList(BuildContext context, Users users){
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
@@ -277,6 +302,45 @@ class _UserListWidgetState extends State<UserListWidget> {
           ],
         ),
       ),
+    );
+  }
+  Widget testData ( BuildContext context){
+    return FutureBuilder<ListUsersResponse>(
+        future: userList,
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return Expanded(
+              child: ValueListenableBuilder<String>(
+                valueListenable: usrName,
+                builder: (context, value, child){
+                  var listViewList = snapshot.data!.users!.isEmpty ? empList : filteredList;
+                  return ListView.builder(
+                    itemCount: listViewList.length,
+                    itemBuilder: (context, index){
+                      //print("list${snapshot.data!.users![index].attributes!.name}");
+                      return InkWell(
+                        onTap: (){
+                          print(snapshot.data!.users![index].toJson());
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context)=> UserProfileWidget(
+                                  usersResponse: snapshot.data!.users![index]
+                              ))
+                          );
+                        },
+                        child: getUserList(context, snapshot.data!.users![index]),
+
+                      );
+                    },
+
+                  );
+                }
+              ),
+            );
+          }
+          else{
+            return Center(child: CircularProgressIndicator());
+          }
+        }
     );
   }
 }

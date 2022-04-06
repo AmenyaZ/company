@@ -106,6 +106,10 @@ class NetworkService {
       throw Exception("Error: ${response.body}");
     }
   }
+  static List<ListUsersResponse> parseAgents(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<ListUsersResponse>((json) => ListUsersResponse.fromJson(json)).toList();
+  }
   Future<OrganizationUserResponse> OrganizationUser( OrganizationUserRequest organizationUserRequest, String token) async {
     var uri = Uri.parse(url + "/userorganization");
     Map<String, String> requestHeaders = {

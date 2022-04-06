@@ -332,8 +332,10 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
           padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
           child: DialogButton(
             width: 200,
-            onPressed: () {
-              Navigator.of(context).pop();
+            onPressed: () async {
+              await Future.delayed(const Duration(seconds: 2));
+              EasyLoading.show(status: 'loading...');
+              await Future.delayed(Duration(seconds: 5));
               loadData();
               EasyLoading.show(status: 'Processing');
               setState(() {
